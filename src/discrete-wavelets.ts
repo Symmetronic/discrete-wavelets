@@ -1,4 +1,5 @@
 import {
+  assertValidFilters,
   basisFromWavelet,
   dot,
   isPowerOfTwo,
@@ -70,26 +71,7 @@ export default class DWT {
     
     /* Use decomposition filters. */
     const filters: Filters = waveletBasis.dec;
-    const filterLen: number = filters.high.length;
-
-    /* Check for invalid wavelet basis. */
-    if (filters.low.length !== filterLen) {
-      throw new Error(
-        'Invalid wavelet basis. Low-pass and high-pass filters have different length.'
-      );
-    }
-    if (filterLen % 2 !== 0) {
-      throw new Error(
-        'Invalid wavelet basis. Filters have to have even length.'
-      );
-    }
-
-    /* Check for minimum data length. */
-    if (data.length < filterLen) {
-      throw new Error(
-        'In order to use this wavelet basis, input data has to have a length larger than or equal to ' + filterLen
-      );
-    }
+    assertValidFilters(filters, data.length);
 
     /*  Initialize transform. */
     let coeffs: number[][] = [];
@@ -103,8 +85,7 @@ export default class DWT {
 
       /* Calculate coefficients. */
       for (let offset: number = 0; offset < prevApprox.length; offset += 2) {
-        // TODO: Add values from beginning if length and offset are larger than slice length
-        const end: number = offset + filterLen;
+        const end: number = offset + filters.low.length;
         const wrappedEnd: number = end - prevApprox.length;
         const values: number[] = (wrappedEnd < 0)
             /* Slice values. */
