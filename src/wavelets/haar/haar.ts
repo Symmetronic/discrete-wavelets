@@ -5,39 +5,13 @@ import { WaveletBasis } from '../wavelets';
  */
 export const HaarWavelet: WaveletBasis = {
 
-  /**
-   * Decomposition filters.
-   */
   dec: {
-
-    /* Low-pass filter. */
-    low: [
-      1 / Math.SQRT2,
-      1 / Math.SQRT2,
-    ],
-
-    /* High-pass filter. */
-    high: [
-      1 / Math.SQRT2,
-      - 1 / Math.SQRT2,
-    ],
+    low:  [1 / Math.SQRT2,  1 / Math.SQRT2],
+    high: [1 / Math.SQRT2, -1 / Math.SQRT2],
   },
 
-  /**
-   * Reconstruction filters.
-   */
   rec: {
-
-    /* Low-pass filter. */
-    low: [
-      1 / Math.SQRT2,
-      1 / Math.SQRT2,
-    ],
-    
-    /* High-pass filter. */
-    high: [
-      - 1 / Math.SQRT2,
-      1 / Math.SQRT2,
-    ],
+    low:  [1 / Math.SQRT2,  1 / Math.SQRT2],
+    high: [-1 / Math.SQRT2, 1 / Math.SQRT2],
   },
 };
