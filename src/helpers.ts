@@ -25,7 +25,7 @@ export function assertValidData(data: number[]): boolean {
  * Asserts if filters are valid or throws an error if the filters are invalid
  * or not suitable for the data.
  * @param  filters Filters to test.
- * @param  dataLen Length of the data.
+ * @param  dataLen Length of the data on which the filters are applied.
  * @return         True if filters are valid, otherwise throws an error.
  */
 export function assertValidFilters(
