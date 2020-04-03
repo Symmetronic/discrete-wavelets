@@ -23,6 +23,15 @@ const DEFAULT_WAVELET: Wavelet = 'haar';
 export default class DWT {
 
   /**
+   * Converts coefficients to a flattened array.
+   * @param  coeffs Coefficients.
+   * @return        Coefficients as flat array.
+   */
+  static coeffsToArray(coeffs: number[][]): number[] {
+    return coeffs.reduce((array, coeff) => array.concat(coeff), []);
+  }
+
+  /**
    * Calculates the energy as sum of squares of an array of data or
    * coefficients.
    * @param  values Values to compute the energy.

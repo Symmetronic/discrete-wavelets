@@ -64,7 +64,7 @@ function closeTo(
   value2: number,
   precision: number = PRECISION,
 ): boolean {
-  return value1 - value2 < Math.pow(10, -1 * precision);
+  return Math.abs(value1 - value2) < Math.pow(10, -1 * precision);
 }
 
 /**
@@ -86,6 +86,16 @@ describe('DWT', () => {
 
   it('DWT exists', () => {
     expect(new DWT()).toBeInstanceOf(DWT);
+  });
+
+  describe('coeffsToArray', () => {
+    it('flattens an array of arrays', () => {
+      expect(DWT.coeffsToArray([])).toEqual([]);
+      expect(DWT.coeffsToArray([[]])).toEqual([]);
+      expect(
+        DWT.coeffsToArray([[5], [-2], [-0.707, -0.707]])
+      ).toEqual([5, -2, -0.707, -0.707])
+    });
   });
 
   describe('energy', () => {
