@@ -58,16 +58,11 @@ export default class DWT {
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
   ): number[][] {
-    /* Check for minimum data length. */
-    if (data.length < 2) {
-      throw new Error(
-        'Input data has to have a length larger than or equal to 2.'
-      );
-    }
-    
     /* Check if length is a power of two. */
     if (!isPowerOfTwo(data.length)) {
-      throw new Error('Input data has to have the length of a power of 2.');
+      throw new Error(
+        'Input data has to have a length of a power of 2, but length is ' + data.length
+      );
     }
 
     /* Determine wavelet basis. */
@@ -90,6 +85,13 @@ export default class DWT {
     if (len % 2 !== 0) {
       throw new Error(
         'Invalid wavelet basis. Filters have to have even length.'
+      );
+    }
+
+    /* Check for minimum data length. */
+    if (data.length < len) {
+      throw new Error(
+        'In order to use this wavelet basis, input data has to have a length larger than or equal to ' + len
       );
     }
 
