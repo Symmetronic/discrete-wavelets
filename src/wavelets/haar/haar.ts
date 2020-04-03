@@ -12,6 +12,6 @@ export const HaarWavelet: WaveletBasis = {
 
   rec: {
     low:  [1 / Math.SQRT2,  1 / Math.SQRT2],
-    high: [-1 / Math.SQRT2, 1 / Math.SQRT2],
+    high: [1 / Math.SQRT2, -1 / Math.SQRT2],
   },
 };
