@@ -20,7 +20,7 @@ export interface Filters {
  * A wavelet, which can either be described by a wavelet basis or a wavelet
  * type.
  */
-export type Wavelet = WaveletType | WaveletBasis;
+export type Wavelet = WaveletBasis | WaveletType;
 
 /**
  * A wavelet basis.

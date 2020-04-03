@@ -1,7 +1,7 @@
 import {
+  Wavelet,
   WaveletBasis,
   Wavelets,
-  WaveletType,
 } from "./wavelets/wavelets";
 
 /**
@@ -34,10 +34,10 @@ export function isPowerOfTwo(value: number): boolean {
 }
 
 /**
- * Determines a wavelet basis from a wavelet type.
- * @param  type Wavelet type.
- * @return      Wavelet basis.
+ * Determines a wavelet basis from a wavelet type or basis.
+ * @param  wavelet Wavelet type or basis.
+ * @return         Wavelet basis.
  */
-export function waveletFromType(type: WaveletType): WaveletBasis {
-  return Wavelets[type];
+export function basisFromWavelet(wavelet: Wavelet): WaveletBasis {
+  return (typeof wavelet !== 'string') ? wavelet : Wavelets[wavelet]; 
 }

@@ -1,7 +1,7 @@
 import {
+  basisFromWavelet,
   dot,
   isPowerOfTwo,
-  waveletFromType,
 } from './helpers';
 
 import {
@@ -66,11 +66,7 @@ export default class DWT {
     }
 
     /* Determine wavelet basis. */
-    const waveletBasis: WaveletBasis = (typeof wavelet !== 'string')
-        /* Use wavelet. */
-        ? wavelet
-        /* Determine wavelet from type. */
-        : waveletFromType(wavelet);
+    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
     
     /* Use decomposition filters. */
     const filters: Filters = waveletBasis.dec;
