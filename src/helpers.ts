@@ -6,6 +6,22 @@ import {
 } from "./wavelets/wavelets";
 
 /**
+ * Asserts if data is valid or throws an error if the data is invalid.
+ * @param  data Data to test.
+ * @return      True if data is valid, otherwise throws an error.
+ */
+export function assertValidData(data: number[]): boolean {
+  /* Check if length is a power of two. */
+  if (!isPowerOfTwo(data.length)) {
+    throw new Error(
+      'Input data has to have a length of a power of 2, but length is ' + data.length
+    );
+  }
+
+  return true;
+}
+
+/**
  * Asserts if filters are valid or throws an error if the filters are invalid
  * or not suitable for the data.
  * @param  filters Filters to test.

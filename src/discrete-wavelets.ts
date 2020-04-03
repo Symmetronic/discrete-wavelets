@@ -1,4 +1,5 @@
 import {
+  assertValidData,
   assertValidFilters,
   basisFromWavelet,
   dot,
@@ -59,18 +60,16 @@ export default class DWT {
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
   ): number[][] {
-    /* Check if length is a power of two. */
-    if (!isPowerOfTwo(data.length)) {
-      throw new Error(
-        'Input data has to have a length of a power of 2, but length is ' + data.length
-      );
-    }
+    /* Check if data is valid. */
+    assertValidData(data);
 
     /* Determine wavelet basis. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
     
     /* Use decomposition filters. */
     const filters: Filters = waveletBasis.dec;
+
+    /* Check if filters are valid. */
     assertValidFilters(filters, data.length);
 
     /*  Initialize transform. */
@@ -85,6 +84,7 @@ export default class DWT {
 
       /* Calculate coefficients. */
       for (let offset: number = 0; offset < prevApprox.length; offset += 2) {
+        /* Determine slice of values. */
         const end: number = offset + filters.low.length;
         const wrappedEnd: number = end - prevApprox.length;
         const values: number[] = (wrappedEnd < 0)
