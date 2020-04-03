@@ -74,24 +74,24 @@ export default class DWT {
     
     /* Use decomposition filters. */
     const filters: Filters = waveletBasis.dec;
-    const len: number = filters.high.length;
+    const filterLen: number = filters.high.length;
 
     /* Check for invalid wavelet basis. */
-    if (filters.low.length !== len) {
+    if (filters.low.length !== filterLen) {
       throw new Error(
         'Invalid wavelet basis. Low-pass and high-pass filters have different length.'
       );
     }
-    if (len % 2 !== 0) {
+    if (filterLen % 2 !== 0) {
       throw new Error(
         'Invalid wavelet basis. Filters have to have even length.'
       );
     }
 
     /* Check for minimum data length. */
-    if (data.length < len) {
+    if (data.length < filterLen) {
       throw new Error(
-        'In order to use this wavelet basis, input data has to have a length larger than or equal to ' + len
+        'In order to use this wavelet basis, input data has to have a length larger than or equal to ' + filterLen
       );
     }
 
@@ -100,7 +100,7 @@ export default class DWT {
     let prevApprox: number[] = data;
 
     /* Transform. */
-    while (true) {
+    while (prevApprox.length > 1) {
       /* Initialize approximation and detail coefficients. */
       let approx: number[] = [];
       let detail: number[] = [];
@@ -108,7 +108,7 @@ export default class DWT {
       /* Calculate coefficients. */
       for (let offset: number = 0; offset < prevApprox.length; offset += 2) {
         // TODO: Add values from beginning if length and offset are larger than slice length
-        const end: number = offset + len;
+        const end: number = offset + filterLen;
         const wrappedEnd: number = end - prevApprox.length;
         const values: number[] = (wrappedEnd < 0)
             /* Slice values. */
@@ -130,15 +130,12 @@ export default class DWT {
       /* Prepend detail coefficients. */
       coeffs.unshift(detail);
 
-      if (approx.length > 1) {
-        /* Continue iteration on approximation. */
-        prevApprox = approx;
-      } else {
-        /* Prepend approximation coefficients. */
-        coeffs.unshift(approx);
-        break;
-      }
+      /* Continue iteration on approximation. */
+      prevApprox = approx;
     }
+
+    /* Prepend last approximation. */
+    coeffs.unshift(prevApprox);
 
     /* Return coefficients. */
     return coeffs;
