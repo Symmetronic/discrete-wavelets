@@ -1,9 +1,21 @@
+export {
+  Filters,
+  HaarWavelet,
+  Wavelet,
+  WaveletBasis,
+  WaveletType,
+} from './wavelets/wavelets';
+
 import {
+  assertValidCoeffs,
+  assertValidCoeffsPair,
   assertValidData,
   assertValidFilters,
+  assertValidFiltersForData,
   basisFromWavelet,
   dot,
-  isPowerOfTwo,
+  mulScalars,
+  sum,
 } from './helpers';
 
 import {
@@ -21,15 +33,6 @@ const DEFAULT_WAVELET: Wavelet = 'haar';
  * Collection of methods for Discrete Wavelet Transform (DWT).
  */
 export default class DWT {
-
-  /**
-   * Converts coefficients to a flattened array.
-   * @param  coeffs Coefficients.
-   * @return        Coefficients as flat array.
-   */
-  static coeffsToArray(coeffs: number[][]): number[] {
-    return coeffs.reduce((array, coeff) => array.concat(coeff), []);
-  }
 
   /**
    * Calculates the energy as sum of squares of an array of data or
@@ -52,11 +55,43 @@ export default class DWT {
    * @param  wavelet Wavelet to use.
    * @return         Input data as result of the inverse transform.
    */
+  // TODO: Add option to stop after a certain level.
   static invTransform(
     coeffs: number[][],
     wavelet: Wavelet = DEFAULT_WAVELET,
   ): number[] {
-    return [];
+    /* Check if coefficients are valid. */
+    assertValidCoeffs(coeffs);
+
+    /* Determine wavelet basis. */
+    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
+
+    /* Use reconstruction filters. */
+    const filters: Filters = waveletBasis.rec;
+
+    /* Check if filters are valid. */
+    assertValidFilters(filters);
+
+    /* Initialize transform. */
+    let approx: number[] = coeffs[0];
+
+    /* Transform. */
+    for (let i: number = 1; i < coeffs.length; i++) {
+      /* Initialize detail coefficients. */
+      const detail = coeffs[i];
+
+      /* Check if coefficients are valid. */
+      assertValidCoeffsPair(approx, detail);
+
+      /* Calculate previous level of approximation. */
+      approx = sum(
+        mulScalars(approx, filters.low),
+        mulScalars(detail, filters.high),
+      );
+    }
+
+    /* Return data. */
+    return approx;
   }
 
   /**
@@ -65,6 +100,7 @@ export default class DWT {
    * @param  wavelet Wavelet to use.
    * @return         Coefficients as result of the transform.
    */
+  // TODO: Add option to stop after a certain level.
   static transform(
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
@@ -79,7 +115,10 @@ export default class DWT {
     const filters: Filters = waveletBasis.dec;
 
     /* Check if filters are valid. */
-    assertValidFilters(filters, data.length);
+    assertValidFilters(filters);
+
+    /* Check if filters are valid for data. */
+    assertValidFiltersForData(filters, data);
 
     /*  Initialize transform. */
     let coeffs: number[][] = [];

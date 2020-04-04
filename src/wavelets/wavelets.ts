@@ -1,3 +1,5 @@
+export { HaarWavelet } from './haar/haar';
+
 import { HaarWavelet } from "./haar/haar";
 
 /**
