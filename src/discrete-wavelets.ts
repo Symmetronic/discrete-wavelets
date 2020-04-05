@@ -8,9 +8,9 @@ export {
 
 import {
   assertValidCoeffs,
-  assertValidCoeffsPair,
   assertValidData,
   assertValidFilters,
+  assertValidFiltersForCoeffs,
   assertValidFiltersForData,
   basisFromWavelet,
   dot,
@@ -72,6 +72,9 @@ export default class DWT {
     /* Check if filters are valid. */
     assertValidFilters(filters);
 
+    /* Check if filters are valid for coeffs. */
+    assertValidFiltersForCoeffs(filters, coeffs);
+
     /* Initialize transform. */
     let approx: number[] = coeffs[0];
 
@@ -79,9 +82,6 @@ export default class DWT {
     for (let i: number = 1; i < coeffs.length; i++) {
       /* Initialize detail coefficients. */
       const detail = coeffs[i];
-
-      /* Check if coefficients are valid. */
-      assertValidCoeffsPair(approx, detail);
 
       /* Calculate previous level of approximation. */
       approx = sum(

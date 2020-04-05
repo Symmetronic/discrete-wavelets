@@ -24,27 +24,6 @@ export function assertValidCoeffs(
 }
 
 /**
- * Asserts if a pair of approximation and detail coefficients from the same
- * level of transform is valid or throws an error if they are invalid.
- * @param  approx Approximation coefficients.
- * @param  detail Detail coefficients.
- * @return        True if the pair of coefficients is valid, otherwise throws an error.
- */
-export function assertValidCoeffsPair(
-  approx: number[],
-  detail: number[],
-): boolean {
-  /* Check if approximation and detail coefficients have the same length. */
-  if (approx.length !== detail.length) {
-    throw new Error(
-      'Invalid coefficients. Pairs of approximation and detail coefficients from the same level of transform have to have equal length.'
-    );
-  }
-
-  return true;
-}
-
-/**
  * Asserts if data is valid or throws an error if the data is invalid.
  * @param  data Data to test.
  * @return      True if data is valid, otherwise throws an error.
@@ -80,6 +59,33 @@ export function assertValidFilters(
     throw new Error(
       'Invalid filters: They have to have even length.'
     );
+  }
+
+  return true;
+}
+
+/**
+ * Asserts if filters are suitable for the coefficients or throws an error if
+ * the filters are not suitable.
+ * @param  filters Filters to test.
+ * @param  coeffs  Coefficients on which the filters are applied.
+ * @return         True if filters are valid for coefficients, otherwise throws an error.
+ */
+export function assertValidFiltersForCoeffs(
+  filters: Filters,
+  coeffs: number[][],
+): boolean {
+  /* Check for same length of approximation and detail coefficients on each
+   * level.
+   */
+  let approxLen: number = coeffs[0].length;
+  for (let i: number = 1; i < coeffs.length; i++) {
+    if (coeffs[i].length !== approxLen) {
+      throw new Error(
+        'Invalid wavelet basis for coefficients. The wavelet basis does not approximation and detail coefficients of the same length on each level of the transform.'
+      );
+    }
+    approxLen *= filters.low.length;
   }
 
   return true;
