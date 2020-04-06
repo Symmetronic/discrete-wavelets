@@ -37,7 +37,7 @@ export default class DWT {
   /**
    * Calculates the energy as sum of squares of an array of data or
    * coefficients.
-   * @param  values Values to compute the energy.
+   * @param  values Array of data or coefficients.
    * @return        Energy of values.
    */
   static energy(values: number[] | number[][]): number {
