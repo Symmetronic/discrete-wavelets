@@ -12,7 +12,8 @@
 
 ### UNPKG
 
-- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@1.0.0/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
+- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@1.0.1/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
+- Define variable `var DWT = discreteWavelets.default;`
 - Then you can use the library in your code.
 
 ## API
@@ -99,10 +100,10 @@ Transforms data by calculating coefficients from input data.
 var coeffs = DWT.transform([1, 2, 3, 4], 'haar');
 
 console.log(coeffs);
-// expected output: Array [4.999999999999999, -1.9999999999999993, -0.7071067811865475, -0.7071067811865475]
+// expected output: Array [[4.999999999999999], [-1.9999999999999993], [-0.7071067811865475, -0.7071067811865475]]
 ```
 
-*Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[5, -2, -0.7071067811865475, -0.7071067811865475]`*
+*Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[[5], [-2], [-0.7071067811865475, -0.7071067811865475]]`*
 
 ## NPM scripts
 
