@@ -105,6 +105,10 @@ console.log(coeffs);
 
 *Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[[5], [-2], [-0.7071067811865475, -0.7071067811865475]]`*
 
+## Related projects
+
+- [Symmetronic Scaleogram](https://github.com/Symmetronic/strc-scaleogram) is a web component that allows to easily create a [scaleogram visualization](https://en.wikipedia.org/wiki/Spectrogram) from wavelet coefficients.
+
 ## NPM scripts
 
 - `npm install`: Install dependencies
