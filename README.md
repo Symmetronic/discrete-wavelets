@@ -25,7 +25,7 @@ The library offers the following functions:
 
 Only the following `Wavelet` is supported at the moment:
 
-- [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet): `D2`, `db1`, `haar`
+- [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet): `'D2'`, `'db1'`, `'haar'`
 
 ### energy
 
