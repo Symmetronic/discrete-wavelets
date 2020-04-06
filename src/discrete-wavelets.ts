@@ -38,7 +38,7 @@ export default class DWT {
    * Calculates the energy as sum of squares of an array of data or
    * coefficients.
    * @param  values Array of data or coefficients.
-   * @return        Energy of values.
+   * @return        Energy of values as the sum of squares.
    */
   static energy(values: number[] | number[][]): number {
     let energy: number = 0;
@@ -51,7 +51,7 @@ export default class DWT {
 
   /**
    * Inverses a transform by calculating input data from coefficients.
-   * @param  coeffs  Coefficients as result of transform.
+   * @param  coeffs  Coefficients as result of a transform.
    * @param  wavelet Wavelet to use.
    * @return         Input data as result of the inverse transform.
    */
