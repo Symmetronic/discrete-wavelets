@@ -96,7 +96,7 @@ export default class DWT {
 
   /**
    * Transforms data by calculating coefficients from input data.
-   * @param  data    Input data with a length of a power of two.
+   * @param  data    Input data with a length equal to a power of two.
    * @param  wavelet Wavelet to use.
    * @return         Coefficients as result of the transform.
    */

@@ -12,7 +12,7 @@
 
 ### UNPKG
 
-- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@1.0.1/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
+- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@1.0.2/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
 - Define variable `var DWT = discreteWavelets.default;`
 - Then you can use the library in your code.
 
@@ -87,14 +87,16 @@ Transforms data by calculating coefficients from input data.
 
 #### Arguments
 
-- `data` (`number[]`): Input data with a length of a power of two.
+- `data` (`number[]`): Input data with a length equal to a power of two. If your data does not have a length equal to a power of two by default, some possibilities to adjust this are described below.
 - `wavelet` (`Wavelet`): Wavelet to use.
 
 #### Return
 
 `coeffs` (`number[][]`): Coefficients as result of the transform.
 
-#### Example
+#### Examples
+
+A simple example where the data already has a length equal to a power of two:
 
 ```javascript
 var coeffs = DWT.transform([1, 2, 3, 4], 'haar');
@@ -105,7 +107,43 @@ console.log(coeffs);
 
 *Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[[5], [-2], [-0.7071067811865475, -0.7071067811865475]]`*
 
-## Related projects
+If your data does not have a length equal to a power of two, you basically have the following options to adjust this:
+
+1) Interpolate data between your values in equidistant steps.
+2) [Extending values at the border](https://www.mathworks.com/help/wavelet/ug/dealing-with-border-distortion.html) of your data.
+3) Removing part of your data.
+
+The interpolation is elaborated in more detail in the following example using the external libraries [@extra-array/linspace](https://www.npmjs.com/package/@extra-array/linspace) for creating evenly spaced values and [interp1](https://github.com/Symmetronic/interp1) for 1-dimensional data interpolation:
+
+```javascript
+import DWT from 'discrete-wavelets';
+import linspace from '@extra-array/linspace';
+import interp1 from 'interp1';
+
+/* Exemplary input data that does not have a length equal to a power of two. */
+var xs = [1,  2,  5, 7, 8, 9];
+var ys = [0, -4, -2, 5, 3, 7];
+
+/* Calculates previous power of two for the length of input data. */
+var nrOfSamples = Math.pow(2, Math.floor(Math.log2(xs.length)));
+
+/* Evenly sample x values. */
+var newXs = linspace(
+  Math.min(...xs),
+  Math.max(...xs),
+  nrOfSamples
+);
+
+/* Linearly interpolate y values. */
+var newYs = interp1(xs, ys, newXs, 'linear');
+
+/* As the interpolated y values have a length equal to a power of two,
+ * wavelet coefficients can be calculated.
+ */
+var coeffs = DWT.transform(newYs, 'haar');
+```
+
+## Related project
 
 - [Symmetronic Scaleogram](https://github.com/Symmetronic/strc-scaleogram) is a web component that allows to easily create a [scaleogram visualization](https://en.wikipedia.org/wiki/Spectrogram) from wavelet coefficients.
 

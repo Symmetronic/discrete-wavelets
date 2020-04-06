@@ -32,7 +32,7 @@ export function assertValidData(data: number[]): boolean {
   /* Check if length is a power of two. */
   if (!isPowerOfTwo(data.length)) {
     throw new Error(
-      'Input data has to have a length of a power of 2, but length is ' + data.length
+      'Input data has to have a length equal to a power of 2, but length is ' + data.length + '.'
     );
   }
 
