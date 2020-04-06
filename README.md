@@ -19,13 +19,13 @@
 
 The library offers the following functions:
 
-- [energy](#energy)
-- [invTransform](#invTransform)
-- [transform](#transform)
+- [energy](#energy): Calculates the energy as sum of squares of an array of data or coefficients.
+- [invTransform](#invTransform): Inverses a transform by calculating input data from coefficients.
+- [transform](#transform): Transforms data by calculating coefficients from input data.
 
-Only the following wavelet is supported at the moment:
+Only the following `Wavelet` is supported at the moment:
 
-- Haar: `D2`, `db1`, `haar`
+- [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet): `D2`, `db1`, `haar`
 
 ### energy
 
@@ -48,9 +48,9 @@ console.log(
 // expected output: 42
 
 console.log(
-  DWT.energy([[5], [-2], [-1, -1]])
+  DWT.energy([[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]])
 );
-// expected output: 31
+// expected output: 30
 ```
 
 ### invTransform
@@ -69,7 +69,10 @@ Inverses a transform by calculating input data from coefficients.
 #### Example
 
 ```javascript
-var data = DWT.invTransform([[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]], 'haar');
+var data = DWT.invTransform(
+  [[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]],
+  'haar'
+);
 
 console.log(data);
 // expected output: Array [0.9999999999999999, 1.9999999999999996, 2.999999999999999, 3.999999999999999]
