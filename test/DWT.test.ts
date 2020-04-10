@@ -3,7 +3,7 @@ import {
   waveletDatasets,
 } from './mocks';
 
-import DWT from "../src/discrete-wavelets"
+import DWT from "../src/DWT"
 import {
   HaarWavelet,
 } from "../src/wavelets/wavelets";
