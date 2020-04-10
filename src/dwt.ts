@@ -31,7 +31,7 @@ const DEFAULT_WAVELET: Wavelet = 'haar';
 /**
  * Collection of methods for Discrete Wavelet Transform (DWT).
  */
-export default class DWT {
+export default class dwt {
 
   /**
    * Calculates the energy as sum of squares of an array of data or

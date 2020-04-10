@@ -7,12 +7,12 @@
 ### Node Modules
 
 - Run `npm install discrete-wavelets --save`
-- Add an import to the npm package `import DWT from 'discrete-wavelets';`
+- Add an import to the npm package `import dwt from 'discrete-wavelets';`
 - Then you can use the library in your code.
 
 ### UNPKG
 
-- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@2.0.0/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
+- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@3.0.0/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
 - Then you can use the library in your code.
 
 ## API
@@ -43,12 +43,12 @@ Calculates the energy as sum of squares of an array of data or coefficients.
 
 ```javascript
 console.log(
-  DWT.energy([-1, 2, 6, 1])
+  dwt.energy([-1, 2, 6, 1])
 );
 // expected output: 42
 
 console.log(
-  DWT.energy([[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]])
+  dwt.energy([[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]])
 );
 // expected output: 30
 ```
@@ -69,7 +69,7 @@ Inverses a transform by calculating input data from coefficients.
 #### Example
 
 ```javascript
-var data = DWT.invTransform(
+var data = dwt.invTransform(
   [[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]],
   'haar'
 );
@@ -98,7 +98,7 @@ Transforms data by calculating coefficients from input data.
 A simple example where the data already has a length equal to a power of two:
 
 ```javascript
-var coeffs = DWT.transform([1, 2, 3, 4], 'haar');
+var coeffs = dwt.transform([1, 2, 3, 4], 'haar');
 
 console.log(coeffs);
 // expected output: Array [[4.999999999999999], [-1.9999999999999993], [-0.7071067811865475, -0.7071067811865475]]
@@ -115,7 +115,7 @@ If your data does not have a length equal to a power of two, you basically have 
 The interpolation is elaborated in more detail in the following example using the external libraries [exact-linspace](https://github.com/Symmetronic/exact-linspace) for creating evenly spaced values and [interp1](https://github.com/Symmetronic/interp1) for 1-dimensional data interpolation:
 
 ```javascript
-import DWT from 'discrete-wavelets';
+import dwt from 'discrete-wavelets';
 import linspace from 'exact-linspace';
 import interp1 from 'interp1';
 
@@ -139,7 +139,7 @@ var newYs = interp1(xs, ys, newXs, 'linear');
 /* As the interpolated y values have a length equal to a power of two,
  * wavelet coefficients can be calculated.
  */
-var coeffs = DWT.transform(newYs, 'haar');
+var coeffs = dwt.transform(newYs, 'haar');
 ```
 
 ## Related project

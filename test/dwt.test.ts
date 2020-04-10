@@ -3,7 +3,7 @@ import {
   waveletDatasets,
 } from './mocks';
 
-import DWT from "../src/DWT"
+import dwt from "../src/dwt"
 import {
   HaarWavelet,
 } from "../src/wavelets/wavelets";
@@ -71,23 +71,23 @@ function equalData(data1: number[], data2: number[]): boolean {
   return true;
 }
 
-describe('DWT', () => {
+describe('dwt', () => {
 
-  it('DWT exists', () => {
-    expect(new DWT()).toBeInstanceOf(DWT);
+  it('dwt exists', () => {
+    expect(new dwt()).toBeInstanceOf(dwt);
   });
 
   describe('energy', () => {
     it('calculates energy for empty values', () => {
-      expect(DWT.energy([])).toBe(0);
-      expect(DWT.energy([[], [], []])).toBe(0);
+      expect(dwt.energy([])).toBe(0);
+      expect(dwt.energy([[], [], []])).toBe(0);
     });
 
     it('calculates the energy of input data', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const dataset of waveletDataset.datasets) {
           expect(
-            DWT.energy(dataset.data)
+            dwt.energy(dataset.data)
           ).toBeCloseTo(dataset.energy, PRECISION);
         }
       }
@@ -97,7 +97,7 @@ describe('DWT', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const dataset of waveletDataset.datasets) {
           expect(
-            DWT.energy(dataset.coeffs)
+            dwt.energy(dataset.coeffs)
           ).toBeCloseTo(dataset.energy, PRECISION);
         }
       }
@@ -108,13 +108,13 @@ describe('DWT', () => {
 
     it('throws an error if the coefficients have zero length', () => {
       expect(() => {
-        DWT.invTransform([]);
+        dwt.invTransform([]);
       }).toThrowError();
     });
 
     it('throws an error if low-pass and high-pass reconstruction filters have unequal length', () => {
       expect(() => {
-        DWT.invTransform(
+        dwt.invTransform(
           haarDatasets[0].coeffs,
           {
             ...HaarWavelet,
@@ -129,7 +129,7 @@ describe('DWT', () => {
 
     it('throws an error if low-pass and high-pass reconstruction filters have uneven length', () => {
       expect(() => {
-        DWT.invTransform(
+        dwt.invTransform(
           haarDatasets[0].coeffs,
           {
             ...HaarWavelet,
@@ -144,7 +144,7 @@ describe('DWT', () => {
 
     it('throws an error if any pair of approximation and detail coefficients on the same level does not have equal length', () => {
       expect(() => {
-        DWT.invTransform(
+        dwt.invTransform(
           [
             [1, 2],
             [3],
@@ -153,7 +153,7 @@ describe('DWT', () => {
       }).toThrowError();
 
       expect(() => {
-        DWT.invTransform(
+        dwt.invTransform(
           [
             [1],
             [2],
@@ -165,7 +165,7 @@ describe('DWT', () => {
 
     it('calculates the inverse Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
-        expect(equalData(DWT.invTransform(dataset.coeffs), dataset.data));
+        expect(equalData(dwt.invTransform(dataset.coeffs), dataset.data));
       }
     });
 
@@ -174,7 +174,7 @@ describe('DWT', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(
-              equalData(DWT.invTransform(dataset.coeffs, alias), dataset.data)
+              equalData(dwt.invTransform(dataset.coeffs, alias), dataset.data)
             );
           }
         }
@@ -186,17 +186,17 @@ describe('DWT', () => {
   
     it('throws an error if the input has a length other than a power of 2', () => {
       expect(() => {
-        DWT.transform([4, 8, 16])
+        dwt.transform([4, 8, 16])
       }).toThrowError();
       
       expect(() => {
-        DWT.transform([32, 64, 128, 256, 512])
+        dwt.transform([32, 64, 128, 256, 512])
       }).toThrowError();
     });
 
     it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
       expect(() => {
-        DWT.transform(
+        dwt.transform(
           haarDatasets[0].data,
           {
             ...HaarWavelet,
@@ -211,7 +211,7 @@ describe('DWT', () => {
 
     it('throws an error if low-pass and high-pass decomposition filters have uneven length', () => {
       expect(() => {
-        DWT.transform(
+        dwt.transform(
           haarDatasets[0].data,
           {
             ...HaarWavelet,
@@ -226,17 +226,17 @@ describe('DWT', () => {
 
     it('throws an error if the input has a length lower than the length of filters of the wavelet basis', () => {
       expect(() => {
-        DWT.transform([], 'D2');
+        dwt.transform([], 'D2');
       }).toThrowError();
   
       expect(() => {
-        DWT.transform([2], 'D2');
+        dwt.transform([2], 'D2');
       }).toThrowError();
     });
 
     it('calculates the Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
-        expect(equalCoeffs(DWT.transform(dataset.data), dataset.coeffs));
+        expect(equalCoeffs(dwt.transform(dataset.data), dataset.coeffs));
       }
     });
 
@@ -245,7 +245,7 @@ describe('DWT', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(
-              equalCoeffs(DWT.transform(dataset.data, alias), dataset.coeffs)
+              equalCoeffs(dwt.transform(dataset.data, alias), dataset.coeffs)
             );
           }
         }
