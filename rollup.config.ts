@@ -7,7 +7,7 @@ import json from 'rollup-plugin-json'
 
 const pkg = require('./package.json')
 
-const libraryName = 'discrete-wavelets'
+const libraryName = 'DWT'
 
 export default {
   input: `src/${libraryName}.ts`,

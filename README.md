@@ -12,8 +12,7 @@
 
 ### UNPKG
 
-- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@1.0.2/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
-- Define variable `var DWT = discreteWavelets.default;`
+- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@2.0.0/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
 - Then you can use the library in your code.
 
 ## API
@@ -113,11 +112,11 @@ If your data does not have a length equal to a power of two, you basically have 
 2) [Extending values at the border](https://www.mathworks.com/help/wavelet/ug/dealing-with-border-distortion.html) of your data.
 3) Removing part of your data.
 
-The interpolation is elaborated in more detail in the following example using the external libraries [@extra-array/linspace](https://www.npmjs.com/package/@extra-array/linspace) for creating evenly spaced values and [interp1](https://github.com/Symmetronic/interp1) for 1-dimensional data interpolation:
+The interpolation is elaborated in more detail in the following example using the external libraries [exact-linspace](https://github.com/Symmetronic/exact-linspace) for creating evenly spaced values and [interp1](https://github.com/Symmetronic/interp1) for 1-dimensional data interpolation:
 
 ```javascript
 import DWT from 'discrete-wavelets';
-import linspace from '@extra-array/linspace';
+import linspace from 'exact-linspace';
 import interp1 from 'interp1';
 
 /* Exemplary input data that does not have a length equal to a power of two. */

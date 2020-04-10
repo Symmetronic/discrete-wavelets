@@ -1,6 +1,5 @@
 export {
   Filters,
-  HaarWavelet,
   Wavelet,
   WaveletBasis,
   WaveletType,

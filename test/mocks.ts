@@ -1,6 +1,7 @@
 import {
   HaarWavelet,
   WaveletBasis,
+  WaveletType,
 } from "../src/wavelets/wavelets";
 
 /**
@@ -25,15 +26,15 @@ export interface Dataset {
 }
 
 /*
- * Datasets for haar transform.
+ * Datasets for Haar transform.
  */
-export const dataset1: Dataset = {
+const dataset1: Dataset = {
   data: [1, 2, 3, 4],
   coeffs: [[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]],
   energy: 30,
 };
 
-export const dataset2: Dataset = {
+const dataset2: Dataset = {
   data: [0, 1, 2, 3, 5, 8, 13, 21],
   coeffs: [
     [18.73832970144351],
@@ -52,10 +53,17 @@ export const haarDatasets: Dataset[] = [
   dataset2,
 ];
 
-export const datasets: Dataset[] = [
-  ...haarDatasets,
-];
-
-export const wavelets: WaveletBasis[] = [
-  HaarWavelet,
+/*
+ * Mapping of wavelet aliases, datasets and wavelets.
+ */
+export const waveletDatasets: {
+  aliases: WaveletType[],
+  datasets: Dataset[],
+  wavelet: WaveletBasis,
+}[] = [
+  {
+    aliases: ['db1', 'D2', 'haar'],
+    datasets: haarDatasets,
+    wavelet: HaarWavelet,
+  },
 ];

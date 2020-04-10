@@ -1,12 +1,11 @@
 import {
-  datasets,
   haarDatasets,
+  waveletDatasets,
 } from './mocks';
 
 import DWT from "../src/discrete-wavelets"
 import {
   HaarWavelet,
-  WaveletType,
 } from "../src/wavelets/wavelets";
 
 /**
@@ -85,18 +84,22 @@ describe('DWT', () => {
     });
 
     it('calculates the energy of input data', () => {
-      for (const dataset of datasets) {
-        expect(
-          DWT.energy(dataset.data)
-        ).toBeCloseTo(dataset.energy, PRECISION);
+      for (const waveletDataset of waveletDatasets) {
+        for (const dataset of waveletDataset.datasets) {
+          expect(
+            DWT.energy(dataset.data)
+          ).toBeCloseTo(dataset.energy, PRECISION);
+        }
       }
     });
 
     it('calculates the energy of coefficients', () => {
-      for (const dataset of datasets) {
-        expect(
-          DWT.energy(dataset.coeffs)
-        ).toBeCloseTo(dataset.energy, PRECISION);
+      for (const waveletDataset of waveletDatasets) {
+        for (const dataset of waveletDataset.datasets) {
+          expect(
+            DWT.energy(dataset.coeffs)
+          ).toBeCloseTo(dataset.energy, PRECISION);
+        }
       }
     });
   });
@@ -166,15 +169,14 @@ describe('DWT', () => {
       }
     });
 
-    it('calculates the inverse Haar DWT', () => {
-      /* 'haar', 'db1' and 'D2' are all aliases for the Haar DWT. */
-      const aliases: WaveletType[] = ['haar', 'db1', 'D2'];
-
-      for (const alias of aliases) {
-        for (const dataset of haarDatasets) {
-          expect(
-            equalData(DWT.invTransform(dataset.coeffs, alias), dataset.data)
-          );
+    it('calculates the inverse discrete wavelet transform', () => {
+      for (const waveletDataset of waveletDatasets) {
+        for (const alias of waveletDataset.aliases) {
+          for (const dataset of waveletDataset.datasets) {
+            expect(
+              equalData(DWT.invTransform(dataset.coeffs, alias), dataset.data)
+            );
+          }
         }
       }
     });
@@ -238,16 +240,14 @@ describe('DWT', () => {
       }
     });
 
-    it('calculates the Haar DWT', () => {
-      /* 'haar', 'db1' and 'D2' are all aliases for the Haar DWT. */
-      const aliases: WaveletType[] = ['haar', 'db1', 'D2'];
-
-      for (const alias of aliases) {
-        for (const dataset of haarDatasets) {
-          expect(equalCoeffs(
-            DWT.transform(dataset.data, alias),
-            dataset.coeffs
-          ));
+    it('calculates the discrete wavelet transform', () => {
+      for (const waveletDataset of waveletDatasets) {
+        for (const alias of waveletDataset.aliases) {
+          for (const dataset of waveletDataset.datasets) {
+            expect(
+              equalCoeffs(DWT.transform(dataset.data, alias), dataset.coeffs)
+            );
+          }
         }
       }
     });

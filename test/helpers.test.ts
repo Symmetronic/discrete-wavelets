@@ -1,13 +1,10 @@
 import {
-  datasets,
-  haarDatasets,
-  wavelets,
+  waveletDatasets,
 } from './mocks';
 
 import {
   HaarWavelet,
-  WaveletType,
-} from '../src/discrete-wavelets';
+} from '../src/wavelets/wavelets';
 
 import {
   assertValidCoeffs,
@@ -33,8 +30,10 @@ describe('helpers', () => {
     });
 
     it('returns true for valid coefficients', () => {
-      for (const dataset of datasets) {
-        expect(assertValidCoeffs(dataset.coeffs)).toBe(true);
+      for (const waveletDataset of waveletDatasets) {
+        for (const dataset of waveletDataset.datasets) {
+          expect(assertValidCoeffs(dataset.coeffs)).toBe(true);
+        }
       }
     });
   });
@@ -51,8 +50,10 @@ describe('helpers', () => {
     });
 
     it('returns true for valid data', () => {
-      for (const dataset of datasets) {
-        expect(assertValidData(dataset.data)).toBe(true);
+      for (const waveletDataset of waveletDatasets) {
+        for (const dataset of waveletDataset.datasets) {
+          expect(assertValidData(dataset.data)).toBe(true);
+        }
       }
     });
   });
@@ -84,9 +85,9 @@ describe('helpers', () => {
     });
 
     it('returns true for valid filters', () => {
-      for (const wavelet of wavelets) {
-        expect(assertValidFilters(wavelet.dec)).toBe(true);
-        expect(assertValidFilters(wavelet.rec)).toBe(true);
+      for (const waveletDataset of waveletDatasets) {
+        expect(assertValidFilters(waveletDataset.wavelet.dec)).toBe(true);
+        expect(assertValidFilters(waveletDataset.wavelet.rec)).toBe(true);
       }
     });
   });
@@ -109,10 +110,13 @@ describe('helpers', () => {
     });
 
     it('returns true for valid filters for the coefficients', () => {
-      for (const dataset of haarDatasets) {
-        expect(
-          assertValidFiltersForCoeffs(HaarWavelet.rec, dataset.coeffs)
-        ).toBe(true);
+      for (const waveletDataset of waveletDatasets) {
+        for (const dataset of waveletDataset.datasets) {
+          expect(assertValidFiltersForCoeffs(
+            waveletDataset.wavelet.rec,
+            dataset.coeffs
+          )).toBe(true);
+        }
       }
     });
   });
@@ -129,21 +133,22 @@ describe('helpers', () => {
     });
 
     it('returns true for valid filters for the data', () => {
-      for (const dataset of haarDatasets) {
-        expect(
-          assertValidFiltersForData(HaarWavelet.dec, dataset.data)
-        ).toBe(true);
+      for (const waveletDataset of waveletDatasets) {
+        for (const dataset of waveletDataset.datasets) {
+          expect(
+            assertValidFiltersForData(waveletDataset.wavelet.dec, dataset.data)
+          ).toBe(true); 
+        }
       }
     });
   });
   
   describe('basisFromWavelet', () => {
-    it('returns the haar wavelet', () => {
-      /* 'haar', 'db1' and 'D2' are all aliases for the Haar DWT. */
-      const aliases: WaveletType[] = ['haar', 'db1', 'D2'];
-      
-      for (const alias of aliases) {
-        expect(basisFromWavelet(alias)).toEqual(HaarWavelet);
+    it('returns the correct wavelets', () => {
+      for (const waveletDataset of waveletDatasets) {
+        for (const alias of waveletDataset.aliases) {
+          expect(basisFromWavelet(alias)).toEqual(waveletDataset.wavelet);
+        }
       }
     });
   });
