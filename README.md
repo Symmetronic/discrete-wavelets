@@ -12,7 +12,7 @@
 
 ### UNPKG
 
-- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@3.0.1/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
+- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@4.0.0/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
 - Then you can use the library in your code.
 
 ## Example usage

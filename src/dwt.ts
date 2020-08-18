@@ -49,58 +49,14 @@ export default class dwt {
   }
 
   /**
-   * Inverses a transform by calculating input data from coefficients.
-   * @param  coeffs  Coefficients as result of a transform.
-   * @param  wavelet Wavelet to use.
-   * @return         Input data as result of the inverse transform.
-   */
-  // TODO: Add option to stop after a certain level.
-  static invTransform(
-    coeffs: number[][],
-    wavelet: Wavelet = DEFAULT_WAVELET,
-  ): number[] {
-    /* Check if coefficients are valid. */
-    assertValidCoeffs(coeffs);
-
-    /* Determine wavelet basis. */
-    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
-
-    /* Use reconstruction filters. */
-    const filters: Filters = waveletBasis.rec;
-
-    /* Check if filters are valid. */
-    assertValidFilters(filters);
-
-    /* Check if filters are valid for coeffs. */
-    assertValidFiltersForCoeffs(filters, coeffs);
-
-    /* Initialize transform. */
-    let approx: number[] = coeffs[0];
-
-    /* Transform. */
-    for (let i: number = 1; i < coeffs.length; i++) {
-      /* Initialize detail coefficients. */
-      const detail = coeffs[i];
-
-      /* Calculate previous level of approximation. */
-      approx = sum(
-        mulScalars(approx, filters.low),
-        mulScalars(detail, filters.high),
-      );
-    }
-
-    /* Return data. */
-    return approx;
-  }
-
-  /**
-   * Transforms data by calculating coefficients from input data.
+   * 1D wavelet decomposition. Transforms data by calculating coefficients from
+   * input data.
    * @param  data    Input data with a length equal to a power of two.
    * @param  wavelet Wavelet to use.
    * @return         Coefficients as result of the transform.
    */
   // TODO: Add option to stop after a certain level.
-  static transform(
+  static wavedec(
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
   ): number[][] {
@@ -163,5 +119,51 @@ export default class dwt {
 
     /* Return coefficients. */
     return coeffs;
+  }
+
+  /**
+   * 1D wavelet reconstruction. Inverses a transform by calculating input data
+   * from coefficients.
+   * @param  coeffs  Coefficients as result of a transform.
+   * @param  wavelet Wavelet to use.
+   * @return         Input data as result of the inverse transform.
+   */
+  // TODO: Add option to stop after a certain level.
+  static waverec(
+    coeffs: number[][],
+    wavelet: Wavelet = DEFAULT_WAVELET,
+  ): number[] {
+    /* Check if coefficients are valid. */
+    assertValidCoeffs(coeffs);
+
+    /* Determine wavelet basis. */
+    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
+
+    /* Use reconstruction filters. */
+    const filters: Filters = waveletBasis.rec;
+
+    /* Check if filters are valid. */
+    assertValidFilters(filters);
+
+    /* Check if filters are valid for coeffs. */
+    assertValidFiltersForCoeffs(filters, coeffs);
+
+    /* Initialize transform. */
+    let approx: number[] = coeffs[0];
+
+    /* Transform. */
+    for (let i: number = 1; i < coeffs.length; i++) {
+      /* Initialize detail coefficients. */
+      const detail = coeffs[i];
+
+      /* Calculate previous level of approximation. */
+      approx = sum(
+        mulScalars(approx, filters.low),
+        mulScalars(detail, filters.high),
+      );
+    }
+
+    /* Return data. */
+    return approx;
   }
 }

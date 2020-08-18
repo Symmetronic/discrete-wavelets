@@ -104,17 +104,17 @@ describe('dwt', () => {
     });
   });
 
-  describe('invTransform', () => {
+  describe('waverec', () => {
 
     it('throws an error if the coefficients have zero length', () => {
       expect(() => {
-        dwt.invTransform([]);
+        dwt.waverec([]);
       }).toThrowError();
     });
 
     it('throws an error if low-pass and high-pass reconstruction filters have unequal length', () => {
       expect(() => {
-        dwt.invTransform(
+        dwt.waverec(
           haarDatasets[0].coeffs,
           {
             ...HaarWavelet,
@@ -129,7 +129,7 @@ describe('dwt', () => {
 
     it('throws an error if low-pass and high-pass reconstruction filters have uneven length', () => {
       expect(() => {
-        dwt.invTransform(
+        dwt.waverec(
           haarDatasets[0].coeffs,
           {
             ...HaarWavelet,
@@ -144,7 +144,7 @@ describe('dwt', () => {
 
     it('throws an error if any pair of approximation and detail coefficients on the same level does not have equal length', () => {
       expect(() => {
-        dwt.invTransform(
+        dwt.waverec(
           [
             [1, 2],
             [3],
@@ -153,7 +153,7 @@ describe('dwt', () => {
       }).toThrowError();
 
       expect(() => {
-        dwt.invTransform(
+        dwt.waverec(
           [
             [1],
             [2],
@@ -165,7 +165,7 @@ describe('dwt', () => {
 
     it('calculates the inverse Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
-        expect(equalData(dwt.invTransform(dataset.coeffs), dataset.data));
+        expect(equalData(dwt.waverec(dataset.coeffs), dataset.data));
       }
     });
 
@@ -174,7 +174,7 @@ describe('dwt', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(
-              equalData(dwt.invTransform(dataset.coeffs, alias), dataset.data)
+              equalData(dwt.waverec(dataset.coeffs, alias), dataset.data)
             );
           }
         }
@@ -182,21 +182,21 @@ describe('dwt', () => {
     });
   });
 
-  describe('transform', () => {
+  describe('wavedec', () => {
   
     it('throws an error if the input has a length other than a power of 2', () => {
       expect(() => {
-        dwt.transform([4, 8, 16])
+        dwt.wavedec([4, 8, 16])
       }).toThrowError();
       
       expect(() => {
-        dwt.transform([32, 64, 128, 256, 512])
+        dwt.wavedec([32, 64, 128, 256, 512])
       }).toThrowError();
     });
 
     it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
       expect(() => {
-        dwt.transform(
+        dwt.wavedec(
           haarDatasets[0].data,
           {
             ...HaarWavelet,
@@ -211,7 +211,7 @@ describe('dwt', () => {
 
     it('throws an error if low-pass and high-pass decomposition filters have uneven length', () => {
       expect(() => {
-        dwt.transform(
+        dwt.wavedec(
           haarDatasets[0].data,
           {
             ...HaarWavelet,
@@ -226,17 +226,17 @@ describe('dwt', () => {
 
     it('throws an error if the input has a length lower than the length of filters of the wavelet basis', () => {
       expect(() => {
-        dwt.transform([], 'D2');
+        dwt.wavedec([], 'D2');
       }).toThrowError();
   
       expect(() => {
-        dwt.transform([2], 'D2');
+        dwt.wavedec([2], 'D2');
       }).toThrowError();
     });
 
     it('calculates the Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
-        expect(equalCoeffs(dwt.transform(dataset.data), dataset.coeffs));
+        expect(equalCoeffs(dwt.wavedec(dataset.data), dataset.coeffs));
       }
     });
 
@@ -245,7 +245,7 @@ describe('dwt', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(
-              equalCoeffs(dwt.transform(dataset.data, alias), dataset.coeffs)
+              equalCoeffs(dwt.wavedec(dataset.data, alias), dataset.coeffs)
             );
           }
         }
