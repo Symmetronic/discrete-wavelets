@@ -55,6 +55,7 @@ export function assertValidFilters(
   }
 
   /* Check for even filter length. */
+  // TODO: Is this really necessary?
   if (filters.low.length % 2 !== 0) {
     throw new Error(
       'Invalid filters: They have to have even length.'

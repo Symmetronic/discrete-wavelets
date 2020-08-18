@@ -77,6 +77,71 @@ describe('dwt', () => {
     expect(new dwt()).toBeInstanceOf(dwt);
   });
 
+  describe('dwt', () => {
+
+    // TODO: Remove condition concerning power of 2 and test.
+    it('throws an error if the input has a length other than a power of 2', () => {
+      expect(() => {
+        dwt.dwt([9, 5, 3]);
+      }).toThrowError();
+
+      expect(() => {
+        dwt.dwt([4, 5, 6, 3, 6]);
+      }).toThrowError();
+    });
+
+    it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
+      expect(() => {
+        dwt.dwt(
+          haarDatasets[0].data,
+          {
+            ...HaarWavelet,
+            dec: {
+              ...HaarWavelet.dec,
+              high: [...HaarWavelet.dec.high, -1, 1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
+    it('throws an error if low-pass and high-pass decomposition filters have uneven length', () => {
+      expect(() => {
+        dwt.dwt(
+          haarDatasets[0].data,
+          {
+            ...HaarWavelet,
+            dec: {
+              low: [1],
+              high: [-1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
+    // TODO: Remove condition and test after introducing signal extension modes (padding)
+    it('throws an error if the input has a length lower than the length of filters of the wavelet basis', () => {
+      expect(() => {
+        dwt.dwt([], 'D2');
+      }).toThrowError();
+  
+      expect(() => {
+        dwt.dwt([2], 'D2');
+      }).toThrowError();
+    });
+
+    it('calculates the Haar DWT by default', () => {
+      expect(equalCoeffs(
+        dwt.dwt([1, 2, 3, 4]),
+        [
+          [(1 + 2) / Math.SQRT2, (3 + 4) / Math.SQRT2],
+          [(1 - 2) / Math.SQRT2, (3 - 4) / Math.SQRT2],
+        ],
+      ));
+    });
+  });
+
   describe('energy', () => {
     it('calculates energy for empty values', () => {
       expect(dwt.energy([])).toBe(0);
@@ -99,6 +164,79 @@ describe('dwt', () => {
           expect(
             dwt.energy(dataset.coeffs)
           ).toBeCloseTo(dataset.energy, PRECISION);
+        }
+      }
+    });
+  });
+
+  describe('wavedec', () => {
+  
+    // TODO: Remove condition concerning power of 2 and test.
+    it('throws an error if the input has a length other than a power of 2', () => {
+      expect(() => {
+        dwt.wavedec([4, 8, 16]);
+      }).toThrowError();
+      
+      expect(() => {
+        dwt.wavedec([32, 64, 128, 256, 512]);
+      }).toThrowError();
+    });
+
+    it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
+      expect(() => {
+        dwt.wavedec(
+          haarDatasets[0].data,
+          {
+            ...HaarWavelet,
+            dec: {
+              ...HaarWavelet.dec,
+              high: [...HaarWavelet.dec.high, 1, -1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
+    it('throws an error if low-pass and high-pass decomposition filters have uneven length', () => {
+      expect(() => {
+        dwt.wavedec(
+          haarDatasets[0].data,
+          {
+            ...HaarWavelet,
+            dec: {
+              low: [1],
+              high: [1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
+    // TODO: Remove condition and test after introducing signal extension modes (padding)
+    it('throws an error if the input has a length lower than the length of filters of the wavelet basis', () => {
+      expect(() => {
+        dwt.wavedec([], 'D2');
+      }).toThrowError();
+  
+      expect(() => {
+        dwt.wavedec([2], 'D2');
+      }).toThrowError();
+    });
+
+    it('calculates the Haar DWT by default', () => {
+      for (const dataset of haarDatasets) {
+        expect(equalCoeffs(dwt.wavedec(dataset.data), dataset.coeffs));
+      }
+    });
+
+    it('calculates the discrete wavelet transform', () => {
+      for (const waveletDataset of waveletDatasets) {
+        for (const alias of waveletDataset.aliases) {
+          for (const dataset of waveletDataset.datasets) {
+            expect(
+              equalCoeffs(dwt.wavedec(dataset.data, alias), dataset.coeffs)
+            );
+          }
         }
       }
     });
@@ -175,77 +313,6 @@ describe('dwt', () => {
           for (const dataset of waveletDataset.datasets) {
             expect(
               equalData(dwt.waverec(dataset.coeffs, alias), dataset.data)
-            );
-          }
-        }
-      }
-    });
-  });
-
-  describe('wavedec', () => {
-  
-    it('throws an error if the input has a length other than a power of 2', () => {
-      expect(() => {
-        dwt.wavedec([4, 8, 16])
-      }).toThrowError();
-      
-      expect(() => {
-        dwt.wavedec([32, 64, 128, 256, 512])
-      }).toThrowError();
-    });
-
-    it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
-      expect(() => {
-        dwt.wavedec(
-          haarDatasets[0].data,
-          {
-            ...HaarWavelet,
-            dec: {
-              ...HaarWavelet.dec,
-              high: [...HaarWavelet.dec.high, 1, -1],
-            },
-          },
-        );
-      }).toThrowError();
-    });
-
-    it('throws an error if low-pass and high-pass decomposition filters have uneven length', () => {
-      expect(() => {
-        dwt.wavedec(
-          haarDatasets[0].data,
-          {
-            ...HaarWavelet,
-            dec: {
-              low: [1],
-              high: [1],
-            },
-          },
-        );
-      }).toThrowError();
-    });
-
-    it('throws an error if the input has a length lower than the length of filters of the wavelet basis', () => {
-      expect(() => {
-        dwt.wavedec([], 'D2');
-      }).toThrowError();
-  
-      expect(() => {
-        dwt.wavedec([2], 'D2');
-      }).toThrowError();
-    });
-
-    it('calculates the Haar DWT by default', () => {
-      for (const dataset of haarDatasets) {
-        expect(equalCoeffs(dwt.wavedec(dataset.data), dataset.coeffs));
-      }
-    });
-
-    it('calculates the discrete wavelet transform', () => {
-      for (const waveletDataset of waveletDatasets) {
-        for (const alias of waveletDataset.aliases) {
-          for (const dataset of waveletDataset.datasets) {
-            expect(
-              equalCoeffs(dwt.wavedec(dataset.data, alias), dataset.coeffs)
             );
           }
         }

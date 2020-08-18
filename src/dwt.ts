@@ -34,6 +34,59 @@ const DEFAULT_WAVELET: Wavelet = 'haar';
 export default class dwt {
 
   /**
+   * Single level discrete wavelet transform.
+   * @param  data    Input data with a length equal to a power of two.
+   * @param  wavelet Wavelet to use.
+   * @return         Approximation and detail coefficients as result of the transform.
+   */
+  static dwt(
+    data: number[],
+    wavelet: Wavelet = DEFAULT_WAVELET,
+  ): number[][] {
+    // TODO: Implement signal extension modes and remove assertion. 
+    /* Check if data is valid. */
+    assertValidData(data);
+
+    /* Determine wavelet basis. */
+    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
+    
+    /* Use decomposition filters. */
+    const filters: Filters = waveletBasis.dec;
+
+    /* Check if filters are valid. */
+    assertValidFilters(filters);
+
+    /* Initialize approximation and detail coefficients. */
+    let approx: number[] = [];
+    let detail: number[] = [];
+
+    /* Calculate coefficients. */
+    for (let offset: number = 0; offset < data.length; offset += 2) {
+      /* Determine slice of values. */
+      const end: number = offset + filters.low.length;
+      const wrappedEnd: number = end - data.length;
+      const values: number[] = (wrappedEnd < 0)
+          /* Slice values. */
+          ? data.slice(offset, end)
+          /* Slice values to end and add additional values from start. */
+          : data.slice(offset).concat(data.slice(0, wrappedEnd));
+
+      /* Calculate approximation coefficients. */
+      approx.push(
+        dot(values, filters.low)
+      );
+
+      /* Calculate detail coefficients. */
+      detail.push(
+        dot(values, filters.high)
+      );
+    }
+
+    /* Return approximation and detail coefficients. */
+    return [approx, detail];
+  }
+
+  /**
    * Calculates the energy as sum of squares of an array of data or
    * coefficients.
    * @param  values Array of data or coefficients.
@@ -60,18 +113,13 @@ export default class dwt {
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
   ): number[][] {
-    /* Check if data is valid. */
-    assertValidData(data);
-
     /* Determine wavelet basis. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
     
     /* Use decomposition filters. */
     const filters: Filters = waveletBasis.dec;
 
-    /* Check if filters are valid. */
-    assertValidFilters(filters);
-
+    // TODO: Implement signal extension modes and remove/adjust assertion.
     /* Check if filters are valid for data. */
     assertValidFiltersForData(filters, data);
 
@@ -81,31 +129,10 @@ export default class dwt {
 
     /* Transform. */
     while (prevApprox.length > 1) {
-      /* Initialize approximation and detail coefficients. */
-      let approx: number[] = [];
-      let detail: number[] = [];
-
-      /* Calculate coefficients. */
-      for (let offset: number = 0; offset < prevApprox.length; offset += 2) {
-        /* Determine slice of values. */
-        const end: number = offset + filters.low.length;
-        const wrappedEnd: number = end - prevApprox.length;
-        const values: number[] = (wrappedEnd < 0)
-            /* Slice values. */
-            ? prevApprox.slice(offset, end)
-            /* Slice values to end and add additional values from start. */
-            : prevApprox.slice(offset).concat(prevApprox.slice(0, wrappedEnd));
-
-        /* Calculate approximation coefficients. */
-        approx.push(
-          dot(values, filters.low)
-        );
-
-        /* Calculate detail coefficients. */
-        detail.push(
-          dot(values, filters.high)
-        );
-      }
+      /* Perform single level transform. */
+      const approxDetail: number[][] = this.dwt(prevApprox, wavelet);
+      const approx: number[] = approxDetail[0];
+      const detail: number[] = approxDetail[1];
 
       /* Prepend detail coefficients. */
       coeffs.unshift(detail);
