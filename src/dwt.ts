@@ -56,6 +56,10 @@ export default class dwt {
     /* Check if filters are valid. */
     assertValidFilters(filters);
 
+    // TODO: Implement signal extension modes and remove/adjust assertion.
+    /* Check if filters are valid for data. */
+    assertValidFiltersForData(filters, data);
+
     /* Initialize approximation and detail coefficients. */
     let approx: number[] = [];
     let detail: number[] = [];
