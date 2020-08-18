@@ -2,7 +2,15 @@
   "name": "discrete-wavelets",
   "version": "4.0.0",
   "description": "Discrete wavelet transform (DWT) library.",
-  "keywords": [],
+  "keywords": [
+    "analysis",
+    "data",
+    "discrete",
+    "scientific",
+    "signal processing",
+    "transform",
+    "wavelet"
+  ],
   "main": "dist/discrete-wavelets.umd.js",
   "module": "dist/discrete-wavelets.es5.js",
   "typings": "dist/types/discrete-wavelets.d.ts",
