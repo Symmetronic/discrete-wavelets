@@ -106,6 +106,37 @@ export default class dwt {
   }
 
   /**
+   * Single level inverse discrete wavelet transform.
+   * @param  approx  Approximation coefficients.
+   * @param  detail  Detail coefficients.
+   * @param  wavelet Wavelet to use.
+   * @return         Approximation coefficients of previous level of transform.
+   */
+  static idwt(
+    approx: number[],
+    detail: number[],
+    wavelet: Wavelet = DEFAULT_WAVELET,
+  ): number[] {
+    /* Determine wavelet basis. */
+    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
+
+    /* Use reconstruction filters. */
+    const filters: Filters = waveletBasis.rec;
+
+    /* Check if filters are valid. */
+    assertValidFilters(filters);
+
+    /* Check if filters are valid for coeffs. */
+    assertValidFiltersForCoeffs(filters, [approx, detail]);
+
+    /* Calculate previous level of approximation. */
+    return sum(
+      mulScalars(approx, filters.low),
+      mulScalars(detail, filters.high),
+    );
+  }
+
+  /**
    * 1D wavelet decomposition. Transforms data by calculating coefficients from
    * input data.
    * @param  data    Input data with a length equal to a power of two.
@@ -167,18 +198,6 @@ export default class dwt {
     /* Check if coefficients are valid. */
     assertValidCoeffs(coeffs);
 
-    /* Determine wavelet basis. */
-    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
-
-    /* Use reconstruction filters. */
-    const filters: Filters = waveletBasis.rec;
-
-    /* Check if filters are valid. */
-    assertValidFilters(filters);
-
-    /* Check if filters are valid for coeffs. */
-    assertValidFiltersForCoeffs(filters, coeffs);
-
     /* Initialize transform. */
     let approx: number[] = coeffs[0];
 
@@ -188,10 +207,7 @@ export default class dwt {
       const detail = coeffs[i];
 
       /* Calculate previous level of approximation. */
-      approx = sum(
-        mulScalars(approx, filters.low),
-        mulScalars(detail, filters.high),
-      );
+      approx = this.idwt(approx, detail, wavelet);
     }
 
     /* Return data. */

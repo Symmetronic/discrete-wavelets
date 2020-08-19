@@ -140,6 +140,8 @@ describe('dwt', () => {
         ],
       ));
     });
+
+    // TODO: Add tests for other wavelet bases
   });
 
   describe('energy', () => {
@@ -167,6 +169,64 @@ describe('dwt', () => {
         }
       }
     });
+  });
+
+  describe('idwt', () => {
+
+    it('throws an error if low-pass and high-pass reconstruction filters have unequal length', () => {
+      expect(() => {
+        dwt.idwt(
+          haarDatasets[0].coeffs[0],
+          haarDatasets[0].coeffs[1],
+          {
+            ...HaarWavelet,
+            rec: {
+              ...HaarWavelet.dec,
+              high: [...HaarWavelet.dec.high, 1, -1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
+    it('throws an error if low-pass and high-pass reconstruction filters have uneven length', () => {
+      expect(() => {
+        dwt.idwt(
+          haarDatasets[0].coeffs[0],
+          haarDatasets[0].coeffs[1],
+          {
+            ...HaarWavelet,
+            rec: {
+              low: [1],
+              high: [1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
+    it('throws an error if approximation and detail coefficients do not have equal length', () => {
+      expect(() => {
+        dwt.idwt(
+          [1, 2],
+          [3],
+        );
+      }).toThrowError();
+    });
+
+    it('calculates a single level inverse Haar DWT by default', () => {
+      expect(
+        equalData(
+          dwt.idwt(
+            [(1 + 2) / Math.SQRT2, (3 + 4) / Math.SQRT2],
+            [(1 - 2) / Math.SQRT2, (3 - 4) / Math.SQRT2],
+          ),
+          [1, 2, 3, 4],
+        )
+      );
+    });
+
+    // TODO: Add tests for other wavelet bases
   });
 
   describe('wavedec', () => {

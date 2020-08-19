@@ -25,6 +25,7 @@ The library offers the following functions:
 
 - [dwt](#dwt): Single level discrete wavelet transform.
 - [energy](#energy): Calculates the energy as sum of squares of an array of data or coefficients.
+- [idwt](#idwt): Single level inverse discrete wavelet transform.
 - [wavedec](#wavedec): 1D wavelet decomposition. Transforms data by calculating coefficients from input data.
 - [waverec](#waverec): 1D wavelet reconstruction. Inverses a transform by calculating input data from coefficients.
 
@@ -79,6 +80,34 @@ console.log(
 );
 // expected output: 30
 ```
+
+### idwt
+
+Single level inverse discrete wavelet transform.
+
+#### Arguments
+
+- `approx` (`number[]`): Approximation coefficients.
+- `detail` (`number[]`): Detail coefficients.
+- `wavelet` (`Wavelet`): Wavelet to use.
+
+#### Return
+
+`rec` (`number[]`): Approximation coefficients of previous level of transform.
+
+#### Example
+
+```javascript
+var rec = dwt.idwt(
+  [(1 + 2) / Math.SQRT2, (3 + 4) / Math.SQRT2],
+  [(1 - 2) / Math.SQRT2, (3 - 4) / Math.SQRT2],
+);
+
+console.log(rec);
+// expected output: Array [0.9999999999999999, 1.9999999999999996, 2.9999999999999996, 3.9999999999999996]
+```
+
+*Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[1, 2, 3, 4]`*
 
 ### wavedec
 

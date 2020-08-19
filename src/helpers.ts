@@ -103,6 +103,7 @@ export function assertValidFiltersForData(
   filters: Filters,
   data: number[],
 ): boolean {
+  // TODO: Remove condition after adding signal extension (padding)?
   /* Check for minimum data length. */
   if (data.length < filters.low.length) {
     throw new Error(
