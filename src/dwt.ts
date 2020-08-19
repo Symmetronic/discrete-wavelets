@@ -137,6 +137,36 @@ export default class dwt {
   }
 
   /**
+   * Determines the maximum level of useful decomposition.
+   * @param  dataLength Length of input data.
+   * @param  wavelet    Wavelet to use.
+   * @return            Maximum useful level of decomposition.
+   */
+  static maxLevel(
+    dataLength: number,
+    wavelet: Wavelet,
+  ): number {
+    /* Check for invalid input. */
+    if (dataLength < 0) {
+      throw new Error('Data length cannot be less than zero.');
+    }
+
+    /* Return zero for data of zero length. */
+    if (dataLength === 0) return 0;
+
+    /* Determine wavelet basis. */
+    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
+    
+    /* Determine length of filter. */
+    const filterLength: number = waveletBasis.dec.low.length;
+
+    // SOURCE: https://pywavelets.readthedocs.io/en/latest/ref/dwt-discrete-wavelet-transform.html#maximum-decomposition-level-dwt-max-level-dwtn-max-level
+    return Math.floor(
+      Math.log2(dataLength / (filterLength - 1))
+    );
+  }
+
+  /**
    * 1D wavelet decomposition. Transforms data by calculating coefficients from
    * input data.
    * @param  data    Input data with a length equal to a power of two.
@@ -159,25 +189,23 @@ export default class dwt {
     assertValidFiltersForData(filters, data);
 
     /*  Initialize transform. */
+    const maxLevel: number = this.maxLevel(data.length, wavelet);
     let coeffs: number[][] = [];
-    let prevApprox: number[] = data;
+    let approx: number[] = data;
 
     /* Transform. */
-    while (prevApprox.length > 1) {
+    for (let level: number = 1; level <= maxLevel; level++) {
       /* Perform single level transform. */
-      const approxDetail: number[][] = this.dwt(prevApprox, wavelet);
-      const approx: number[] = approxDetail[0];
+      const approxDetail: number[][] = this.dwt(approx, wavelet);
+      approx = approxDetail[0];
       const detail: number[] = approxDetail[1];
 
       /* Prepend detail coefficients. */
       coeffs.unshift(detail);
-
-      /* Continue iteration on approximation. */
-      prevApprox = approx;
     }
 
     /* Prepend last approximation. */
-    coeffs.unshift(prevApprox);
+    coeffs.unshift(approx);
 
     /* Return coefficients. */
     return coeffs;

@@ -229,6 +229,28 @@ describe('dwt', () => {
     // TODO: Add tests for other wavelet bases
   });
 
+  describe('maxLevel', () => {
+
+    it('throws an error for data with length less than zero', () => {
+      expect(() => {
+        dwt.maxLevel(-1, 'haar');
+      }).toThrowError();
+    })
+
+    it('returns zero for data with length less than two', () => {
+      expect(dwt.maxLevel(0, 'haar')).toBe(0);
+      expect(dwt.maxLevel(1, 'haar')).toBe(0);
+    });
+
+    it('determines the maximum level correctly', () => {
+      expect(dwt.maxLevel(2, 'haar')).toBe(1);
+      expect(dwt.maxLevel(4, 'haar')).toBe(2);
+      expect(dwt.maxLevel(1024, 'haar')).toBe(10);
+
+      // TODO: Check for other bases
+    });
+  });
+
   describe('wavedec', () => {
   
     // TODO: Remove condition concerning power of 2 and test.

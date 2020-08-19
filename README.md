@@ -26,6 +26,7 @@ The library offers the following functions:
 - [dwt](#dwt): Single level discrete wavelet transform.
 - [energy](#energy): Calculates the energy as sum of squares of an array of data or coefficients.
 - [idwt](#idwt): Single level inverse discrete wavelet transform.
+- [maxLevel](#maxLevel): Determines the maximum level of useful decomposition.
 - [wavedec](#wavedec): 1D wavelet decomposition. Transforms data by calculating coefficients from input data.
 - [waverec](#waverec): 1D wavelet reconstruction. Inverses a transform by calculating input data from coefficients.
 
@@ -108,6 +109,35 @@ console.log(rec);
 ```
 
 *Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[1, 2, 3, 4]`*
+
+### maxLevel
+
+Determines the maximum level of useful decomposition.
+
+#### Arguments
+
+- `dataLength` (`number`): Length of input data.
+- `wavelet` (`Wavelet`): Wavelet to use.
+
+#### Return
+
+`maxLevel` (`number`): Maximum useful level of decomposition.
+
+#### Examples
+
+```javascript
+var maxLevel = dwt.maxLevel(4, 'haar');
+
+console.log(maxLevel);
+// expected output: 2
+```
+
+```javascript
+var maxLevel = dwt.maxLevel(1024, 'haar');
+
+console.log(maxLevel);
+// expected output: 10
+```
 
 ### wavedec
 
