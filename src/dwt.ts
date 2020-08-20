@@ -146,6 +146,11 @@ export default class dwt {
     dataLength: number,
     wavelet: Wavelet,
   ): number {
+    /* Check for non-integer length. */
+    if (!Number.isInteger(dataLength)) {
+      throw new Error('Length of data is not an integer. This is not allowed.');
+    }
+
     /* Check for invalid input. */
     if (dataLength < 0) {
       throw new Error('Data length cannot be less than zero.');

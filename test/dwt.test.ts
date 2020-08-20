@@ -231,6 +231,12 @@ describe('dwt', () => {
 
   describe('maxLevel', () => {
 
+    it('throws an error for non-integer length', () => {
+      expect(() => {
+        dwt.maxLevel(3.14, 'haar');
+      }).toThrowError();
+    })
+
     it('throws an error for data with length less than zero', () => {
       expect(() => {
         dwt.maxLevel(-1, 'haar');

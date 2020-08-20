@@ -2,7 +2,6 @@ import { WaveletBasis } from '../wavelets';
 
 /**
  * Daubechies 2 basis.
- * SOURCE: https://dl.acm.org/doi/book/10.5555/130655
  */
 export const Db2Wavelet: WaveletBasis = {
 
