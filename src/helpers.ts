@@ -124,6 +124,34 @@ export function basisFromWavelet(wavelet: Wavelet): WaveletBasis {
 }
 
 /**
+ * Creates an array and populates it.
+ * @param  length   Length of the array.
+ * @param  populate Function to populate the array.
+ * @return          Populated array with specified length.
+ */
+export function createArray(
+  length: number,
+  populate: number | ((index: number) => number) = 0,
+): number[] {
+  /* Check for non-integer length. */
+  if (!Number.isInteger(length)) {
+    throw new Error('Length has to be an integer.');
+  }
+
+  /* Check for length less than zero. */
+  if (length < 0) {
+    throw new Error('Length must not be smaller than zero.')
+  }
+
+  /* Create and populate array. */
+  return Array.apply(null, Array(length)).map((_, index) =>
+    (typeof populate === 'function')
+      ? populate(index)
+      : populate
+  );
+}
+
+/**
  * Calculates the dot product of two arrays.
  * @param  a First array.
  * @param  b Second array.

@@ -13,6 +13,7 @@ import {
   assertValidFiltersForCoeffs,
   assertValidFiltersForData,
   basisFromWavelet,
+  createArray,
   dot,
   isPowerOfTwo,
   mulScalar,
@@ -150,6 +151,32 @@ describe('helpers', () => {
           expect(basisFromWavelet(alias)).toEqual(waveletDataset.wavelet);
         }
       }
+    });
+  });
+
+  describe('createArray', () => {
+    it('throws an error, if the length is not an integer', () => {
+      expect(() => {
+        createArray(3.14);
+      }).toThrowError();
+    });
+
+    it('throws an error, if the length is less than zero', () => {
+      expect(() => {
+        createArray(-1);
+      }).toThrowError();
+    });
+
+    it('populates an array with zeros by default', () => {
+      expect(createArray(7)).toEqual([0, 0, 0, 0, 0, 0, 0]);
+    });
+
+    it('populates an array with a constant value', () => {
+      expect(createArray(3, 42)).toEqual([42, 42, 42]);
+    });
+
+    it('populates an array with a functional value', () => {
+      expect(createArray(4, (index) => index + 1)).toEqual([1, 2, 3, 4]);
     });
   });
 

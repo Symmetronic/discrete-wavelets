@@ -1,4 +1,9 @@
 export {
+  PaddingMode,
+  PaddingWidths,
+} from './padding/padding';
+
+export {
   Filters,
   Wavelet,
   WaveletBasis,
@@ -12,10 +17,16 @@ import {
   assertValidFiltersForCoeffs,
   assertValidFiltersForData,
   basisFromWavelet,
+  createArray,
   dot,
   mulScalars,
   sum,
 } from './helpers';
+
+import {
+  PaddingMode,
+  PaddingWidths,
+} from './padding/padding';
 
 import {
   Filters,
@@ -169,6 +180,34 @@ export default class dwt {
     return Math.floor(
       Math.log2(dataLength / (filterLength - 1))
     );
+  }
+
+  /**
+   * Extends a signal with a given padding mode.
+   * @param  data      Input data.
+   * @param  padWidths Widths of padding at front and back.
+   * @param  mode      Signal extension mode.
+   * @return           Data with padding.
+   */
+  static pad(
+    data: number[],
+    padWidths: PaddingWidths,
+    mode: PaddingMode,
+  ): number[] {
+    const front: number = padWidths[0];
+    const back: number = padWidths[1];
+    switch (mode) {
+      case 'constant':
+        return createArray(front, data[0])
+            .concat(data)
+            .concat(createArray(back, data[data.length - 1]));
+      case 'zero':
+        return createArray(front, 0)
+            .concat(data)
+            .concat(createArray(back, 0));
+      default:
+        throw new Error('Unknown padding mode: "' + mode + '"')
+    }
   }
 
   /**

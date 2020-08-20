@@ -27,12 +27,18 @@ The library offers the following functions:
 - [energy](#energy): Calculates the energy as sum of squares of an array of data or coefficients.
 - [idwt](#idwt): Single level inverse discrete wavelet transform.
 - [maxLevel](#maxLevel): Determines the maximum level of useful decomposition.
+- [pad](#pad): Extends a signal with a given padding mode.
 - [wavedec](#wavedec): 1D wavelet decomposition. Transforms data by calculating coefficients from input data.
 - [waverec](#waverec): 1D wavelet reconstruction. Inverses a transform by calculating input data from coefficients.
 
 Only the following `Wavelet` is supported at the moment:
 
 - [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet): `'D2'`, `'db1'`, `'haar'`
+
+The following values for the `PaddingMode` are supported at the moment:
+
+- `'constant'`: Replication of border values.
+- `'zero'`: Adding zeros.
 
 ### dwt
 
@@ -137,6 +143,29 @@ var maxLevel = dwt.maxLevel(1024, 'haar');
 
 console.log(maxLevel);
 // expected output: 10
+```
+
+### pad
+
+Extends a signal with a given padding mode.
+
+#### Arguments
+
+- `data` (`number[]`): Input data.
+- `padWidths` (`[number, number]`): Widths of padding at front and back.
+- `mode` (`PaddingMode`): Signal extension mode.
+
+#### Return
+
+`pad` (`number[]`): Data with padding.
+
+#### Examples
+
+```javascript
+var pad = dwt.pad([42, 51], [2, 1], 'zero');
+
+console.log(pad);
+// expected output: Array [0, 0, 42, 51, 0]
 ```
 
 ### wavedec

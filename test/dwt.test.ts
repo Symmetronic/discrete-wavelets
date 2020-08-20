@@ -5,6 +5,9 @@ import {
 
 import dwt from "../src/dwt"
 import {
+  PaddingMode
+} from '../src/padding/padding';
+import {
   HaarWavelet,
 } from "../src/wavelets/wavelets";
 
@@ -72,13 +75,11 @@ function equalData(data1: number[], data2: number[]): boolean {
 }
 
 describe('dwt', () => {
-
   it('dwt exists', () => {
     expect(new dwt()).toBeInstanceOf(dwt);
   });
 
   describe('dwt', () => {
-
     // TODO: Remove condition concerning power of 2 and test.
     it('throws an error if the input has a length other than a power of 2', () => {
       expect(() => {
@@ -172,7 +173,6 @@ describe('dwt', () => {
   });
 
   describe('idwt', () => {
-
     it('throws an error if low-pass and high-pass reconstruction filters have unequal length', () => {
       expect(() => {
         dwt.idwt(
@@ -230,7 +230,6 @@ describe('dwt', () => {
   });
 
   describe('maxLevel', () => {
-
     it('throws an error for non-integer length', () => {
       expect(() => {
         dwt.maxLevel(3.14, 'haar');
@@ -257,8 +256,43 @@ describe('dwt', () => {
     });
   });
 
+  describe('pad', () => {
+    it('throws an error for negative padding widths', () => {
+      expect(() => {
+        dwt.pad(
+          [1, 2, 3],
+          [-1, 0],
+          'zero'
+        );
+      }).toThrowError();
+
+      expect(() => {
+        dwt.pad(
+          [1, 2, 3],
+          [0, -1],
+          'zero'
+        );
+      }).toThrowError();
+    });
+
+    it('throws an error for unknown padding modes', () => {
+      expect(() => {
+        dwt.pad([1, 2, 3], [1, 1], 'foobar' as PaddingMode);
+      }).toThrowError();
+    });
+
+    it('adds constant padding', () => {
+      expect(dwt.pad([1, 2, 3], [2, 3], 'constant'))
+          .toEqual([1, 1, 1, 2, 3, 3, 3, 3]);
+    });
+
+    it('adds zero padding', () => {
+      expect(dwt.pad([42, 51], [2, 1], 'zero'))
+          .toEqual([0, 0, 42, 51, 0]);
+    });
+  });
+
   describe('wavedec', () => {
-  
     // TODO: Remove condition concerning power of 2 and test.
     it('throws an error if the input has a length other than a power of 2', () => {
       expect(() => {
@@ -331,7 +365,6 @@ describe('dwt', () => {
   });
 
   describe('waverec', () => {
-
     it('throws an error if the coefficients have zero length', () => {
       expect(() => {
         dwt.waverec([]);
