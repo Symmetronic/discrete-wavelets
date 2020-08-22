@@ -48,6 +48,7 @@ Single level discrete wavelet transform.
 
 - `data` (`number[]`): Input data with a length equal to a power of two. If your data does not have a length equal to a power of two by default, some possibilities to adjust this are described below.
 - `wavelet` (`Wavelet`): Wavelet to use.
+- `mode` (`PaddingMode`): Signal extension mode.
 
 #### Return
 
@@ -97,6 +98,7 @@ Single level inverse discrete wavelet transform.
 - `approx` (`number[]`): Approximation coefficients.
 - `detail` (`number[]`): Detail coefficients.
 - `wavelet` (`Wavelet`): Wavelet to use.
+- `mode` (`PaddingMode`): Signal extension mode.
 
 #### Return
 
@@ -176,6 +178,7 @@ console.log(pad);
 
 - `data` (`number[]`): Input data with a length equal to a power of two. If your data does not have a length equal to a power of two by default, some possibilities to adjust this are described below.
 - `wavelet` (`Wavelet`): Wavelet to use.
+- `mode` (`PaddingMode`): Signal extension mode.
 
 #### Return
 
@@ -238,6 +241,7 @@ var coeffs = dwt.wavedec(newYs, 'haar');
 
 - `coeffs` (`number[][]`): Coefficients as result of a transform.
 - `wavelet` (`Wavelet`): Wavelet to use.
+- `mode` (`PaddingMode`): Signal extension mode.
 
 #### Return
 

@@ -3,15 +3,7 @@ import {
 } from './mocks';
 
 import {
-  HaarWavelet,
-} from '../src/wavelets/wavelets';
-
-import {
   assertValidCoeffs,
-  assertValidData,
-  assertValidFilters,
-  assertValidFiltersForCoeffs,
-  assertValidFiltersForData,
   basisFromWavelet,
   createArray,
   dot,
@@ -33,117 +25,13 @@ describe('helpers', () => {
     it('returns true for valid coefficients', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const dataset of waveletDataset.datasets) {
-          expect(assertValidCoeffs(dataset.coeffs)).toBe(true);
+          expect(assertValidCoeffs(dataset.dwt)).toBe(true);
+          expect(assertValidCoeffs(dataset.wavedec)).toBe(true);
         }
       }
     });
   });
 
-  describe('assertValidData', () => {
-    it('throws an error if the length of data is not a power of 2', () => {
-      expect(() => {
-        assertValidData([]);
-      }).toThrowError();
-
-      expect(() => {
-        assertValidData([1, 2, 3]);
-      }).toThrowError();
-    });
-
-    it('returns true for valid data', () => {
-      for (const waveletDataset of waveletDatasets) {
-        for (const dataset of waveletDataset.datasets) {
-          expect(assertValidData(dataset.data)).toBe(true);
-        }
-      }
-    });
-  });
-
-  describe('assertValidFilters', () => {
-    it('throws an error if the high-pass and low-pass filters have a different length', () => {
-      expect(() => {
-        assertValidFilters({
-          high: [1],
-          low: [2, 3],
-        });
-      }).toThrowError();
-    });
-
-    it('throws an error if the filters have an uneven length', () => {
-      expect(() => {
-        assertValidFilters({
-          high: [1],
-          low: [1],
-        });
-      }).toThrowError();
-
-      expect(() => {
-        assertValidFilters({
-          high: [1, 2, 3],
-          low: [4, 5, 6],
-        })
-      }).toThrowError();
-    });
-
-    it('returns true for valid filters', () => {
-      for (const waveletDataset of waveletDatasets) {
-        expect(assertValidFilters(waveletDataset.wavelet.dec)).toBe(true);
-        expect(assertValidFilters(waveletDataset.wavelet.rec)).toBe(true);
-      }
-    });
-  });
-
-  describe('assertValidFiltersForCoeffs', () => {
-    it('throws an error if approximation and detail coefficients on the same level have different length', () => {
-      expect(() => {
-        assertValidFiltersForCoeffs(
-          HaarWavelet.rec,
-          [[1], [2, 3]],
-        );
-      }).toThrowError();
-
-      expect(() => {
-        assertValidFiltersForCoeffs(
-          HaarWavelet.rec,
-          [[1], [2], [3, 4, 5]],
-        );
-      }).toThrowError();
-    });
-
-    it('returns true for valid filters for the coefficients', () => {
-      for (const waveletDataset of waveletDatasets) {
-        for (const dataset of waveletDataset.datasets) {
-          expect(assertValidFiltersForCoeffs(
-            waveletDataset.wavelet.rec,
-            dataset.coeffs
-          )).toBe(true);
-        }
-      }
-    });
-  });
-  
-  describe('assertValidFiltersForData', () => {
-    it('throws an error if the length of the data is less than the length of the filters', () => {
-      expect(() => {
-        assertValidFiltersForData(HaarWavelet.dec, []);
-      }).toThrowError();
-
-      expect(() => {
-        assertValidFiltersForData(HaarWavelet.dec, [1]);
-      }).toThrowError();
-    });
-
-    it('returns true for valid filters for the data', () => {
-      for (const waveletDataset of waveletDatasets) {
-        for (const dataset of waveletDataset.datasets) {
-          expect(
-            assertValidFiltersForData(waveletDataset.wavelet.dec, dataset.data)
-          ).toBe(true); 
-        }
-      }
-    });
-  });
-  
   describe('basisFromWavelet', () => {
     it('returns the correct wavelets', () => {
       for (const waveletDataset of waveletDatasets) {

@@ -1,3 +1,4 @@
+import { PaddingMode } from "../src/padding/padding";
 import {
   HaarWavelet,
   WaveletBasis,
@@ -10,47 +11,79 @@ import {
 export interface Dataset {
 
   /**
-   * Coefficients.
-   */
-  coeffs: number[][];
-
-  /**
    * Input data values.
    */
   data: number[];
 
   /**
+   * Single level DWT coefficients.
+   */
+  dwt: number[][];
+
+  /**
    * Energy of data.
    */
   energy: number;
+
+  /**
+   * Signal extension mode.
+   */
+  mode: PaddingMode;
+
+  /**
+   * Wavelet decomposition coefficients.
+   */
+  wavedec: number[][];
 }
 
 /*
  * Datasets for Haar transform.
  */
-const dataset1: Dataset = {
-  data: [1, 2, 3, 4],
-  coeffs: [[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]],
-  energy: 30,
+// TODO: Add used signal extension mode
+const haarDataset1: Dataset = {
+  data: [Math.SQRT2],
+  dwt: [[2], [0]],
+  energy: 2,
+  mode: 'constant',
+  wavedec: [[Math.SQRT2]],
 };
 
-const dataset2: Dataset = {
-  data: [0, 1, 2, 3, 5, 8, 13, 21],
-  coeffs: [
-    [18.73832970144351],
-    [-14.495689014324228],
-    [-2.0000000000000004, -10.500000000000004],
+const haarDataset2: Dataset = {
+  data: [1, 2, 3, 4],
+  dwt: [
+    [3 / Math.SQRT2, 7 / Math.SQRT2],
+    [-1 / Math.SQRT2, -1 / Math.SQRT2]
+  ],
+  energy: 30,
+  mode: 'zero',
+  wavedec: [
+    [5],
+    [-2],
+    [-1 / Math.SQRT2, -1 / Math.SQRT2]
+  ],
+};
+
+const haarDataset3: Dataset = {
+  data: [0, 1, 2, 3, 5],
+  dwt: [
+    [1 / Math.SQRT2, 5 / Math.SQRT2, 5 / Math.SQRT2],
+    [-1 / Math.SQRT2, - 1 / Math.SQRT2, 5 / Math.SQRT2]
+  ],
+  energy: 39,
+  mode: 'zero',
+  wavedec: [
+    [3, 2.5],
+    [-2, 2.5],
     [
-      -0.7071067811865476, -0.7071067811865477,
-      -2.121320343559643, -5.65685424949238
+      -1 / Math.SQRT2, -1 / Math.SQRT2, 5 / Math.SQRT2
     ]
   ],
-  energy: 713,
-}
+};
 
 export const haarDatasets: Dataset[] = [
-  dataset1,
-  dataset2,
+  haarDataset1,
+  haarDataset2,
+  haarDataset3,
 ];
 
 /*
