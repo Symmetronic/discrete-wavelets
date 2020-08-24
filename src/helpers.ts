@@ -1,5 +1,4 @@
 import {
-  Filters,
   Wavelet,
   WaveletBasis,
   Wavelets,
