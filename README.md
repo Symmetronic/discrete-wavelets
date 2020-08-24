@@ -179,6 +179,7 @@ console.log(pad);
 - `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
 - `mode` (`PaddingMode`): Signal extension mode.
+- `level` (`number`): Decomposition level. Defaults to level calculated by [maxLevel](#maxLevel) function.
 
 #### Return
 

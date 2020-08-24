@@ -226,6 +226,7 @@ export default class dwt {
    * @param  data    Input data.
    * @param  wavelet Wavelet to use.
    * @param  mode    Signal extension mode.
+   * @param  level   Decomposition level. Defaults to level calculated by maxLevel function.
    * @return         Coefficients as result of the transform.
    */
   // TODO: Add option to stop after a certain level.
@@ -233,14 +234,20 @@ export default class dwt {
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
     mode: PaddingMode = DEFAULT_PADDING_MODE,
+    level?: number,
   ): number[][] {
+    /* Determine decomposition level. */
+    if (level === undefined) level = this.maxLevel(data.length, wavelet);
+    if (level < 0) {
+      throw new Error('Decomposition level must not be less than zero');
+    }
+
     /*  Initialize transform. */
-    const maxLevel: number = this.maxLevel(data.length, wavelet);
     let coeffs: number[][] = [];
     let approx: number[] = data;
 
     /* Transform. */
-    for (let level: number = 1; level <= maxLevel; level++) {
+    for (let l: number = 1; l <= level; l++) {
       /* Perform single level transform. */
       const approxDetail: number[][] = this.dwt(approx, wavelet, mode);
       approx = approxDetail[0];
