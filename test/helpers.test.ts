@@ -12,6 +12,7 @@ import {
   mulScalars,
   padWidths,
   sum,
+  assertValidFilters,
 } from '../src/helpers';
 
 describe('helpers', () => {
@@ -29,6 +30,33 @@ describe('helpers', () => {
           expect(assertValidCoeffs(dataset.dwt)).toBe(true);
           expect(assertValidCoeffs(dataset.wavedec)).toBe(true);
         }
+      }
+    });
+  });
+
+  describe('assertValidFilters', () => {
+    it('throws an error for high-pass and low-pass filters of different length', () => {
+      expect(() => {
+        assertValidFilters({
+          high: [0, 1],
+          low: [0, 1, 2]
+        });
+      }).toThrowError();
+    });
+
+    it('throws an error for filters with a length lower than two', () => {
+      expect(() => {
+        assertValidFilters({
+          high: [1],
+          low: [-1]
+        });
+      }).toThrowError();
+    });
+
+    it('returns true for valid filters', () => {
+      for (const waveletDataset of waveletDatasets) {
+        expect(assertValidFilters(waveletDataset.wavelet.dec)).toBe(true);
+        expect(assertValidFilters(waveletDataset.wavelet.rec)).toBe(true);
       }
     });
   });

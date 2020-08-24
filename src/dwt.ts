@@ -12,6 +12,7 @@ export {
 
 import {
   assertValidCoeffs,
+  assertValidFilters,
   basisFromWavelet,
   createArray,
   dot,
@@ -58,15 +59,12 @@ export default class dwt {
     wavelet: Wavelet = DEFAULT_WAVELET,
     mode: PaddingMode = DEFAULT_PADDING_MODE,
   ): number[][] {
-    /* Determine wavelet basis. */
+    /* Determine wavelet basis and filters. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
-    
-    /* Use decomposition filters. */
     const filters: Filters = waveletBasis.dec;
+    assertValidFilters(filters);
     const filterLength: number = filters.low.length;
 
-    // TODO: Assure filter length >= 2
-    
     /* Add padding. */
     data = this.pad(
       data,
@@ -127,14 +125,11 @@ export default class dwt {
     wavelet: Wavelet = DEFAULT_WAVELET,
     mode: PaddingMode = DEFAULT_PADDING_MODE,
   ): number[] {
-    /* Determine wavelet basis. */
+    /* Determine wavelet basis and filters. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
-
-    /* Use reconstruction filters. */
     const filters: Filters = waveletBasis.rec;
+    assertValidFilters(filters);
     const filterLength: number = filters.low.length;
-
-    // TODO: Assure filter length >= 2
 
     /* Calculate padded approximation of previous level of transform. */
     const padded: number[] = sum(
@@ -226,7 +221,6 @@ export default class dwt {
    * @param  level   Decomposition level. Defaults to level calculated by maxLevel function.
    * @return         Coefficients as result of the transform.
    */
-  // TODO: Add option to stop after a certain level.
   static wavedec(
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,

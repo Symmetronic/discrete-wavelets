@@ -3,6 +3,7 @@ import {
   PaddingWidths,
 } from "./dwt";
 import {
+  Filters,
   Wavelet,
   WaveletBasis,
   Wavelets,
@@ -21,6 +22,27 @@ export function assertValidCoeffs(
     throw new Error(
       'Invalid coefficients. Array length must not be zero.'
     );
+  }
+
+  return true;
+}
+
+/**
+ * Asserts if wavelet filters are valid or throws an error if they are invalid.
+ * @param  filters Wavelet filters to test.
+ * @return         True if the wavelet filters are valid, otherwise throws an error.
+ */
+export function assertValidFilters(
+  filters: Filters,
+): boolean {
+  /* Check if high-pass and low-pass filters have equal length. */
+  if (filters.high.length !== filters.low.length) {
+    throw new Error('High-pass and low-pass filters have to have equal length.');
+  }
+
+  /* Check if filter length is larger than or equal to two. */
+  if (filters.low.length < 2) {
+    throw new Error('Wavelet filter length has to be larger than or equal to two.');
   }
 
   return true;

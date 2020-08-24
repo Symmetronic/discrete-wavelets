@@ -114,6 +114,21 @@ describe('dwt', () => {
       }).toThrowError();
     });
 
+    it('throws an error if low-pass and high-pass decomposition filters have a length less than two', () => {
+      expect(() => {
+        dwt.dwt(
+          haarDatasets[0].data,
+          {
+            ...HaarWavelet,
+            dec: {
+              low: [1],
+              high: [1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
     it('calculates the Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
         expect(equalCoeffs(
@@ -181,6 +196,22 @@ describe('dwt', () => {
             rec: {
               ...HaarWavelet.dec,
               high: [...HaarWavelet.dec.high, 1, -1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
+    it('throws an error if low-pass and high-pass reconstruction filters have a length less than two', () => {
+      expect(() => {
+        dwt.idwt(
+          haarDatasets[0].dwt[0],
+          haarDatasets[0].dwt[1],
+          {
+            ...HaarWavelet,
+            rec: {
+              low: [1],
+              high: [1],
             },
           },
         );
@@ -311,6 +342,21 @@ describe('dwt', () => {
       }).toThrowError();
     });
 
+    it('throws an error if low-pass and high-pass decomposition filters have a length less than two', () => {
+      expect(() => {
+        dwt.wavedec(
+          haarDatasets[1].data,
+          {
+            ...HaarWavelet,
+            dec: {
+              low: [1],
+              high: [1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
     it('throws an error if the decomposition level is less than zero', () => {
       expect(() => {
         dwt.wavedec(
@@ -373,6 +419,21 @@ describe('dwt', () => {
             rec: {
               ...HaarWavelet.dec,
               high: [...HaarWavelet.dec.high, 1, -1],
+            },
+          },
+        );
+      }).toThrowError();
+    });
+
+    it('throws an error if low-pass and high-pass reconstruction filters have a length less than two', () => {
+      expect(() => {
+        dwt.waverec(
+          haarDatasets[1].wavedec,
+          {
+            ...HaarWavelet,
+            rec: {
+              low: [1],
+              high: [1],
             },
           },
         );
