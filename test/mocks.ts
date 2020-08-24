@@ -39,7 +39,6 @@ export interface Dataset {
 /*
  * Datasets for Haar transform.
  */
-// TODO: Add used signal extension mode
 const haarDataset1: Dataset = {
   data: [Math.SQRT2],
   dwt: [[2], [0]],

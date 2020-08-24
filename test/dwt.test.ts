@@ -327,7 +327,6 @@ describe('dwt', () => {
     });
 
     it('calculates the inverse Haar DWT by default', () => {
-      // TODO: Fix waverec algorithm
       for (const dataset of haarDatasets) {
         expect(equalData(
           dwt.waverec(dataset.wavedec, undefined, dataset.mode),
@@ -337,7 +336,6 @@ describe('dwt', () => {
     });
 
     it('calculates the inverse discrete wavelet transform', () => {
-      // TODO: Fix waverec algorithm
       for (const waveletDataset of waveletDatasets) {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
