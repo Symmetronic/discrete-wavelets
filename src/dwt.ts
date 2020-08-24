@@ -232,10 +232,12 @@ export default class dwt {
     filterLength: number,
     mode: PaddingMode,
   ): PaddingWidths {
-    // TODO: Take signal extension mode into account.
+    // TODO: Take signal extension mode into account?
     return [
       filterLength - 2,
-      (dataLength % 2 === 0) ? filterLength - 2 : filterLength - 1
+      ((dataLength + filterLength) % 2 === 0)
+        ? filterLength - 2
+        : filterLength - 1
     ];
   }
 
