@@ -1,4 +1,8 @@
 import {
+  PaddingMode,
+  PaddingWidths,
+} from "./dwt";
+import {
   Wavelet,
   WaveletBasis,
   Wavelets,
@@ -116,6 +120,39 @@ export function mulScalars(
     values = values.concat(mulScalar(scalar, array));
   }
   return values;
+}
+
+/**
+ * Determines the padding widths.
+ * @param  dataLength   Length of signal.
+ * @param  filterLength Length of filter.
+ * @param  mode         Signal extension mode.
+ * @return              Padding widths.
+ */
+export function padWidths(
+  dataLength: number,
+  filterLength: number,
+  mode: PaddingMode,
+): PaddingWidths {
+  // TODO: Take signal extension mode into account or remove parameter?
+
+  /* Check for valid data length. */
+  if (dataLength <= 0) {
+    throw new Error('Cannot determine padding widths for data of length less than or equal to zero.');
+  }
+
+  /* Check for valid filter length. */
+  if (filterLength < 2) {
+    throw new Error('Cannot determine padding widths for filter of length less than two.');
+  }
+
+  /* Determine padding widths. */
+  return [
+    filterLength - 2,
+    ((dataLength + filterLength) % 2 === 0)
+      ? filterLength - 2
+      : filterLength - 1
+  ];
 }
 
 /**

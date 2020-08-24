@@ -10,6 +10,7 @@ import {
   isPowerOfTwo,
   mulScalar,
   mulScalars,
+  padWidths,
   sum,
 } from '../src/helpers';
 
@@ -114,6 +115,45 @@ describe('helpers', () => {
       expect(
         mulScalars([3, 1], [5, 0, -2, 1])
       ).toEqual([15, 0, -6, 3, 5, 0, -2, 1]);
+    });
+  });
+
+  describe('padWidths', () => {
+    it('throws an error for a length of data less than or equal to zero', () => {
+      expect(() => {
+        padWidths(-1, 4, 'zero');
+      }).toThrowError();
+
+      expect(() => {
+        padWidths(0, 4, 'zero');
+      }).toThrowError();
+    });
+
+    it('throws an error for a length of filter less than two', () => {
+      expect(() => {
+        padWidths(8, 1, 'zero');
+      }).toThrowError();
+
+      expect(() => {
+        padWidths(8, -1, 'zero');
+      }).toThrowError();
+    });
+
+    it('pads in the front by the filter length minus 2', () => {
+      for (let filterLength: number = 2; filterLength < 20; filterLength++) {
+        expect(padWidths(4, filterLength, 'zero')[0]).toBe(filterLength - 2);
+      }
+    });
+
+    it('pads in the back by the filter length minus 2 if data length plus filter length are even', () => {
+      expect(padWidths(2, 2, 'zero')[1]).toBe(0);
+      expect(padWidths(2, 4, 'zero')[1]).toBe(2);
+      expect(padWidths(7, 5, 'zero')[1]).toBe(3);
+    });
+
+    it('pads in the back by the filter length minus 1 if data length plus filter length are odd', () => {
+      expect(padWidths(3, 2, 'zero')[1]).toBe(1);
+      expect(padWidths(4, 7, 'zero')[1]).toBe(6);
     });
   });
 

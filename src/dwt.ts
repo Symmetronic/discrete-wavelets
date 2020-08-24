@@ -16,6 +16,7 @@ import {
   createArray,
   dot,
   mulScalars,
+  padWidths,
   sum,
 } from './helpers';
 
@@ -69,7 +70,7 @@ export default class dwt {
     /* Add padding. */
     data = this.pad(
       data,
-      this.padWidths(data.length, filterLength, mode),
+      padWidths(data.length, filterLength, mode),
       mode
     );
 
@@ -218,27 +219,6 @@ export default class dwt {
       default:
         throw new Error('Unknown padding mode: "' + mode + '"')
     }
-  }
-
-  /**
-   * Determines the padding widths.
-   * @param  dataLength   Length of signal.
-   * @param  filterLength Length of filter.
-   * @param  mode         Signal extension mode.
-   * @return              Padding widths.
-   */
-  private static padWidths(
-    dataLength: number,
-    filterLength: number,
-    mode: PaddingMode,
-  ): PaddingWidths {
-    // TODO: Take signal extension mode into account?
-    return [
-      filterLength - 2,
-      ((dataLength + filterLength) % 2 === 0)
-        ? filterLength - 2
-        : filterLength - 1
-    ];
   }
 
   /**
