@@ -47,8 +47,8 @@ const DEFAULT_WAVELET: Wavelet = 'haar';
 export default class dwt {
 
   /**
-   * Single level discrete wavelet transform.
-   * @param  data    Input data with a length equal to a power of two.
+   * Single level Discrete Wavelet Transform.
+   * @param  data    Input data.
    * @param  wavelet Wavelet to use.
    * @param  mode    Signal extension mode.
    * @return         Approximation and detail coefficients as result of the transform.
@@ -114,7 +114,7 @@ export default class dwt {
   }
 
   /**
-   * Single level inverse discrete wavelet transform.
+   * Single level inverse Discrete Wavelet Transform.
    * @param  approx  Approximation coefficients.
    * @param  detail  Detail coefficients.
    * @param  wavelet Wavelet to use.
@@ -127,8 +127,6 @@ export default class dwt {
     wavelet: Wavelet = DEFAULT_WAVELET,
     mode: PaddingMode = DEFAULT_PADDING_MODE,
   ): number[] {
-    // TODO: Use signal extension mode.
-
     /* Determine wavelet basis. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
 
@@ -146,6 +144,7 @@ export default class dwt {
 
     /* Remove padding. */
     // TODO: Capsulate in separate function.
+    // TODO: Use signal extension mode.
     let prevApprox: number[] = padded.slice(
       filterLength - 2,
       padded.length - 2 * (filterLength - 2) 
@@ -224,7 +223,7 @@ export default class dwt {
   /**
    * 1D wavelet decomposition. Transforms data by calculating coefficients from
    * input data.
-   * @param  data    Input data with a length equal to a power of two.
+   * @param  data    Input data.
    * @param  wavelet Wavelet to use.
    * @param  mode    Signal extension mode.
    * @return         Coefficients as result of the transform.
@@ -266,7 +265,6 @@ export default class dwt {
    * @param  mode    Signal extension mode.
    * @return         Input data as result of the inverse transform.
    */
-  // TODO: Add option to stop after a certain level.
   static waverec(
     coeffs: number[][],
     wavelet: Wavelet = DEFAULT_WAVELET,

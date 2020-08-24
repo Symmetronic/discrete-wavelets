@@ -23,9 +23,9 @@ An exemplary application with code using this library can be found at [https://s
 
 The library offers the following functions:
 
-- [dwt](#dwt): Single level discrete wavelet transform.
+- [dwt](#dwt): Single level Discrete Wavelet Transform.
 - [energy](#energy): Calculates the energy as sum of squares of an array of data or coefficients.
-- [idwt](#idwt): Single level inverse discrete wavelet transform.
+- [idwt](#idwt): Single level inverse Discrete Wavelet Transform.
 - [maxLevel](#maxLevel): Determines the maximum level of useful decomposition.
 - [pad](#pad): Extends a signal with a given padding mode.
 - [wavedec](#wavedec): 1D wavelet decomposition. Transforms data by calculating coefficients from input data.
@@ -42,11 +42,11 @@ The following values for the `PaddingMode` are supported at the moment:
 
 ### dwt
 
-Single level discrete wavelet transform.
+Single level Discrete Wavelet Transform.
 
 #### Arguments
 
-- `data` (`number[]`): Input data with a length equal to a power of two. If your data does not have a length equal to a power of two by default, some possibilities to adjust this are described below.
+- `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
 - `mode` (`PaddingMode`): Signal extension mode.
 
@@ -91,7 +91,7 @@ console.log(
 
 ### idwt
 
-Single level inverse discrete wavelet transform.
+Single level inverse Discrete Wavelet Transform.
 
 #### Arguments
 
@@ -161,7 +161,7 @@ Extends a signal with a given padding mode.
 
 `pad` (`number[]`): Data with padding.
 
-#### Examples
+#### Example
 
 ```javascript
 var pad = dwt.pad([42, 51], [2, 1], 'zero');
@@ -176,7 +176,7 @@ console.log(pad);
 
 #### Arguments
 
-- `data` (`number[]`): Input data with a length equal to a power of two. If your data does not have a length equal to a power of two by default, some possibilities to adjust this are described below.
+- `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
 - `mode` (`PaddingMode`): Signal extension mode.
 
@@ -184,9 +184,7 @@ console.log(pad);
 
 `coeffs` (`number[][]`): Coefficients as result of the transform.
 
-#### Examples
-
-A simple example where the data already has a length equal to a power of two:
+#### Example
 
 ```javascript
 var coeffs = dwt.wavedec([1, 2, 3, 4], 'haar');
@@ -196,42 +194,6 @@ console.log(coeffs);
 ```
 
 *Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[[5], [-2], [-0.7071067811865475, -0.7071067811865475]]`*
-
-If your data does not have a length equal to a power of two, you basically have the following options to adjust this:
-
-1) Interpolate data between your values in equidistant steps.
-2) [Extending values at the border](https://www.mathworks.com/help/wavelet/ug/dealing-with-border-distortion.html) of your data.
-3) Removing part of your data.
-
-The interpolation is elaborated in more detail in the following example using the external libraries [exact-linspace](https://github.com/Symmetronic/exact-linspace) for creating evenly spaced values and [interp1](https://github.com/Symmetronic/interp1) for 1-dimensional data interpolation:
-
-```javascript
-import dwt from 'discrete-wavelets';
-import linspace from 'exact-linspace';
-import interp1 from 'interp1';
-
-/* Exemplary input data that does not have a length equal to a power of two. */
-var xs = [1,  2,  5, 7, 8, 9];
-var ys = [0, -4, -2, 5, 3, 7];
-
-/* Calculates previous power of two for the length of input data. */
-var nrOfSamples = Math.pow(2, Math.floor(Math.log2(xs.length)));
-
-/* Evenly sample x values. */
-var newXs = linspace(
-  Math.min(...xs),
-  Math.max(...xs),
-  nrOfSamples
-);
-
-/* Linearly interpolate y values. */
-var newYs = interp1(xs, ys, newXs, 'linear');
-
-/* As the interpolated y values have a length equal to a power of two,
- * wavelet coefficients can be calculated.
- */
-var coeffs = dwt.wavedec(newYs, 'haar');
-```
 
 ### waverec
 
