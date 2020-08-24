@@ -145,13 +145,10 @@ export default class dwt {
     /* Remove padding. */
     // TODO: Capsulate in separate function.
     // TODO: Use signal extension mode.
-    let prevApprox: number[] = padded.slice(
+    return padded.slice(
       filterLength - 2,
       padded.length - 2 * (filterLength - 2) 
     );
-
-    /* Return result. */
-    return prevApprox;
   }
 
   /**
@@ -280,8 +277,21 @@ export default class dwt {
     /* Check if coefficients are valid. */
     assertValidCoeffs(coeffs);
 
+    /* Determine wavelet. */
+    wavelet = basisFromWavelet(wavelet);
+
     /* Initialize transform. */
     let approx: number[] = coeffs[0];
+
+    /* Return padded values for coefficients of length 1. */
+    // TODO: Check for correctness of approach.
+    if (coeffs.length === 1) {
+      return this.pad(
+        approx,
+        padWidths(approx.length, wavelet.rec.low.length, mode),
+        mode
+      );
+    }
 
     /* Transform. */
     for (let i: number = 1; i < coeffs.length; i++) {

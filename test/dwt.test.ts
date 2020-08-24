@@ -6,7 +6,10 @@ import {
 
 import dwt from "../src/dwt"
 import {
-  PaddingMode
+  padWidths,
+} from '../src/helpers';
+import {
+  PaddingMode,
 } from '../src/padding/padding';
 import {
   HaarWavelet,
@@ -40,15 +43,24 @@ function closeTo(
  */
 function equalCoeffs(coeffs1: number[][], coeffs2: number[][]): boolean {
   /* Unequal lengths of coefficients. */
-  if (coeffs1.length !== coeffs2.length) return false;
+  if (coeffs1.length !== coeffs2.length) {
+    console.error('Coefficient lengths ' + coeffs1.length + ' and ' + coeffs2.length + ' are not equal.'); 
+    return false;
+  }
 
   for (let i: number = 0; i < coeffs1.length; i++) {
     /* Unequal lengths of slice of coefficients. */
-    if (coeffs1[i].length !== coeffs2[i].length) return false;
+    if (coeffs1[i].length !== coeffs2[i].length) {
+      console.error('Coefficient lengths ' + coeffs1.length + ' and ' + coeffs2.length + ' are not equal.');
+      return false;
+    }
 
     for (let j: number = 0; j < coeffs1[i].length; j++) {
       /* Unequal coefficients. */
-      if (!closeTo(coeffs1[i][j], coeffs2[i][j])) return false;
+      if (!closeTo(coeffs1[i][j], coeffs2[i][j])) {
+        console.error('Coefficients ' + coeffs1[i][j] + ' and ' + coeffs2[i][j] + ' are not equal.');
+        return false;
+      }
     }
   }
 
@@ -64,11 +76,17 @@ function equalCoeffs(coeffs1: number[][], coeffs2: number[][]): boolean {
  */
 function equalData(data1: number[], data2: number[]): boolean {
   /* Unequal lengths of data. */
-  if (data1.length !== data2.length) return false;
+  if (data1.length !== data2.length) {
+    console.error('Data lengths ' + data1.length + ' and ' + data2.length + ' are not equal.');
+    return false;
+  }
 
   for (let i: number = 0; i < data1.length; i++) {
     /* Unequal data. */
-    if (!closeTo(data1[i], data2[i])) return false;
+    if (!closeTo(data1[i], data2[i])) {
+      console.error('Values ' + data1[i] + ' and ' + data2[i] + ' are not equal.');
+      return false;
+    }
   }
 
   /* Equal data. */
@@ -101,7 +119,7 @@ describe('dwt', () => {
         expect(equalCoeffs(
           dwt.dwt(dataset.data, undefined, dataset.mode),
           dataset.dwt
-        ));
+        )).toBe(true);
       }
     });
 
@@ -112,7 +130,7 @@ describe('dwt', () => {
             expect(equalCoeffs(
               dwt.dwt(dataset.data, alias, dataset.mode),
               dataset.dwt
-            ));
+            )).toBe(true);
           }
         }
       }
@@ -179,12 +197,16 @@ describe('dwt', () => {
     });
 
 
-    it('calculates a single level inverse Haar DWT by default', () => {
+    it('calculates an inverse single level Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
         expect(equalData(
           dwt.idwt(dataset.dwt[0], dataset.dwt[1], undefined, dataset.mode),
-          dataset.data
-        ));
+          dwt.pad(
+            dataset.data,
+            padWidths(dataset.data.length, 2, dataset.mode),
+            dataset.mode
+          )
+        )).toBe(true);
       }
     });
 
@@ -194,8 +216,16 @@ describe('dwt', () => {
           for (const dataset of waveletDataset.datasets) {
             expect(equalData(
               dwt.idwt(dataset.dwt[0], dataset.dwt[1], alias, dataset.mode),
-              dataset.data
-            ));
+              dwt.pad(
+                dataset.data,
+                padWidths(
+                  dataset.data.length,
+                  waveletDataset.wavelet.rec.low.length,
+                  dataset.mode
+                ),
+                dataset.mode
+              )
+            )).toBe(true);
           }
         }
       }
@@ -281,26 +311,49 @@ describe('dwt', () => {
       }).toThrowError();
     });
 
+    it('throws an error if the decomposition level is less than zero', () => {
+      expect(() => {
+        dwt.wavedec(
+          haarDatasets[0].data,
+          'haar',
+          haarDatasets[0].mode,
+          -1,
+        );
+      }).toThrowError();
+    });
+
     it('calculates the Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
         expect(equalCoeffs(
           dwt.wavedec(dataset.data, undefined, dataset.mode),
           dataset.wavedec
-        ));
+        )).toBe(true);
       }
     });
 
-    it('calculates the discrete wavelet transform', () => {
+    it('calculates the DWT', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(equalCoeffs(
               dwt.wavedec(dataset.data, alias, dataset.mode),
               dataset.wavedec
-            ));
+            )).toBe(true);
           }
         }
       }
+    });
+
+    it('calculates the DWT to the specified level', () => {
+      expect(equalCoeffs(
+        dwt.wavedec([1, 2, 3, 4], undefined, undefined, 0),
+        [[1, 2, 3, 4]]
+      )).toBe(true);
+
+      expect(equalCoeffs(
+        dwt.wavedec([Math.SQRT2], 'haar', 'zero', 2),
+        [[1 / Math.SQRT2], [1 / Math.SQRT2], [1]]
+      )).toBe(true);
     });
   });
 
@@ -330,19 +383,31 @@ describe('dwt', () => {
       for (const dataset of haarDatasets) {
         expect(equalData(
           dwt.waverec(dataset.wavedec, undefined, dataset.mode),
-          dataset.data
-        ));
+          dwt.pad(
+            dataset.data,
+            padWidths(dataset.data.length, 2, dataset.mode),
+            dataset.mode
+          )
+        )).toBe(true);
       }
     });
 
-    it('calculates the inverse discrete wavelet transform', () => {
+    it('calculates the inverse DWT', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(equalData(
               dwt.waverec(dataset.wavedec, alias, dataset.mode),
-              dataset.data
-            ));
+              dwt.pad(
+                dataset.data,
+                padWidths(
+                  dataset.data.length,
+                  waveletDataset.wavelet.rec.low.length,
+                  dataset.mode
+                ),
+                dataset.mode
+              )
+            )).toBe(true);
           }
         }
       }
