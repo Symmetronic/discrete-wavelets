@@ -383,11 +383,13 @@ describe('dwt', () => {
       for (const dataset of haarDatasets) {
         expect(equalData(
           dwt.waverec(dataset.wavedec, undefined, dataset.mode),
-          dwt.pad(
-            dataset.data,
-            padWidths(dataset.data.length, 2, dataset.mode),
-            dataset.mode
-          )
+          (dataset.wavedec.length === 1)
+            ? dataset.data
+            : dwt.pad(
+                dataset.data,
+                padWidths(dataset.data.length, 2, dataset.mode),
+                dataset.mode
+              )
         )).toBe(true);
       }
     });
@@ -398,15 +400,17 @@ describe('dwt', () => {
           for (const dataset of waveletDataset.datasets) {
             expect(equalData(
               dwt.waverec(dataset.wavedec, alias, dataset.mode),
-              dwt.pad(
-                dataset.data,
-                padWidths(
-                  dataset.data.length,
-                  waveletDataset.wavelet.rec.low.length,
-                  dataset.mode
-                ),
-                dataset.mode
-              )
+              (dataset.wavedec.length === 1)
+                ? dataset.data
+                : dwt.pad(
+                    dataset.data,
+                    padWidths(
+                      dataset.data.length,
+                      waveletDataset.wavelet.rec.low.length,
+                      dataset.mode
+                    ),
+                    dataset.mode
+                  )
             )).toBe(true);
           }
         }

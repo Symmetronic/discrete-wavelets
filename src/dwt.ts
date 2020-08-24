@@ -283,16 +283,6 @@ export default class dwt {
     /* Initialize transform. */
     let approx: number[] = coeffs[0];
 
-    /* Return padded values for coefficients of length 1. */
-    // TODO: Check for correctness of approach.
-    if (coeffs.length === 1) {
-      return this.pad(
-        approx,
-        padWidths(approx.length, wavelet.rec.low.length, mode),
-        mode
-      );
-    }
-
     /* Transform. */
     for (let i: number = 1; i < coeffs.length; i++) {
       /* Initialize detail coefficients. */
