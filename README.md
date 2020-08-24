@@ -23,13 +23,16 @@ An exemplary application with code using this library can be found at [https://s
 
 The library offers the following functions:
 
-- [dwt](#dwt): Single level Discrete Wavelet Transform.
-- [energy](#energy): Calculates the energy as sum of squares of an array of data or coefficients.
-- [idwt](#idwt): Single level inverse Discrete Wavelet Transform.
-- [maxLevel](#maxLevel): Determines the maximum level of useful decomposition.
-- [pad](#pad): Extends a signal with a given padding mode.
-- [wavedec](#wavedec): 1D wavelet decomposition. Transforms data by calculating coefficients from input data.
-- [waverec](#waverec): 1D wavelet reconstruction. Inverses a transform by calculating input data from coefficients.
+- Discrete Wavelet Transform (DWT)
+    - [dwt](#dwt): Single level Discrete Wavelet Transform.
+    - [wavedec](#wavedec): 1D wavelet decomposition. Transforms data by calculating coefficients from input data.
+- Inverse Discrete Wavelet Transform (IDWT)
+    - [idwt](#idwt): Single level inverse Discrete Wavelet Transform.
+    - [waverec](#waverec): 1D wavelet reconstruction. Inverses a transform by calculating input data from coefficients.
+- Other
+    - [energy](#energy): Calculates the energy as sum of squares of an array of data or coefficients.
+    - [maxLevel](#maxLevel): Determines the maximum level of useful decomposition.
+    - [pad](#pad): Extends a signal with a given padding mode.
 
 Only the following `Wavelet` is supported at the moment:
 
@@ -63,31 +66,31 @@ console.log(coeffs);
 // expected output: Array [[2.1213203435596425, 4.9497474683058326], [-0.7071067811865475, -0.7071067811865475]]
 ```
 
-### energy
+### wavedec
 
-Calculates the energy as sum of squares of an array of data or coefficients.
+1D wavelet decomposition. Transforms data by calculating coefficients from input data.
 
-#### Argument
+#### Arguments
 
-- `values` (`number[] | number[][]`): Array of data or coefficients.
+- `data` (`number[]`): Input data.
+- `wavelet` (`Wavelet`): Wavelet to use.
+- `mode` (`PaddingMode`): Signal extension mode.
+- `level` (`number`): Decomposition level. Defaults to level calculated by [maxLevel](#maxLevel) function.
 
 #### Return
 
-`energy` (`number`): Energy of values as the sum of squares.
+`coeffs` (`number[][]`): Coefficients as result of the transform.
 
-#### Examples
+#### Example
 
 ```javascript
-console.log(
-  dwt.energy([-1, 2, 6, 1])
-);
-// expected output: 42
+var coeffs = dwt.wavedec([1, 2, 3, 4], 'haar');
 
-console.log(
-  dwt.energy([[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]])
-);
-// expected output: 30
+console.log(coeffs);
+// expected output: Array [[4.999999999999999], [-1.9999999999999993], [-0.7071067811865475, -0.7071067811865475]]
 ```
+
+*Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[[5], [-2], [-0.7071067811865475, -0.7071067811865475]]`*
 
 ### idwt
 
@@ -117,6 +120,60 @@ console.log(rec);
 ```
 
 *Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[1, 2, 3, 4]`*
+
+### waverec
+
+1D wavelet reconstruction. Inverses a transform by calculating input data from coefficients.
+
+#### Arguments
+
+- `coeffs` (`number[][]`): Coefficients as result of a transform.
+- `wavelet` (`Wavelet`): Wavelet to use.
+- `mode` (`PaddingMode`): Signal extension mode.
+
+#### Return
+
+`data` (`number[]`): Input data as result of the inverse transform.
+
+#### Example
+
+```javascript
+var data = dwt.waverec(
+  [[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]],
+  'haar'
+);
+
+console.log(data);
+// expected output: Array [0.9999999999999999, 1.9999999999999996, 2.999999999999999, 3.999999999999999]
+```
+
+*Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[1, 2, 3, 4]`*
+
+### energy
+
+Calculates the energy as sum of squares of an array of data or coefficients.
+
+#### Argument
+
+- `values` (`number[] | number[][]`): Array of data or coefficients.
+
+#### Return
+
+`energy` (`number`): Energy of values as the sum of squares.
+
+#### Examples
+
+```javascript
+console.log(
+  dwt.energy([-1, 2, 6, 1])
+);
+// expected output: 42
+
+console.log(
+  dwt.energy([[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]])
+);
+// expected output: 30
+```
 
 ### maxLevel
 
@@ -169,60 +226,6 @@ var pad = dwt.pad([42, 51], [2, 1], 'zero');
 console.log(pad);
 // expected output: Array [0, 0, 42, 51, 0]
 ```
-
-### wavedec
-
-1D wavelet decomposition. Transforms data by calculating coefficients from input data.
-
-#### Arguments
-
-- `data` (`number[]`): Input data.
-- `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingMode`): Signal extension mode.
-- `level` (`number`): Decomposition level. Defaults to level calculated by [maxLevel](#maxLevel) function.
-
-#### Return
-
-`coeffs` (`number[][]`): Coefficients as result of the transform.
-
-#### Example
-
-```javascript
-var coeffs = dwt.wavedec([1, 2, 3, 4], 'haar');
-
-console.log(coeffs);
-// expected output: Array [[4.999999999999999], [-1.9999999999999993], [-0.7071067811865475, -0.7071067811865475]]
-```
-
-*Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[[5], [-2], [-0.7071067811865475, -0.7071067811865475]]`*
-
-### waverec
-
-1D wavelet reconstruction. Inverses a transform by calculating input data from coefficients.
-
-#### Arguments
-
-- `coeffs` (`number[][]`): Coefficients as result of a transform.
-- `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingMode`): Signal extension mode.
-
-#### Return
-
-`data` (`number[]`): Input data as result of the inverse transform.
-
-#### Example
-
-```javascript
-var data = dwt.waverec(
-  [[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]],
-  'haar'
-);
-
-console.log(data);
-// expected output: Array [0.9999999999999999, 1.9999999999999996, 2.999999999999999, 3.999999999999999]
-```
-
-*Be aware that due to floating point imprecision the result diverges slightly from the analytical solution `[1, 2, 3, 4]`*
 
 ## Related project
 
