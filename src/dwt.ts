@@ -3,6 +3,7 @@ export {
   PaddingMode,
   PaddingModeAlias,
   PaddingWidths,
+  SYMMETRIC_PADDING,
   ZERO_PADDING,
 } from './padding/padding';
 
@@ -30,6 +31,8 @@ import {
   PaddingMode,
   PaddingModeAlias,
   PaddingWidths,
+  SYMMETRIC_PADDING,
+  symmetricPadding,
   ZERO_PADDING,
 } from './padding/padding';
 
@@ -42,7 +45,7 @@ import {
 /**
  * Default padding mode to use.
  */
-const DEFAULT_PADDING_MODE: PaddingMode = 'zero';
+const DEFAULT_PADDING_MODE: PaddingMode = SYMMETRIC_PADDING;
 
 /**
  * Default wavelet to use.
@@ -211,6 +214,17 @@ export default class dwt {
         return createArray(front, data[0])
             .concat(data)
             .concat(createArray(back, data[data.length - 1]));
+      case SYMMETRIC_PADDING:
+        return createArray(front, (index) => {
+              const invIndex: number = front - 1 - index;
+              const inversions: number = Math.floor(invIndex / data.length);
+              return symmetricPadding(data, invIndex, inversions);
+            })
+            .concat(data)
+            .concat(createArray(back, (index) => {
+              const inversions: number = Math.floor(index / data.length) + 1;
+              return symmetricPadding(data, index, inversions);
+            }));
       case ZERO_PADDING:
         return createArray(front, 0)
             .concat(data)

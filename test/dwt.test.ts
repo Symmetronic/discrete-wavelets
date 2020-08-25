@@ -10,6 +10,7 @@ import {
 } from '../src/helpers';
 import {
   PaddingMode,
+  PaddingModeAlias,
 } from '../src/padding/padding';
 import {
   HaarWavelet,
@@ -316,19 +317,24 @@ describe('dwt', () => {
     });
 
     it('adds constant padding', () => {
-      expect(dwt.pad([1, 2, 3], [2, 3], 'constant'))
-          .toEqual([1, 1, 1, 2, 3, 3, 3, 3]);
+      for (const alias of ['constant', 'sp0']) {
+        expect(dwt.pad([1, 2, 3], [2, 3], alias as PaddingModeAlias))
+            .toEqual([1, 1, 1, 2, 3, 3, 3, 3]);
+      }
+    });
 
-      expect(dwt.pad([8, 2], [1, 1], 'sp0'))
-          .toEqual([8, 8, 2, 2]);
+    it('adds symmetric padding', () => {
+      for (const alias of ['sym', 'symh', 'symmetric']) {
+        expect(dwt.pad([3, 1, 4], [4, 5], alias as PaddingModeAlias))
+            .toEqual([4, 4, 1, 3, 3, 1, 4, 4, 1, 3, 3, 1]);
+      }
     });
 
     it('adds zero padding', () => {
-      expect(dwt.pad([42, 51], [2, 1], 'zero'))
-          .toEqual([0, 0, 42, 51, 0]);
-          
-      expect(dwt.pad([3], [0, 1], 'zpd'))
-          .toEqual([3, 0]);
+      for (const alias of ['zero', 'zpd']) {
+        expect(dwt.pad([42, 51], [2, 1], alias as PaddingModeAlias))
+            .toEqual([0, 0, 42, 51, 0]);
+      }
     });
   });
 

@@ -1,10 +1,18 @@
+export * from './constant/constant';
+export * from './symmetric/symmetric';
+export * from './zero/zero';
+
+import { CONSTANT_PADDING } from './constant/constant';
+import { SYMMETRIC_PADDING } from './symmetric/symmetric';
+import { ZERO_PADDING } from './zero/zero';
+
 /**
  * Signal extension mode.
  */
 // TODO: Add more signal extension modes (https://pywavelets.readthedocs.io/en/latest/ref/signal-extension-modes.html#ref-modes)
-// TODO: Add aliases according to: https://pywavelets.readthedocs.io/en/latest/ref/signal-extension-modes.html#naming-conventions
 export type PaddingMode =
     'constant'
+    | 'symmetric'
     | 'zero';
 
 /**
@@ -13,17 +21,9 @@ export type PaddingMode =
 export type PaddingModeAlias =
     PaddingMode
     | 'sp0'
+    | 'sym'
+    | 'symh'
     | 'zpd';
-
-/**
- * Constant padding type.
- */
-export const CONSTANT_PADDING: PaddingMode = 'constant';
-
-/**
- * Zero padding type.
- */
-export const ZERO_PADDING: PaddingMode = 'zero';
 
 /**
  * Mapping of padding mode keys to padding mode according to:
@@ -32,6 +32,9 @@ export const ZERO_PADDING: PaddingMode = 'zero';
 export const PaddingModes: { [key: string]: PaddingMode } = {
   'constant': CONSTANT_PADDING,
   'sp0': CONSTANT_PADDING,
+  'sym': SYMMETRIC_PADDING,
+  'symh': SYMMETRIC_PADDING,
+  'symmetric': SYMMETRIC_PADDING,
   'zero': ZERO_PADDING,
   'zpd': ZERO_PADDING,
 };
