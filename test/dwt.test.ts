@@ -318,11 +318,17 @@ describe('dwt', () => {
     it('adds constant padding', () => {
       expect(dwt.pad([1, 2, 3], [2, 3], 'constant'))
           .toEqual([1, 1, 1, 2, 3, 3, 3, 3]);
+
+      expect(dwt.pad([8, 2], [1, 1], 'sp0'))
+          .toEqual([8, 8, 2, 2]);
     });
 
     it('adds zero padding', () => {
       expect(dwt.pad([42, 51], [2, 1], 'zero'))
           .toEqual([0, 0, 42, 51, 0]);
+          
+      expect(dwt.pad([3], [0, 1], 'zpd'))
+          .toEqual([3, 0]);
     });
   });
 

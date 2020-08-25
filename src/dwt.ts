@@ -1,6 +1,9 @@
 export {
+  CONSTANT_PADDING,
   PaddingMode,
+  PaddingModeAlias,
   PaddingWidths,
+  ZERO_PADDING,
 } from './padding/padding';
 
 export {
@@ -17,13 +20,17 @@ import {
   createArray,
   dot,
   mulScalars,
+  paddingFromAlias,
   padWidths,
   sum,
 } from './helpers';
 
 import {
+  CONSTANT_PADDING,
   PaddingMode,
+  PaddingModeAlias,
   PaddingWidths,
+  ZERO_PADDING,
 } from './padding/padding';
 
 import {
@@ -51,13 +58,13 @@ export default class dwt {
    * Single level Discrete Wavelet Transform.
    * @param  data    Input data.
    * @param  wavelet Wavelet to use.
-   * @param  mode    Signal extension mode.
+   * @param  mode    Signal extension mode alias.
    * @return         Approximation and detail coefficients as result of the transform.
    */
   static dwt(
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
-    mode: PaddingMode = DEFAULT_PADDING_MODE,
+    mode: PaddingModeAlias = DEFAULT_PADDING_MODE,
   ): number[][] {
     /* Determine wavelet basis and filters. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
@@ -116,14 +123,14 @@ export default class dwt {
    * @param  approx  Approximation coefficients.
    * @param  detail  Detail coefficients.
    * @param  wavelet Wavelet to use.
-   * @param  mode    Signal extension mode.
+   * @param  mode    Signal extension mode alias.
    * @return         Approximation coefficients of previous level of transform.
    */
   static idwt(
     approx: number[],
     detail: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
-    mode: PaddingMode = DEFAULT_PADDING_MODE,
+    mode: PaddingModeAlias = DEFAULT_PADDING_MODE,
   ): number[] {
     /* Determine wavelet basis and filters. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
@@ -185,25 +192,26 @@ export default class dwt {
    * Extends a signal with a given padding mode.
    * @param  data      Input data.
    * @param  padWidths Widths of padding at front and back.
-   * @param  mode      Signal extension mode.
+   * @param  mode      Signal extension mode alias.
    * @return           Data with padding.
    */
   static pad(
     data: number[],
     padWidths: PaddingWidths,
-    mode: PaddingMode,
+    mode: PaddingModeAlias,
   ): number[] {
     /* Initialize. */
+    mode = paddingFromAlias(mode);
     const front: number = padWidths[0];
     const back: number = padWidths[1];
 
     /* Add padding. */
     switch (mode) {
-      case 'constant':
+      case CONSTANT_PADDING:
         return createArray(front, data[0])
             .concat(data)
             .concat(createArray(back, data[data.length - 1]));
-      case 'zero':
+      case ZERO_PADDING:
         return createArray(front, 0)
             .concat(data)
             .concat(createArray(back, 0));
@@ -217,14 +225,14 @@ export default class dwt {
    * input data.
    * @param  data    Input data.
    * @param  wavelet Wavelet to use.
-   * @param  mode    Signal extension mode.
+   * @param  mode    Signal extension mode alias.
    * @param  level   Decomposition level. Defaults to level calculated by maxLevel function.
    * @return         Coefficients as result of the transform.
    */
   static wavedec(
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
-    mode: PaddingMode = DEFAULT_PADDING_MODE,
+    mode: PaddingModeAlias = DEFAULT_PADDING_MODE,
     level?: number,
   ): number[][] {
     /* Determine decomposition level. */
@@ -266,7 +274,7 @@ export default class dwt {
   static waverec(
     coeffs: number[][],
     wavelet: Wavelet = DEFAULT_WAVELET,
-    mode: PaddingMode = DEFAULT_PADDING_MODE,
+    mode: PaddingModeAlias = DEFAULT_PADDING_MODE,
   ): number[] {
     /* Check if coefficients are valid. */
     assertValidCoeffs(coeffs);

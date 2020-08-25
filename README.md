@@ -15,9 +15,27 @@
 - Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@4.0.0/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
 - Then you can use the library in your code.
 
-## Example usage
+## Types
 
-An exemplary application with code using this library can be found at [https://symmetronic.github.io/covid-19-dwt-analysis/](https://symmetronic.github.io/covid-19-dwt-analysis/)
+The library uses the following types:
+
+- [PaddingModeAlias](#PaddingModeAlias): Aliases for padding modes.
+- [Wavelets](#Wavelets): Aliases for wavelet bases.
+
+### PaddingModeAlias
+
+The following values for `PaddingModeAlias` are supported at the moment:
+
+Padding Type     | Aliases               | Description
+-----------------|-----------------------|------------------------------
+Zero Padding     | `'zero'`, `'zpd'`     | Adding zeros.
+Constant Padding | `'constant'`, `'sp0'` | Replication of border values.
+
+### Wavelets
+
+Only the following `Wavelet` is supported at the moment:
+
+- [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet): `'D2'`, `'db1'`, `'haar'`
 
 ## API
 
@@ -34,15 +52,6 @@ The library offers the following functions:
     - [maxLevel](#maxLevel): Determines the maximum level of useful decomposition.
     - [pad](#pad): Extends a signal with a given padding mode.
 
-Only the following `Wavelet` is supported at the moment:
-
-- [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet): `'D2'`, `'db1'`, `'haar'`
-
-The following values for the `PaddingMode` are supported at the moment:
-
-- `'constant'`: Replication of border values.
-- `'zero'`: Adding zeros.
-
 ### dwt
 
 Single level Discrete Wavelet Transform.
@@ -51,7 +60,7 @@ Single level Discrete Wavelet Transform.
 
 - `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingMode`): Signal extension mode.
+- `mode` (`PaddingModeAlias`): Signal extension mode alias.
 
 #### Return
 
@@ -74,7 +83,7 @@ console.log(coeffs);
 
 - `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingMode`): Signal extension mode.
+- `mode` (`PaddingModeAlias`): Signal extension mode alias.
 - `level` (`number`): Decomposition level. Defaults to level calculated by [maxLevel](#maxLevel) function.
 
 #### Return
@@ -101,7 +110,7 @@ Single level inverse Discrete Wavelet Transform.
 - `approx` (`number[]`): Approximation coefficients.
 - `detail` (`number[]`): Detail coefficients.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingMode`): Signal extension mode.
+- `mode` (`PaddingModeAlias`): Signal extension mode alias.
 
 #### Return
 
@@ -129,7 +138,7 @@ console.log(rec);
 
 - `coeffs` (`number[][]`): Coefficients as result of a transform.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingMode`): Signal extension mode.
+- `mode` (`PaddingModeAlias`): Signal extension mode alias.
 
 #### Return
 
@@ -212,7 +221,7 @@ Extends a signal with a given padding mode.
 
 - `data` (`number[]`): Input data.
 - `padWidths` (`[number, number]`): Widths of padding at front and back.
-- `mode` (`PaddingMode`): Signal extension mode.
+- `mode` (`PaddingModeAlias`): Signal extension mode alias.
 
 #### Return
 
@@ -227,10 +236,6 @@ console.log(pad);
 // expected output: Array [0, 0, 42, 51, 0]
 ```
 
-## Related project
-
-- [Symmetronic Scaleogram](https://github.com/Symmetronic/strc-scaleogram) is a web component that allows to easily create a [scaleogram visualization](https://en.wikipedia.org/wiki/Spectrogram) from wavelet coefficients.
-
 ## NPM scripts
 
 - `npm install`: Install dependencies
@@ -240,3 +245,11 @@ console.log(pad);
 - `npm run test:prod`: Run linting and generate coverage
 - `npm run build`: Generate bundles and typings, create docs
 - `npm run lint`: Lints code
+
+## This library in action
+
+An exemplary application with code using this library can be found at [https://symmetronic.github.io/covid-19-dwt-analysis/](https://symmetronic.github.io/covid-19-dwt-analysis/)
+
+## Related project
+
+- [Symmetronic Scaleogram](https://github.com/Symmetronic/strc-scaleogram) is a web component that allows to easily create a [scaleogram visualization](https://en.wikipedia.org/wiki/Spectrogram) from wavelet coefficients.

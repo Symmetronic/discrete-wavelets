@@ -3,6 +3,9 @@ import {
   PaddingWidths,
 } from "./dwt";
 import {
+  PaddingModes, PaddingModeAlias,
+} from "./padding/padding";
+import {
   Filters,
   Wavelet,
   WaveletBasis,
@@ -145,18 +148,29 @@ export function mulScalars(
 }
 
 /**
+ * Maps a signal extension mode alias to the corresponding signal extension
+ * mode.
+ * @param  alias Signal extension mode alias.
+ * @return       Mapped signal extension mode.
+ */
+export function paddingFromAlias(alias: PaddingModeAlias): PaddingMode {
+  return PaddingModes[alias];
+}
+
+/**
  * Determines the padding widths.
  * @param  dataLength   Length of signal.
  * @param  filterLength Length of filter.
- * @param  mode         Signal extension mode.
+ * @param  mode         Signal extension mode alias.
  * @return              Padding widths.
  */
 export function padWidths(
   dataLength: number,
   filterLength: number,
-  mode: PaddingMode,
+  mode: PaddingModeAlias,
 ): PaddingWidths {
   // TODO: Take signal extension mode into account or remove parameter?
+  mode = paddingFromAlias(mode);
 
   /* Check for valid data length. */
   if (dataLength <= 0) {
