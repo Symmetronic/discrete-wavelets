@@ -292,6 +292,13 @@ describe('dwt', () => {
   });
 
   describe('pad', () => {
+    const constantAliases: PaddingModeAlias[] = ['constant', 'sp0'];
+    const periodicAliases: PaddingModeAlias[] = ['periodic', 'ppd'];
+    const reflectAliases: PaddingModeAlias[] = ['symw', 'reflect'];
+    const smoothAliases: PaddingModeAlias[] = ['smooth', 'sp1', 'spd'];
+    const symmetricAliases: PaddingModeAlias[] = ['sym', 'symh', 'symmetric'];
+    const zeroAliases: PaddingModeAlias[] = ['zero', 'zpd'];
+
     it('throws an error for negative padding widths', () => {
       expect(() => {
         dwt.pad(
@@ -316,19 +323,42 @@ describe('dwt', () => {
       }).toThrowError();
     });
 
+    it('throws an error when trying to add constant padding for data of zero length', () => {
+      for (const alias of constantAliases) {
+        expect(() => {
+          dwt.pad([], [1, 2], alias as PaddingModeAlias);
+        }).toThrowError();
+      }
+    });
+
     it('adds constant padding', () => {
-      for (const alias of ['constant', 'sp0']) {
+      for (const alias of constantAliases) {
         expect(dwt.pad([1, 2, 3], [2, 3], alias as PaddingModeAlias))
             .toEqual([
               1, 1,
               1, 2, 3,
               3, 3, 3
             ]);
+        
+        expect(dwt.pad([7], [4, 1], alias as PaddingModeAlias))
+            .toEqual([
+              7, 7, 7, 7,
+              7,
+              7
+            ]);
+      }
+    });
+
+    it('throws an error when trying to add periodic padding for data of zero length', () => {
+      for (const alias of periodicAliases) {
+        expect(() => {
+          dwt.pad([], [2, 2], alias as PaddingModeAlias);
+        }).toThrowError();
       }
     });
 
     it('adds periodic padding', () => {
-      for (const alias of ['periodic', 'ppd']) {
+      for (const alias of periodicAliases) {
         expect(dwt.pad([1, 2, 5], [4, 5], alias as PaddingModeAlias))
             .toEqual([
               5, 1, 2, 5,
@@ -338,35 +368,97 @@ describe('dwt', () => {
       }
     });
 
+    it('throws an error when trying to add reflect padding for data of zero length', () => {
+      for (const alias of reflectAliases) {
+        expect(() => {
+          dwt.pad([], [3, 1], alias as PaddingModeAlias)
+        }).toThrowError();
+      }
+    });
+
     it('adds reflect padding', () => {
-      for (const alias of ['symw', 'reflect']) {
+      for (const alias of reflectAliases) {
         expect(dwt.pad([2, 7, 1], [6, 5], alias as PaddingModeAlias))
             .toEqual([
               1, 7, 2, 7, 1, 7,
               2, 7, 1,
               7, 2, 7, 1, 7
             ]);
+
+        expect(dwt.pad([1], [2, 2], alias as PaddingModeAlias))
+            .toEqual([
+              1, 1,
+              1,
+              1, 1
+            ]);
       }
-    })
+    });
+
+    it('throws an error when trying to add smooth padding for data of zero length', () => {
+      for (const alias of smoothAliases) {
+        expect(() => {
+          dwt.pad([], [2, 1], alias as PaddingModeAlias);
+        }).toThrowError();
+      }
+    });
+
+    it('adds smooth padding', () => {
+      for (const alias of smoothAliases) {
+        expect(dwt.pad([1, 2, 3], [3, 2], alias as PaddingModeAlias))
+            .toEqual([
+              -2, -1, 0,
+              1, 2, 3,
+              4, 5
+            ]);
+
+        expect(dwt.pad([1], [1, 3], alias as PaddingModeAlias))
+            .toEqual([
+              2,
+              1,
+              0, -1, -2
+            ]);
+      }
+    });
+
+    it('throws an error when trying to add symmetric padding for data of zero length', () => {
+      for (const alias of symmetricAliases) {
+        expect(() => {
+          dwt.pad([], [1, 1], alias as PaddingModeAlias);
+        }).toThrowError();
+      }
+    });
 
     it('adds symmetric padding', () => {
-      for (const alias of ['sym', 'symh', 'symmetric']) {
+      for (const alias of symmetricAliases) {
         expect(dwt.pad([3, 1, 4], [4, 7], alias as PaddingModeAlias))
             .toEqual([
               4, 4, 1, 3,
               3, 1, 4,
               4, 1, 3, 3, 1, 4, 4
             ]);
+
+        expect(dwt.pad([2], [3, 1], alias as PaddingModeAlias))
+            .toEqual([
+              2, 2, 2,
+              2,
+              2
+            ]);
       }
     });
 
     it('adds zero padding', () => {
-      for (const alias of ['zero', 'zpd']) {
+      for (const alias of zeroAliases) {
         expect(dwt.pad([42, 51], [2, 1], alias as PaddingModeAlias))
             .toEqual([
               0, 0,
               42, 51,
               0
+            ]);
+
+        expect(dwt.pad([], [1, 2], alias as PaddingModeAlias))
+            .toEqual([
+              0,
+              0, 0
             ]);
       }
     });

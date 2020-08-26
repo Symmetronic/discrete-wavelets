@@ -5,6 +5,7 @@ export {
   PaddingWidths,
   PERIODIC_PADDING,
   REFLECT_PADDING,
+  SMOOTH_PADDING,
   SYMMETRIC_PADDING,
   ZERO_PADDING,
 } from './padding/padding';
@@ -29,17 +30,10 @@ import {
 } from './helpers';
 
 import {
-  CONSTANT_PADDING,
   PaddingMode,
   PaddingModeAlias,
   PaddingWidths,
-  PERIODIC_PADDING,
-  periodicPadding,
-  REFLECT_PADDING,
-  reflectPadding,
   SYMMETRIC_PADDING,
-  symmetricPadding,
-  ZERO_PADDING,
 } from './padding/padding';
 
 import {

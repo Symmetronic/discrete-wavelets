@@ -17,6 +17,14 @@ export function periodicPadding(
   index: number,
   inverse: boolean = false,
 ): number {
+  /* Check if data has length larger than zero. */
+  if (data.length === 0) {
+    throw new Error(
+      'Cannot determine periodic padding for data of zero length.'
+    );
+  }
+
+  /* Determine periodic padding. */
   return (!inverse)
     ? data[index % data.length]
     : data[data.length - 1 - (index % data.length)];

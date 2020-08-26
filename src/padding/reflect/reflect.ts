@@ -17,6 +17,17 @@ export function reflectPadding(
   index: number,
   inverse: boolean = false,
 ): number {
+  /* Check if data has length larger than zero. */
+  if (data.length === 0) {
+    throw new Error(
+      'Cannot determine reflect padding for data of zero length.'
+    );
+  }
+
+  /* Return constant value for data of length one. */
+  if (data.length === 1) return data[0];
+
+  /* Determine reflect padding. */
   const dirChanges: number = Math.floor(index / (data.length - 1));
   const inversions: number = (inverse) ? dirChanges : dirChanges + 1;
   return (inversions % 2 === 0)

@@ -11,6 +11,8 @@ import {
   periodicPadding,
   REFLECT_PADDING,
   reflectPadding,
+  SMOOTH_PADDING,
+  smoothPadding,
   SYMMETRIC_PADDING,
   symmetricPadding,
   ZERO_PADDING,
@@ -180,6 +182,8 @@ export function padElement(
       return periodicPadding(data, index, inverse);
     case REFLECT_PADDING:
       return reflectPadding(data, index, inverse);
+    case SMOOTH_PADDING:
+      return smoothPadding(data, index, inverse);
     case SYMMETRIC_PADDING:
       return symmetricPadding(data, index, inverse);
     case ZERO_PADDING:

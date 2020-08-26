@@ -1,12 +1,14 @@
 export * from './constant/constant';
 export * from './periodic/periodic';
 export * from './reflect/reflect';
+export * from './smooth/smooth';
 export * from './symmetric/symmetric';
 export * from './zero/zero';
 
 import { CONSTANT_PADDING } from './constant/constant';
 import { PERIODIC_PADDING } from './periodic/periodic';
 import { REFLECT_PADDING } from './reflect/reflect';
+import { SMOOTH_PADDING } from './smooth/smooth';
 import { SYMMETRIC_PADDING } from './symmetric/symmetric';
 import { ZERO_PADDING } from './zero/zero';
 
@@ -18,6 +20,7 @@ export type PaddingMode =
     'constant'
     | 'periodic'
     | 'reflect'
+    | 'smooth'
     | 'symmetric'
     | 'zero';
 
@@ -28,6 +31,8 @@ export type PaddingModeAlias =
     PaddingMode
     | 'ppd'
     | 'sp0'
+    | 'sp1'
+    | 'spd'
     | 'sym'
     | 'symh'
     | 'symw'
@@ -42,7 +47,10 @@ export const PaddingModes: { [key: string]: PaddingMode } = {
   'periodic': PERIODIC_PADDING,
   'ppd': PERIODIC_PADDING,
   'reflect': REFLECT_PADDING,
+  'smooth': SMOOTH_PADDING,
   'sp0': CONSTANT_PADDING,
+  'sp1': SMOOTH_PADDING,
+  'spd': SMOOTH_PADDING,
   'sym': SYMMETRIC_PADDING,
   'symh': SYMMETRIC_PADDING,
   'symw': REFLECT_PADDING,

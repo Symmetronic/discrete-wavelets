@@ -17,6 +17,14 @@ export function symmetricPadding(
   index: number,
   inverse: boolean = false,
 ): number {
+  /* Check if data has length larger than zero. */
+  if (data.length === 0) {
+    throw new Error(
+      'Cannot determine symmetric padding for data of zero length.'
+    );
+  }
+
+  /* Determine symmetric padding. */
   const dirChanges: number = Math.floor(index / data.length);
   const inversions: number = (inverse) ? dirChanges : dirChanges + 1;
   return (inversions % 2 === 0)

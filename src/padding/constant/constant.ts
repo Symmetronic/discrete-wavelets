@@ -15,6 +15,14 @@ export function constantPadding(
   data: number[],
   inverse: boolean = false,
 ): number {
+  /* Check if data has length larger than zero. */
+  if (data.length === 0) {
+    throw new Error(
+      'Cannot determine constant padding for data of zero length.'
+    );
+  }
+
+  /* Determine constant padding. */
   return (!inverse)
     ? data[data.length - 1]
     : data[0];
