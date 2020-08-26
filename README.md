@@ -123,6 +123,7 @@ Single level inverse Discrete Wavelet Transform.
 var rec = dwt.idwt(
   [(1 + 2) / Math.SQRT2, (3 + 4) / Math.SQRT2],
   [(1 - 2) / Math.SQRT2, (3 - 4) / Math.SQRT2],
+  'haar'
 );
 
 console.log(rec);
