@@ -30,7 +30,8 @@ Padding Type      | Aliases                          | Description
 ------------------|----------------------------------|------------------------------
 Zero Padding      | `'zero'`, `'zpd'`                | Adding zeros.
 Constant Padding  | `'constant'`, `'sp0'`            | Replication of border values.
-Symmetric Padding | `'sym'`, `'symh'`, `'symmetric'` | Mirroring of samples.
+Symmetric Padding | `'symmetric'`, `'sym'`, `'symh'` | Mirroring of samples.
+Reflect Padding   | `'reflect'`, `'symw'`            | Reflecting of samples.
 
 ### Wavelets
 

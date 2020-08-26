@@ -319,21 +319,44 @@ describe('dwt', () => {
     it('adds constant padding', () => {
       for (const alias of ['constant', 'sp0']) {
         expect(dwt.pad([1, 2, 3], [2, 3], alias as PaddingModeAlias))
-            .toEqual([1, 1, 1, 2, 3, 3, 3, 3]);
+            .toEqual([
+              1, 1,
+              1, 2, 3,
+              3, 3, 3
+            ]);
       }
     });
 
+    it('adds reflect padding', () => {
+      for (const alias of ['symw', 'reflect']) {
+        expect(dwt.pad([2, 7, 1], [6, 5], alias as PaddingModeAlias))
+            .toEqual([
+              1, 7, 2, 7, 1, 7,
+              2, 7, 1,
+              7, 2, 7, 1, 7
+            ]);
+      }
+    })
+
     it('adds symmetric padding', () => {
       for (const alias of ['sym', 'symh', 'symmetric']) {
-        expect(dwt.pad([3, 1, 4], [4, 5], alias as PaddingModeAlias))
-            .toEqual([4, 4, 1, 3, 3, 1, 4, 4, 1, 3, 3, 1]);
+        expect(dwt.pad([3, 1, 4], [4, 7], alias as PaddingModeAlias))
+            .toEqual([
+              4, 4, 1, 3,
+              3, 1, 4,
+              4, 1, 3, 3, 1, 4, 4
+            ]);
       }
     });
 
     it('adds zero padding', () => {
       for (const alias of ['zero', 'zpd']) {
         expect(dwt.pad([42, 51], [2, 1], alias as PaddingModeAlias))
-            .toEqual([0, 0, 42, 51, 0]);
+            .toEqual([
+              0, 0,
+              42, 51,
+              0
+            ]);
       }
     });
   });
