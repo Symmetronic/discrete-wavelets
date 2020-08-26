@@ -3,7 +3,17 @@ import {
   PaddingWidths,
 } from "./dwt";
 import {
-  PaddingModes, PaddingModeAlias,
+  CONSTANT_PADDING,
+  constantPadding,
+  PaddingModes,
+  PaddingModeAlias,
+  PERIODIC_PADDING,
+  periodicPadding,
+  REFLECT_PADDING,
+  reflectPadding,
+  SYMMETRIC_PADDING,
+  symmetricPadding,
+  ZERO_PADDING,
 } from "./padding/padding";
 import {
   Filters,
@@ -145,6 +155,38 @@ export function mulScalars(
     values = values.concat(mulScalar(scalar, array));
   }
   return values;
+}
+
+/**
+ * Returns a single padding element.
+ * @param  data    Input data.
+ * @param  index   Index of padding element.
+ * @param  inverse True if the padding direction is inversed.
+ * @param  mode    Signal extension mode alias.
+ * @return         Single padding element.
+ */
+export function padElement(
+  data: number[],
+  index: number,
+  inverse: boolean,
+  mode: PaddingModeAlias,
+): number {
+  mode = paddingFromAlias(mode);
+  
+  switch (mode) {
+    case CONSTANT_PADDING:
+      return constantPadding(data, inverse)
+    case PERIODIC_PADDING:
+      return periodicPadding(data, index, inverse);
+    case REFLECT_PADDING:
+      return reflectPadding(data, index, inverse);
+    case SYMMETRIC_PADDING:
+      return symmetricPadding(data, index, inverse);
+    case ZERO_PADDING:
+      return 0;
+    default:
+      throw new Error('Unknown padding mode: "' + mode + '"');
+  }
 }
 
 /**

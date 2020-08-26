@@ -23,7 +23,7 @@ import {
   createArray,
   dot,
   mulScalars,
-  paddingFromAlias,
+  padElement,
   padWidths,
   sum,
 } from './helpers';
@@ -210,47 +210,17 @@ export default class dwt {
     mode: PaddingModeAlias,
   ): number[] {
     /* Initialize. */
-    mode = paddingFromAlias(mode);
     const front: number = padWidths[0];
     const back: number = padWidths[1];
 
     /* Add padding. */
-    switch (mode) {
-      case CONSTANT_PADDING:
-        return createArray(front, data[0])
-            .concat(data)
-            .concat(createArray(back, data[data.length - 1]));
-      case PERIODIC_PADDING:
-        return createArray(front, (index) =>
-              periodicPadding(data, (front - 1 - index), true)
-            )
-            .concat(data)
-            .concat(createArray(back, (index) =>
-              periodicPadding(data, index, false)
-            ));
-      case REFLECT_PADDING:
-        return createArray(front, (index) =>
-              reflectPadding(data, (front - 1 - index), true)
-            )
-            .concat(data)
-            .concat(createArray(back, (index) =>
-              reflectPadding(data, index, false)
-            ));
-      case SYMMETRIC_PADDING:
-        return createArray(front, (index) =>
-              symmetricPadding(data, (front - 1 - index), true)
-            )
-            .concat(data)
-            .concat(createArray(back, (index) =>
-              symmetricPadding(data, index, false)
-            ));
-      case ZERO_PADDING:
-        return createArray(front, 0)
-            .concat(data)
-            .concat(createArray(back, 0));
-      default:
-        throw new Error('Unknown padding mode: "' + mode + '"')
-    }
+    return createArray(front, (index) =>
+          padElement(data, (front - 1 - index), true, mode)
+        )
+        .concat(data)
+        .concat(createArray(back, (index) =>
+          padElement(data, index, false, mode)
+        ));
   }
 
   /**

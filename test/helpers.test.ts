@@ -10,10 +10,12 @@ import {
   isPowerOfTwo,
   mulScalar,
   mulScalars,
+  padElement,
   padWidths,
   sum,
   assertValidFilters,
 } from '../src/helpers';
+import { PaddingModeAlias } from '../src/dwt';
 
 describe('helpers', () => {
 
@@ -143,6 +145,14 @@ describe('helpers', () => {
       expect(
         mulScalars([3, 1], [5, 0, -2, 1])
       ).toEqual([15, 0, -6, 3, 5, 0, -2, 1]);
+    });
+  });
+
+  describe('padElement', () => {
+    it('throws an error for an unknown padding mode', () => {
+      expect(() => {
+        padElement([1, 2, 3], 0, false, 'foobar' as PaddingModeAlias);
+      }).toThrowError();
     });
   });
 
