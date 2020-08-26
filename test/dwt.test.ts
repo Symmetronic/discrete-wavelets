@@ -327,6 +327,17 @@ describe('dwt', () => {
       }
     });
 
+    it('adds periodic padding', () => {
+      for (const alias of ['periodic', 'ppd']) {
+        expect(dwt.pad([1, 2, 5], [4, 5], alias as PaddingModeAlias))
+            .toEqual([
+              5, 1, 2, 5,
+              1, 2, 5,
+              1, 2, 5, 1, 2
+            ]);
+      }
+    });
+
     it('adds reflect padding', () => {
       for (const alias of ['symw', 'reflect']) {
         expect(dwt.pad([2, 7, 1], [6, 5], alias as PaddingModeAlias))

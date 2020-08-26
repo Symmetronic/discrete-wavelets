@@ -3,6 +3,7 @@ export {
   PaddingMode,
   PaddingModeAlias,
   PaddingWidths,
+  PERIODIC_PADDING,
   REFLECT_PADDING,
   SYMMETRIC_PADDING,
   ZERO_PADDING,
@@ -32,6 +33,8 @@ import {
   PaddingMode,
   PaddingModeAlias,
   PaddingWidths,
+  PERIODIC_PADDING,
+  periodicPadding,
   REFLECT_PADDING,
   reflectPadding,
   SYMMETRIC_PADDING,
@@ -217,6 +220,14 @@ export default class dwt {
         return createArray(front, data[0])
             .concat(data)
             .concat(createArray(back, data[data.length - 1]));
+      case PERIODIC_PADDING:
+        return createArray(front, (index) =>
+              periodicPadding(data, (front - 1 - index), true)
+            )
+            .concat(data)
+            .concat(createArray(back, (index) =>
+              periodicPadding(data, index, false)
+            ));
       case REFLECT_PADDING:
         return createArray(front, (index) =>
               reflectPadding(data, (front - 1 - index), true)
