@@ -1,3 +1,4 @@
+export * from './antisymmetric/antisymmetric';
 export * from './constant/constant';
 export * from './periodic/periodic';
 export * from './reflect/reflect';
@@ -5,6 +6,7 @@ export * from './smooth/smooth';
 export * from './symmetric/symmetric';
 export * from './zero/zero';
 
+import { ANTISYMMETRIC_PADDING } from './antisymmetric/antisymmetric';
 import { CONSTANT_PADDING } from './constant/constant';
 import { PERIODIC_PADDING } from './periodic/periodic';
 import { REFLECT_PADDING } from './reflect/reflect';
@@ -17,7 +19,8 @@ import { ZERO_PADDING } from './zero/zero';
  */
 // TODO: Add more signal extension modes (https://pywavelets.readthedocs.io/en/latest/ref/signal-extension-modes.html#ref-modes)
 export type PaddingMode =
-    'constant'
+    'antisymmetric'
+    | 'constant'
     | 'periodic'
     | 'reflect'
     | 'smooth'
@@ -29,6 +32,8 @@ export type PaddingMode =
  */
 export type PaddingModeAlias =
     PaddingMode
+    | 'asym'
+    | 'asymh'
     | 'ppd'
     | 'sp0'
     | 'sp1'
@@ -43,6 +48,9 @@ export type PaddingModeAlias =
  * https://pywavelets.readthedocs.io/en/latest/ref/signal-extension-modes.html#naming-conventions
  */
 export const PaddingModes: { [key: string]: PaddingMode } = {
+  'antisymmetric': ANTISYMMETRIC_PADDING,
+  'asym': ANTISYMMETRIC_PADDING,
+  'asymh': ANTISYMMETRIC_PADDING,
   'constant': CONSTANT_PADDING,
   'periodic': PERIODIC_PADDING,
   'ppd': PERIODIC_PADDING,

@@ -1,4 +1,5 @@
 export {
+  ANTISYMMETRIC_PADDING,
   CONSTANT_PADDING,
   PaddingMode,
   PaddingModeAlias,

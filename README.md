@@ -26,14 +26,15 @@ The library uses the following types:
 
 The following values for `PaddingModeAlias` are supported at the moment:
 
-Padding Type      | Aliases                          | Description
-------------------|----------------------------------|------------------------------------
-Zero Padding      | `'zero'`, `'zpd'`                | Adding zeros.
-Constant Padding  | `'constant'`, `'sp0'`            | Replication of border values.
-Symmetric Padding | `'symmetric'`, `'sym'`, `'symh'` | Mirroring of samples.
-Reflect Padding   | `'reflect'`, `'symw'`            | Reflecting of samples.
-Periodic Padding  | `'periodic'`, `'ppd'`            | Treating signal as a periodic one.
-Smooth Padding    | `'smooth'`, `'sp1'`, `'spd'`     | Signal extended as a straight line.
+Padding Type          | Aliases                                | Description
+----------------------|----------------------------------------|------------------------------------
+Zero Padding          | `'zero'`, `'zpd'`                      | Adding zeros.
+Constant Padding      | `'constant'`, `'sp0'`                  | Replication of border values.
+Symmetric Padding     | `'symmetric'`, `'sym'`, `'symh'`       | Mirroring of samples.
+Reflect Padding       | `'reflect'`, `'symw'`                  | Reflecting of samples.
+Periodic Padding      | `'periodic'`, `'ppd'`                  | Treating signal as a periodic one.
+Smooth Padding        | `'smooth'`, `'sp1'`, `'spd'`           | Signal extended as a straight line.
+Antisymmetric Padding | `'antisymmetric'`, `'asym'`, `'asymh'` | Mirroring and negation of samples.
 
 ### Wavelets
 

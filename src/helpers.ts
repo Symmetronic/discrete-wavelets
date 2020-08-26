@@ -3,6 +3,8 @@ import {
   PaddingWidths,
 } from "./dwt";
 import {
+  ANTISYMMETRIC_PADDING,
+  antisymmetricPadding,
   CONSTANT_PADDING,
   constantPadding,
   PaddingModes,
@@ -176,8 +178,10 @@ export function padElement(
   mode = paddingFromAlias(mode);
   
   switch (mode) {
+    case ANTISYMMETRIC_PADDING:
+      return antisymmetricPadding(data, index, inverse);
     case CONSTANT_PADDING:
-      return constantPadding(data, inverse)
+      return constantPadding(data, inverse);
     case PERIODIC_PADDING:
       return periodicPadding(data, index, inverse);
     case REFLECT_PADDING:
