@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/Symmetronic/discrete-wavelets/issues"
   },
-  "homepage": "https://github.com/Symmetronic/discrete-wavelets#readme",
+  "homepage": "https://symmetronic.github.io/discrete-wavelets/",
   "license": "MIT",
   "engines": {
     "node": ">=6.0.0"
