@@ -1,4 +1,4 @@
-[![GitHub license](https://img.shields.io/github/license/Symmetronic/discrete-wavelets)](https://github.com/Symmetronic/discrete-wavelets/blob/master/LICENSE) [![npm](https://img.shields.io/npm/v/discrete-wavelets)](https://www.npmjs.com/package/discrete-wavelets) [![Coverage Status](https://coveralls.io/repos/github/Symmetronic/discrete-wavelets/badge.svg?branch=master)](https://coveralls.io/github/Symmetronic/discrete-wavelets?branch=master)
+[![GitHub license](https://img.shields.io/github/license/Symmetronic/discrete-wavelets)](https://github.com/Symmetronic/discrete-wavelets/blob/master/LICENSE) [![npm](https://img.shields.io/npm/v/discrete-wavelets)](https://www.npmjs.com/package/discrete-wavelets) [![Build Status](https://travis-ci.org/Symmetronic/discrete-wavelets.svg?branch=master)](https://travis-ci.org/Symmetronic/discrete-wavelets) [![Coverage Status](https://coveralls.io/repos/github/Symmetronic/discrete-wavelets/badge.svg?branch=master)](https://coveralls.io/github/Symmetronic/discrete-wavelets?branch=master)
 
 # Discrete Wavelets
 
