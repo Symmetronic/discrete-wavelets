@@ -1,9 +1,11 @@
 export * from './db2/db2';
 export * from './db3/db3';
+export * from './db4/db4';
 export * from './haar/haar';
 
 import { Db2Wavelet } from './db2/db2';
 import { Db3Wavelet } from './db3/db3';
+import { Db4Wavelet } from './db4/db4';
 import { HaarWavelet } from "./haar/haar";
 
 /**
@@ -52,9 +54,11 @@ export const ScalingNumbers: { [key: string]: number[] } = {
   'db1': HaarWavelet,
   'db2': Db2Wavelet,
   'db3': Db3Wavelet,
+  'db4': Db4Wavelet,
   'D2': HaarWavelet,
   'D4': Db2Wavelet,
   'D6': Db3Wavelet,
+  'D8': Db4Wavelet,
   'haar': HaarWavelet,
 };
 
@@ -64,4 +68,5 @@ export const ScalingNumbers: { [key: string]: number[] } = {
 export type WaveletType =
     'db1' | 'D2' | 'haar'
     | 'db2' | 'D4'
-    | 'db3' | 'D6';
+    | 'db3' | 'D6'
+    | 'db4' | 'D8';

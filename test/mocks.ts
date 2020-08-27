@@ -7,6 +7,7 @@ import {
 import {
   Db2Wavelet,
   Db3Wavelet,
+  Db4Wavelet,
   HaarWavelet,
   WaveletBasis,
   WaveletType,
@@ -180,11 +181,44 @@ const db3Dataset2: Dataset = {
       -1.37979688e+00,  9.45102924e-01, -8.88178420e-16
     ]
   ],
-}
+};
 
 export const db3Datasets: Dataset[] = [
   db3Dataset1,
   db3Dataset2,
+];
+
+/*
+ * Datasets for Daubechies 3 transform.
+ */
+const db4Dataset1: Dataset = {
+  data: [0, 82,  -13, 7, 1, -1, -3, 0, -4, 6, 4, 17, 4, 34],
+  dwt: [
+    [
+      3.12047329, -3.23448292, 56.01866076, 49.90355719,  3.03386694,
+      -1.49254731, -3.8351745 ,  5.66721111, 14.49008974, 26.57947064
+    ],
+    [
+      -68.85465438, -47.94273497,   9.67106184,  -3.32974395, -4.40631014,
+      -4.80062461, -14.77973195, -19.47086887, -3.47864041,  -4.61406064
+    ]
+  ],
+  energy: 8482,
+  mode: 'reflect',
+  wavedec: [
+    [
+      3.12047329, -3.23448292, 56.01866076, 49.90355719,  3.03386694,
+      -1.49254731, -3.8351745 ,  5.66721111, 14.49008974, 26.57947064
+    ],
+    [
+      -68.85465438, -47.94273497,   9.67106184,  -3.32974395, -4.40631014,
+      -4.80062461, -14.77973195, -19.47086887, -3.47864041,  -4.61406064
+    ]
+  ],
+};
+
+export const db4Datasets: Dataset[] = [
+  db4Dataset1,
 ];
 
 /*
@@ -209,5 +243,10 @@ export const waveletDatasets: {
     aliases: ['db3', 'D6'],
     datasets: db3Datasets,
     wavelet: waveletFromScalingNumbers(Db3Wavelet),
+  },
+  {
+    aliases: ['db4', 'D8'],
+    datasets: db4Datasets,
+    wavelet: waveletFromScalingNumbers(Db4Wavelet),
   },
 ];
