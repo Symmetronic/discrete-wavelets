@@ -40,12 +40,12 @@ Antisymmetric Padding | `'antisymmetric'` | Mirroring and negation of samples.
 
 The following `Wavelet` types are supported at the moment:
 
-Wavelet                                            | Aliases
----------------------------------------------------|---------------------------
-[Haar](https://de.wikipedia.org/wiki/Haar-Wavelet) | `'haar'`, `'db1'`, `'D2'`
-Daubechies 2                                       | `'db2'`, `'D4'`
-Daubechies 3                                       | `'db3'`, `'D6'`
-Daubechies 4                                       | `'db4'`, `'D8'`
+Wavelet                                                           | Aliases
+------------------------------------------------------------------|---------------------------
+[Haar](https://de.wikipedia.org/wiki/Haar-Wavelet) / Daubechies 1 | `'haar'`, `'db1'`, `'D2'`
+Daubechies 2                                                      | `'db2'`, `'D4'`
+Daubechies 3                                                      | `'db3'`, `'D6'`
+Daubechies 4                                                      | `'db4'`, `'D8'`
 
 ## API
 
