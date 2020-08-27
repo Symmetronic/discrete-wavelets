@@ -55,7 +55,7 @@ const DEFAULT_WAVELET: Wavelet = 'haar';
 /**
  * Collection of methods for Discrete Wavelet Transform (DWT).
  */
-export default class dwt {
+export default class Dwt {
 
   /**
    * Single level Discrete Wavelet Transform.
