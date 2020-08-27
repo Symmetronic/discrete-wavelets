@@ -19,15 +19,16 @@ export {
 } from './wavelets/wavelets';
 
 import {
+  add,
+  assertValidApproxDetail,
   assertValidCoeffs,
   assertValidFilters,
   basisFromWavelet,
   createArray,
   dot,
-  mulScalars,
+  mulScalar,
   padElement,
   padWidths,
-  sum,
 } from './helpers';
 
 import {
@@ -77,18 +78,18 @@ export default class dwt {
     const filterLength: number = filters.low.length;
 
     /* Add padding. */
-    data = this.pad(
-      data,
-      padWidths(data.length, filterLength, mode),
-      mode
-    );
+    data = this.pad(data, padWidths(data.length, filterLength), mode);
 
     /* Initialize approximation and detail coefficients. */
     let approx: number[] = [];
     let detail: number[] = [];
 
     /* Calculate coefficients. */
-    for (let offset: number = 0; offset < data.length; offset += 2) {
+    for (
+      let offset: number = 0;
+      offset + filterLength <= data.length;
+      offset += 2
+    ) {
       /* Determine slice of values. */
       const values: number[] = data.slice(offset, offset + filterLength);
 
@@ -124,36 +125,59 @@ export default class dwt {
 
   /**
    * Single level inverse Discrete Wavelet Transform.
-   * @param  approx  Approximation coefficients.
-   * @param  detail  Detail coefficients.
+   * @param  approx  Approximation coefficients. If undefined, it will be set to an array of zeros with length equal to the detail coefficients.
+   * @param  detail  Detail coefficients. If undefined, it will be set to an array of zeros with length equal to the approximation coefficients.
    * @param  wavelet Wavelet to use.
-   * @param  mode    Signal extension mode alias.
    * @return         Approximation coefficients of previous level of transform.
    */
   static idwt(
-    approx: number[],
-    detail: number[],
+    approx?: number[],
+    detail?: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
-    mode: PaddingModeAlias = DEFAULT_PADDING_MODE,
   ): number[] {
+    /* Fill empty array with zeros. */
+    if (approx === undefined && detail !== undefined) {
+      approx = createArray(detail.length, 0);
+    }
+    if (detail === undefined && approx !== undefined) {
+      detail = createArray(approx.length, 0);
+    }
+
+    /* Check if some coefficients are undefined. */
+    if (approx === undefined || detail === undefined) {
+      throw new Error('Coefficients must not be undefined.');
+    }
+
+    assertValidApproxDetail(approx, detail);
+
     /* Determine wavelet basis and filters. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
     const filters: Filters = waveletBasis.rec;
     assertValidFilters(filters);
     const filterLength: number = filters.low.length;
+    
+    /* Initialize transform. */
+    const coeffLength: number = approx.length;
+    const pad: number[] = createArray(filterLength + (coeffLength - 1) * 2, 0);
 
-    /* Calculate padded approximation of previous level of transform. */
-    const padded: number[] = sum(
-      mulScalars(approx, filters.low),
-      mulScalars(detail, filters.high),
-    );
+    /* Perform inverse Discrete Wavelet Transform. */
+    for (let i = 0; i < coeffLength; i++) {
+      const offset: number = 2 * i;
+
+      /* Calculate values. */
+      let values: number[] = pad.slice(offset, offset + filterLength);
+      values = add(values, mulScalar(approx[i], filters.low));
+      values = add(values, mulScalar(detail[i], filters.high));
+
+      /* Update values. */
+      pad.splice(offset, filterLength, ...values);
+    }
 
     /* Remove padding. */
     // TODO: Capsulate in separate function.
-    // TODO: Use signal extension mode.
-    return padded.slice(
+    return pad.slice(
       filterLength - 2,
-      padded.length - 2 * (filterLength - 2) 
+      pad.length - (filterLength - 2)
     );
   }
 
@@ -187,8 +211,9 @@ export default class dwt {
     const filterLength: number = waveletBasis.dec.low.length;
 
     // SOURCE: https://pywavelets.readthedocs.io/en/latest/ref/dwt-discrete-wavelet-transform.html#maximum-decomposition-level-dwt-max-level-dwtn-max-level
-    return Math.floor(
-      Math.log2(dataLength / (filterLength - 1))
+    return Math.max(
+      0,
+      Math.floor(Math.log2(dataLength / (filterLength - 1)))
     );
   }
 
@@ -266,13 +291,11 @@ export default class dwt {
    * from coefficients.
    * @param  coeffs  Coefficients as result of a transform.
    * @param  wavelet Wavelet to use.
-   * @param  mode    Signal extension mode.
    * @return         Input data as result of the inverse transform.
    */
   static waverec(
     coeffs: number[][],
     wavelet: Wavelet = DEFAULT_WAVELET,
-    mode: PaddingModeAlias = DEFAULT_PADDING_MODE,
   ): number[] {
     /* Check if coefficients are valid. */
     assertValidCoeffs(coeffs);
@@ -294,7 +317,7 @@ export default class dwt {
       }
 
       /* Calculate previous level of approximation. */
-      approx = this.idwt(approx, detail, wavelet, mode);
+      approx = this.idwt(approx, detail, wavelet);
     }
 
     /* Return data. */

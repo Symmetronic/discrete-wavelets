@@ -27,6 +27,49 @@ import {
 } from "./wavelets/wavelets";
 
 /**
+ * Calculates the element-wise sum of two arrays.
+ * @param  a First array.
+ * @param  b Second array.
+ * @return   Element-wise sum.
+ */
+export function add(
+  a: number[],
+  b: number[],
+): number[] {
+  /* Check for same length of arrays. */
+  if (a.length !== b.length) {
+    throw new Error('Both arrays have to have the same length.');
+  }
+
+  /* Calculate element-wise sum. */
+  return a.map((value, index) => value + b[index]);
+}
+
+/**
+ * Asserts if approximation and detail coefficients are valid or throws an
+ * error if they are invalid. 
+ * @param  approx Approximation coefficients.
+ * @param  detail Detail coefficients.
+ * @return        True if the coefficients are valid, otherwise throws an error.
+ */
+export function assertValidApproxDetail(
+  approx: number[],
+  detail: number[],
+): boolean {
+  /* Check if coefficients have equal length. */
+  if (approx.length !== detail.length) {
+    throw new Error('Approximation and detail coefficients must have equal length.');
+  }
+
+  /* Check for coefficients of zero length. */
+  if (approx.length === 0) {
+    throw new Error('Approximation and detail coefficients must not have zero length.');
+  }
+
+  return true;
+}
+
+/**
  * Asserts if coefficients are valid or throws an error if they are invalid.
  * @param  coeffs Coefficients to test.
  * @return        True if the coefficients are valid, otherwise throws an error.
@@ -122,16 +165,6 @@ export function dot(
 }
 
 /**
- * Determines if a value is a power of two.
- * @param  value Value to check.
- * @return       True if the value is a power of two, otherwise false.
- */
-// SOURCE: https://stackoverflow.com/a/600306
-export function isPowerOfTwo(value: number): boolean {
-  return (value !== 0) && ((value & (value - 1)) === 0);
-}
-
-/**
  * Multiplies an array with a scalar value.
  * @param  scalar Scalar value.
  * @param  array  Array of numbers.
@@ -142,23 +175,6 @@ export function mulScalar(
   array: number[],
 ): number[] {
   return array.map(value => scalar * value);
-}
-
-/**
- * Multiplies an array with an array of scalar values.
- * @param  scalars Array of scalar values.
- * @param  array   Array of numbers.
- * @return         Flat array of numbers of subsequent multiplications of scalars with the array of numbers.
- */
-export function mulScalars(
-  scalars: number[],
-  array: number[],
-): number[] {
-  let values: number[] = [];
-  for (const scalar of scalars) {
-    values = values.concat(mulScalar(scalar, array));
-  }
-  return values;
 }
 
 /**
@@ -211,17 +227,12 @@ export function paddingFromAlias(alias: PaddingModeAlias): PaddingMode {
  * Determines the padding widths.
  * @param  dataLength   Length of signal.
  * @param  filterLength Length of filter.
- * @param  mode         Signal extension mode alias.
  * @return              Padding widths.
  */
 export function padWidths(
   dataLength: number,
   filterLength: number,
-  mode: PaddingModeAlias,
 ): PaddingWidths {
-  // TODO: Take signal extension mode into account or remove parameter?
-  mode = paddingFromAlias(mode);
-
   /* Check for valid data length. */
   if (dataLength <= 0) {
     throw new Error('Cannot determine padding widths for data of length less than or equal to zero.');
@@ -241,21 +252,3 @@ export function padWidths(
   ];
 }
 
-/**
- * Calculates the element-wise sum of two arrays.
- * @param  a First array.
- * @param  b Second array.
- * @return   Element-wise sum.
- */
-export function sum(
-  a: number[],
-  b: number[],
-): number[] {
-  /* Check for same length of arrays. */
-  if (a.length !== b.length) {
-    throw new Error('Both arrays have to have the same length.');
-  }
-
-  /* Calculate element-wise sum. */
-  return a.map((value, index) => value + b[index]);
-}

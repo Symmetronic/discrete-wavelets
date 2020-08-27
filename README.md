@@ -38,9 +38,12 @@ Antisymmetric Padding | `'antisymmetric'`, `'asym'`, `'asymh'` | Mirroring and n
 
 ### Wavelets
 
-Only the following `Wavelet` is supported at the moment:
+The following `Wavelet` types are supported at the moment:
 
-- [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet): `'D2'`, `'db1'`, `'haar'`
+Wavelet                                            | Aliases
+---------------------------------------------------|---------------------------
+[Haar](https://de.wikipedia.org/wiki/Haar-Wavelet) | `'haar'`, `'db1'`, `'D2'`
+Daubechies 2                                       | `'db2'`, `'D4'`
 
 ## API
 
@@ -112,10 +115,9 @@ Single level inverse Discrete Wavelet Transform.
 
 #### Arguments
 
-- `approx` (`number[]`): Approximation coefficients.
-- `detail` (`number[]`): Detail coefficients.
+- `approx` (`number[]`): Approximation coefficients. If `undefined`, it will be set to an array of zeros with length equal to the detail coefficients.
+- `detail` (`number[]`): Detail coefficients. If `undefined`, it will be set to an array of zeros with length equal to the approximation coefficients.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingModeAlias`): Signal extension mode alias.
 
 #### Return
 
@@ -144,7 +146,6 @@ console.log(rec);
 
 - `coeffs` (`number[][]`): Coefficients as result of a transform.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingModeAlias`): Signal extension mode alias.
 
 #### Return
 

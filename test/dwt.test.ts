@@ -6,10 +6,9 @@ import {
 
 import dwt from "../src/dwt"
 import {
-  padWidths,
+  createArray,
 } from '../src/helpers';
 import {
-  PaddingMode,
   PaddingModeAlias,
 } from '../src/padding/padding';
 import {
@@ -19,7 +18,7 @@ import {
 /**
  * Precision to use for comparing floats.
  */
-const PRECISION: number = 8;
+const PRECISION: number = 6;
 
 /**
  * Determines if two floating point values are close to each other (equal).
@@ -73,11 +72,22 @@ function equalCoeffs(coeffs1: number[][], coeffs2: number[][]): boolean {
  * Determines if two arrays of data are equal.
  * @param  data1 First array of data.
  * @param  data2 Second array of data.
+ * @param  mode  Signal extension mode alias.
  * @return       True if both arrays of data are equal, otherwise false.
  */
-function equalData(data1: number[], data2: number[]): boolean {
+function equalData(
+  data1: number[],
+  data2: number[],
+  mode: PaddingModeAlias,
+): boolean {
+  /* Minimally pad data. */
+  if (data1.length % 2 !== 0) data1 = dwt.pad(data1, [0, 1], mode);
+  if (data2.length % 2 !== 0) data2 = dwt.pad(data2, [0, 1], mode);
+
   /* Unequal lengths of data. */
   if (data1.length !== data2.length) {
+    console.error(data1);
+    console.error(data2);
     console.error('Data lengths ' + data1.length + ' and ' + data2.length + ' are not equal.');
     return false;
   }
@@ -187,6 +197,31 @@ describe('dwt', () => {
   });
 
   describe('idwt', () => {
+    it('throws an error if approximation and detail coefficients do not have equal length', () => {
+      expect(() => {
+        dwt.idwt(
+          [1, 2],
+          [3],
+        );
+      }).toThrowError();
+    });
+
+    it('throws an error if approximation and detail coefficients have zero length', () => {
+      expect(() => {
+        dwt.idwt([], []);
+      }).toThrowError();
+    });
+
+    it('throws an error if approximation and detail coefficients are undefined', () => {
+      expect(() => {
+        dwt.idwt();
+      }).toThrowError();
+
+      expect(() => {
+        dwt.idwt(undefined, undefined);
+      }).toThrowError();
+    });
+
     it('throws an error if low-pass and high-pass reconstruction filters have unequal length', () => {
       expect(() => {
         dwt.idwt(
@@ -219,25 +254,28 @@ describe('dwt', () => {
       }).toThrowError();
     });
 
-    it('throws an error if approximation and detail coefficients do not have equal length', () => {
-      expect(() => {
-        dwt.idwt(
-          [1, 2],
-          [3],
-        );
-      }).toThrowError();
-    });
+    it('fills undefined coefficient arrays with zero', () => {
+      const coeffs: number[] = [1, -2, 7, 1];
 
+      expect(equalData(
+        dwt.idwt(coeffs, undefined, 'haar'),
+        dwt.idwt(coeffs, createArray(coeffs.length, 0), 'haar'),
+        'zero'
+      ));
+
+      expect(equalData(
+        dwt.idwt(undefined, coeffs, 'db2'),
+        dwt.idwt(createArray(coeffs.length, 0), coeffs, 'db2'),
+        'zero'
+      ));
+    });
 
     it('calculates an inverse single level Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
         expect(equalData(
-          dwt.idwt(dataset.dwt[0], dataset.dwt[1], undefined, dataset.mode),
-          dwt.pad(
-            dataset.data,
-            padWidths(dataset.data.length, 2, dataset.mode),
-            dataset.mode
-          )
+          dwt.idwt(dataset.dwt[0], dataset.dwt[1], undefined),
+          dataset.data,
+          dataset.mode
         )).toBe(true);
       }
     });
@@ -247,16 +285,9 @@ describe('dwt', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(equalData(
-              dwt.idwt(dataset.dwt[0], dataset.dwt[1], alias, dataset.mode),
-              dwt.pad(
-                dataset.data,
-                padWidths(
-                  dataset.data.length,
-                  waveletDataset.wavelet.rec.low.length,
-                  dataset.mode
-                ),
-                dataset.mode
-              )
+              dwt.idwt(dataset.dwt[0], dataset.dwt[1], alias),
+              dataset.data,
+              dataset.mode
             )).toBe(true);
           }
         }
@@ -610,14 +641,9 @@ describe('dwt', () => {
     it('calculates the inverse Haar DWT by default', () => {
       for (const dataset of haarDatasets) {
         expect(equalData(
-          dwt.waverec(dataset.wavedec, undefined, dataset.mode),
-          (dataset.wavedec.length === 1)
-            ? dataset.data
-            : dwt.pad(
-                dataset.data,
-                padWidths(dataset.data.length, 2, dataset.mode),
-                dataset.mode
-              )
+          dwt.waverec(dataset.wavedec, undefined),
+          dataset.data,
+          dataset.mode
         )).toBe(true);
       }
     });
@@ -627,18 +653,9 @@ describe('dwt', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(equalData(
-              dwt.waverec(dataset.wavedec, alias, dataset.mode),
-              (dataset.wavedec.length === 1)
-                ? dataset.data
-                : dwt.pad(
-                    dataset.data,
-                    padWidths(
-                      dataset.data.length,
-                      waveletDataset.wavelet.rec.low.length,
-                      dataset.mode
-                    ),
-                    dataset.mode
-                  )
+              dwt.waverec(dataset.wavedec, alias),
+              dataset.data,
+              dataset.mode
             )).toBe(true);
           }
         }
