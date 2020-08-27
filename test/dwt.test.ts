@@ -7,13 +7,20 @@ import {
 import dwt from "../src/dwt"
 import {
   createArray,
+  waveletFromScalingNumbers,
 } from '../src/helpers';
 import {
   PaddingMode,
 } from '../src/padding/padding';
 import {
   HaarWavelet,
+  WaveletBasis,
 } from "../src/wavelets/wavelets";
+
+/**
+ * Haar wavelet basis
+ */
+const HAAR_WAVELET: WaveletBasis = waveletFromScalingNumbers(HaarWavelet);
 
 /**
  * Precision to use for comparing floats.
@@ -115,10 +122,10 @@ describe('dwt', () => {
         dwt.dwt(
           haarDatasets[0].data,
           {
-            ...HaarWavelet,
+            ...HAAR_WAVELET,
             dec: {
-              ...HaarWavelet.dec,
-              high: [...HaarWavelet.dec.high, -1, 1],
+              ...HAAR_WAVELET.dec,
+              high: [...HAAR_WAVELET.dec.high, -1, 1],
             },
           },
         );
@@ -130,7 +137,7 @@ describe('dwt', () => {
         dwt.dwt(
           haarDatasets[0].data,
           {
-            ...HaarWavelet,
+            ...HAAR_WAVELET,
             dec: {
               low: [1],
               high: [1],
@@ -228,10 +235,10 @@ describe('dwt', () => {
           haarDatasets[0].dwt[0],
           haarDatasets[0].dwt[1],
           {
-            ...HaarWavelet,
+            ...HAAR_WAVELET,
             rec: {
-              ...HaarWavelet.dec,
-              high: [...HaarWavelet.dec.high, 1, -1],
+              ...HAAR_WAVELET.dec,
+              high: [...HAAR_WAVELET.dec.high, 1, -1],
             },
           },
         );
@@ -244,7 +251,7 @@ describe('dwt', () => {
           haarDatasets[0].dwt[0],
           haarDatasets[0].dwt[1],
           {
-            ...HaarWavelet,
+            ...HAAR_WAVELET,
             rec: {
               low: [1],
               high: [1],
@@ -494,10 +501,10 @@ describe('dwt', () => {
         dwt.wavedec(
           haarDatasets[1].data,
           {
-            ...HaarWavelet,
+            ...HAAR_WAVELET,
             dec: {
-              ...HaarWavelet.dec,
-              high: [...HaarWavelet.dec.high, 1, -1],
+              ...HAAR_WAVELET.dec,
+              high: [...HAAR_WAVELET.dec.high, 1, -1],
             },
           },
         );
@@ -509,7 +516,7 @@ describe('dwt', () => {
         dwt.wavedec(
           haarDatasets[1].data,
           {
-            ...HaarWavelet,
+            ...HAAR_WAVELET,
             dec: {
               low: [1],
               high: [1],
@@ -577,10 +584,10 @@ describe('dwt', () => {
         dwt.waverec(
           haarDatasets[1].wavedec,
           {
-            ...HaarWavelet,
+            ...HAAR_WAVELET,
             rec: {
-              ...HaarWavelet.dec,
-              high: [...HaarWavelet.dec.high, 1, -1],
+              ...HAAR_WAVELET.dec,
+              high: [...HAAR_WAVELET.dec.high, 1, -1],
             },
           },
         );
@@ -592,7 +599,7 @@ describe('dwt', () => {
         dwt.waverec(
           haarDatasets[1].wavedec,
           {
-            ...HaarWavelet,
+            ...HAAR_WAVELET,
             rec: {
               low: [1],
               high: [1],
