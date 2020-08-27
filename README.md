@@ -44,6 +44,7 @@ Wavelet                                            | Aliases
 ---------------------------------------------------|---------------------------
 [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet) | `'haar'`, `'db1'`, `'D2'`
 Daubechies 2                                       | `'db2'`, `'D4'`
+Daubechies 3                                       | `'db3'`, `'D6'`
 
 ## API
 

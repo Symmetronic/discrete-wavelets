@@ -1,6 +1,9 @@
-import { PaddingMode } from "../src/padding/padding";
+import {
+  PaddingMode,
+} from "../src/padding/padding";
 import {
   Db2Wavelet,
+  Db3Wavelet,
   HaarWavelet,
   WaveletBasis,
   WaveletType,
@@ -137,6 +140,51 @@ export const db2Datasets: Dataset[] = [
 ];
 
 /*
+ * Datasets for Daubechies 3 transform.
+ */
+const db3Dataset1: Dataset = {
+  data: [8, 7, -4, 0],
+  dwt: [
+    [-0.43694615,  3.07570797,  6.47009498, -1.33068221],
+    [4.1264382, -7.52679671,  1.41994333, -0.14090517]
+  ],
+  energy: 129,
+  mode: 'zero',
+  wavedec: [[8, 7, -4, 0]]
+};
+
+const db3Dataset2: Dataset = {
+  data: [6, -2, 4, 7, 0, 3, -11, 1, 0, 8],
+  dwt: [
+    [
+      44.49227683, 21.5493393,  1.38235204,  7.54897002, -2.49117868,
+      -4.45420211,  9.24783854
+    ],
+    [
+      -8.88178420e-16,  2.97971731e+00, -4.71672305e+00, -9.84911558e+00,
+      -1.37979688e+00,  9.45102924e-01, -8.88178420e-16
+    ]
+  ],
+  energy: 300,
+  mode: 'smooth',
+  wavedec: [
+    [
+      44.49227683, 21.5493393,  1.38235204,  7.54897002, -2.49117868,
+      -4.45420211,  9.24783854
+    ],
+    [
+      -8.88178420e-16,  2.97971731e+00, -4.71672305e+00, -9.84911558e+00,
+      -1.37979688e+00,  9.45102924e-01, -8.88178420e-16
+    ]
+  ],
+}
+
+export const db3Datasets: Dataset[] = [
+  db3Dataset1,
+  db3Dataset2,
+];
+
+/*
  * Mapping of wavelet aliases, datasets and wavelets.
  */
 export const waveletDatasets: {
@@ -153,5 +201,10 @@ export const waveletDatasets: {
     aliases: ['db2', 'D4'],
     datasets: db2Datasets,
     wavelet: Db2Wavelet,
-  }
+  },
+  {
+    aliases: ['db3', 'D6'],
+    datasets: db3Datasets,
+    wavelet: Db3Wavelet,
+  },
 ];

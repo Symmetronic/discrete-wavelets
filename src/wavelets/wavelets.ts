@@ -1,7 +1,9 @@
-export { Db2Wavelet } from './db2/db2';
-export { HaarWavelet } from './haar/haar';
+export * from './db2/db2';
+export * from './db3/db3';
+export * from './haar/haar';
 
 import { Db2Wavelet } from './db2/db2';
+import { Db3Wavelet } from './db3/db3';
 import { HaarWavelet } from "./haar/haar";
 
 /**
@@ -49,8 +51,10 @@ export interface WaveletBasis {
 export const Wavelets: { [key: string]: WaveletBasis } = {
   'db1': HaarWavelet,
   'db2': Db2Wavelet,
+  'db3': Db3Wavelet,
   'D2': HaarWavelet,
   'D4': Db2Wavelet,
+  'D6': Db3Wavelet,
   'haar': HaarWavelet,
 };
 
@@ -59,4 +63,5 @@ export const Wavelets: { [key: string]: WaveletBasis } = {
  */
 export type WaveletType =
     'db1' | 'D2' | 'haar'
-    | 'db2' | 'D4';
+    | 'db2' | 'D4'
+    | 'db3' | 'D6';
