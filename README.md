@@ -1,3 +1,5 @@
+[![GitHub license](https://img.shields.io/github/license/Symmetronic/discrete-wavelets)](https://github.com/Symmetronic/discrete-wavelets/blob/master/LICENSE) ![npm](https://img.shields.io/npm/v/discrete-wavelets) ![Coveralls github](https://img.shields.io/coveralls/github/Symmetronic/discrete-wavelets)
+
 # Discrete Wavelets
 
 [Discrete wavelet transform (DWT)](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) library inspired by [PyWavelets](https://github.com/PyWavelets/pywt).
