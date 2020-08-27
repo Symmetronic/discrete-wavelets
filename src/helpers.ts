@@ -7,8 +7,6 @@ import {
   antisymmetricPadding,
   CONSTANT_PADDING,
   constantPadding,
-  PaddingModes,
-  PaddingModeAlias,
   PERIODIC_PADDING,
   periodicPadding,
   REFLECT_PADDING,
@@ -182,17 +180,15 @@ export function mulScalar(
  * @param  data    Input data.
  * @param  index   Index of padding element.
  * @param  inverse True if the padding direction is inversed.
- * @param  mode    Signal extension mode alias.
+ * @param  mode    Signal extension mode.
  * @return         Single padding element.
  */
 export function padElement(
   data: number[],
   index: number,
   inverse: boolean,
-  mode: PaddingModeAlias,
+  mode: PaddingMode,
 ): number {
-  mode = paddingFromAlias(mode);
-  
   switch (mode) {
     case ANTISYMMETRIC_PADDING:
       return antisymmetricPadding(data, index, inverse);
@@ -209,18 +205,8 @@ export function padElement(
     case ZERO_PADDING:
       return 0;
     default:
-      throw new Error('Unknown padding mode: "' + mode + '"');
+      throw new Error('Unknown signal extension mode: "' + mode + '"');
   }
-}
-
-/**
- * Maps a signal extension mode alias to the corresponding signal extension
- * mode.
- * @param  alias Signal extension mode alias.
- * @return       Mapped signal extension mode.
- */
-export function paddingFromAlias(alias: PaddingModeAlias): PaddingMode {
-  return PaddingModes[alias];
 }
 
 /**

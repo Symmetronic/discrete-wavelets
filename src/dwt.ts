@@ -2,7 +2,6 @@ export {
   ANTISYMMETRIC_PADDING,
   CONSTANT_PADDING,
   PaddingMode,
-  PaddingModeAlias,
   PaddingWidths,
   PERIODIC_PADDING,
   REFLECT_PADDING,
@@ -33,7 +32,6 @@ import {
 
 import {
   PaddingMode,
-  PaddingModeAlias,
   PaddingWidths,
   SYMMETRIC_PADDING,
 } from './padding/padding';
@@ -63,13 +61,13 @@ export default class dwt {
    * Single level Discrete Wavelet Transform.
    * @param  data    Input data.
    * @param  wavelet Wavelet to use.
-   * @param  mode    Signal extension mode alias.
+   * @param  mode    Signal extension mode.
    * @return         Approximation and detail coefficients as result of the transform.
    */
   static dwt(
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
-    mode: PaddingModeAlias = DEFAULT_PADDING_MODE,
+    mode: PaddingMode = DEFAULT_PADDING_MODE,
   ): number[][] {
     /* Determine wavelet basis and filters. */
     const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
@@ -221,13 +219,13 @@ export default class dwt {
    * Extends a signal with a given padding mode.
    * @param  data      Input data.
    * @param  padWidths Widths of padding at front and back.
-   * @param  mode      Signal extension mode alias.
+   * @param  mode      Signal extension mode.
    * @return           Data with padding.
    */
   static pad(
     data: number[],
     padWidths: PaddingWidths,
-    mode: PaddingModeAlias,
+    mode: PaddingMode,
   ): number[] {
     /* Initialize. */
     const front: number = padWidths[0];
@@ -248,14 +246,14 @@ export default class dwt {
    * input data.
    * @param  data    Input data.
    * @param  wavelet Wavelet to use.
-   * @param  mode    Signal extension mode alias.
+   * @param  mode    Signal extension mode.
    * @param  level   Decomposition level. Defaults to level calculated by maxLevel function.
    * @return         Coefficients as result of the transform.
    */
   static wavedec(
     data: number[],
     wavelet: Wavelet = DEFAULT_WAVELET,
-    mode: PaddingModeAlias = DEFAULT_PADDING_MODE,
+    mode: PaddingMode = DEFAULT_PADDING_MODE,
     level?: number,
   ): number[][] {
     /* Determine decomposition level. */

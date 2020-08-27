@@ -1,6 +1,6 @@
 # Discrete Wavelets
 
-[Discrete wavelet transform (DWT)](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) library.
+[Discrete wavelet transform (DWT)](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) library inspired by [PyWavelets](https://github.com/PyWavelets/pywt).
 
 ## Importing this library
 
@@ -19,22 +19,22 @@
 
 The library uses the following types:
 
-- [PaddingModeAlias](#PaddingModeAlias): Aliases for padding modes.
-- [Wavelets](#Wavelets): Aliases for wavelet bases.
+- [PaddingMode](#PaddingMode): Signal extension modes.
+- [Wavelets](#Wavelets): Wavelet bases.
 
-### PaddingModeAlias
+### PaddingMode
 
-The following values for `PaddingModeAlias` are supported at the moment:
+The following values for `PaddingMode` are supported at the moment:
 
-Padding Type          | Aliases                                | Description
-----------------------|----------------------------------------|------------------------------------
-Zero Padding          | `'zero'`, `'zpd'`                      | Adding zeros.
-Constant Padding      | `'constant'`, `'sp0'`                  | Replication of border values.
-Symmetric Padding     | `'symmetric'`, `'sym'`, `'symh'`       | Mirroring of samples.
-Reflect Padding       | `'reflect'`, `'symw'`                  | Reflecting of samples.
-Periodic Padding      | `'periodic'`, `'ppd'`                  | Treating signal as a periodic one.
-Smooth Padding        | `'smooth'`, `'sp1'`, `'spd'`           | Signal extended as a straight line.
-Antisymmetric Padding | `'antisymmetric'`, `'asym'`, `'asymh'` | Mirroring and negation of samples.
+Name                  | Value             | Description
+----------------------|-------------------|------------------------------------
+Zero Padding          | `'zero'`          | Adding zeros.
+Constant Padding      | `'constant'`      | Replication of border values.
+Symmetric Padding     | `'symmetric'`     | Mirroring of samples.
+Reflect Padding       | `'reflect'`       | Reflecting of samples.
+Periodic Padding      | `'periodic'`      | Treating signal as a periodic one.
+Smooth Padding        | `'smooth'`        | Signal extended as a straight line.
+Antisymmetric Padding | `'antisymmetric'` | Mirroring and negation of samples.
 
 ### Wavelets
 
@@ -68,7 +68,7 @@ Single level Discrete Wavelet Transform.
 
 - `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingModeAlias`): Signal extension mode alias.
+- `mode` (`PaddingMode`): Signal extension mode.
 
 #### Return
 
@@ -91,7 +91,7 @@ console.log(coeffs);
 
 - `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingModeAlias`): Signal extension mode alias.
+- `mode` (`PaddingMode`): Signal extension mode.
 - `level` (`number`): Decomposition level. Defaults to level calculated by [maxLevel](#maxLevel) function.
 
 #### Return
@@ -228,7 +228,7 @@ Extends a signal with a given padding mode.
 
 - `data` (`number[]`): Input data.
 - `padWidths` (`[number, number]`): Widths of padding at front and back.
-- `mode` (`PaddingModeAlias`): Signal extension mode alias.
+- `mode` (`PaddingMode`): Signal extension mode.
 
 #### Return
 
