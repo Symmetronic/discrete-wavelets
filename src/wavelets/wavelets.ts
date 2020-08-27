@@ -45,10 +45,10 @@ export interface WaveletBasis {
 }
 
 /**
- * Mapping of wavelet type keys to wavelet bases.
+ * Mapping of wavelet type keys to scaling numbers.
  */
 // TODO: Add other db wavelets
-export const Wavelets: { [key: string]: WaveletBasis } = {
+export const ScalingNumbers: { [key: string]: number[] } = {
   'db1': HaarWavelet,
   'db2': Db2Wavelet,
   'db3': Db3Wavelet,

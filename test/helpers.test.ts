@@ -13,8 +13,11 @@ import {
   padElement,
   padWidths,
   assertValidFilters,
+  waveletFromScalingNumbers,
 } from '../src/helpers';
-import { PaddingModeAlias } from '../src/dwt';
+import {
+  PaddingMode,
+} from '../src/dwt';
 
 describe('helpers', () => {
 
@@ -166,7 +169,7 @@ describe('helpers', () => {
   describe('padElement', () => {
     it('throws an error for an unknown padding mode', () => {
       expect(() => {
-        padElement([1, 2, 3], 0, false, 'foobar' as PaddingModeAlias);
+        padElement([1, 2, 3], 0, false, 'foobar' as PaddingMode);
       }).toThrowError();
     });
   });
@@ -207,6 +210,56 @@ describe('helpers', () => {
     it('pads in the back by the filter length minus 1 if data length plus filter length are odd', () => {
       expect(padWidths(3, 2)[1]).toBe(1);
       expect(padWidths(4, 7)[1]).toBe(6);
+    });
+  });
+
+  describe('waveletFromScalingNumbers', () => {
+    it('throws an error for scaling numbers with length less than two', () => {
+      expect(() => {
+        waveletFromScalingNumbers([]);
+      }).toThrowError();
+
+      expect(() => {
+        waveletFromScalingNumbers([8]);
+      }).toThrowError();
+    });
+
+    it('determines wavelets from scaling numbers', () => {
+      expect(waveletFromScalingNumbers([
+        (1 + Math.sqrt(3)) / (4 * Math.SQRT2),
+        (3 + Math.sqrt(3)) / (4 * Math.SQRT2),
+        (3 - Math.sqrt(3)) / (4 * Math.SQRT2),
+        (1 - Math.sqrt(3)) / (4 * Math.SQRT2)
+      ])).toEqual({
+        dec: {
+          low: [
+            (1 + Math.sqrt(3)) / (4 * Math.SQRT2),
+            (3 + Math.sqrt(3)) / (4 * Math.SQRT2),
+            (3 - Math.sqrt(3)) / (4 * Math.SQRT2),
+            (1 - Math.sqrt(3)) / (4 * Math.SQRT2)
+          ],
+          high: [
+            (1 - Math.sqrt(3)) / (4 * Math.SQRT2),
+            -(3 - Math.sqrt(3)) / (4 * Math.SQRT2),
+            (3 + Math.sqrt(3)) / (4 * Math.SQRT2),
+            -(1 + Math.sqrt(3)) / (4 * Math.SQRT2)
+          ]
+        },
+        rec: {
+          low: [
+            (1 + Math.sqrt(3)) / (4 * Math.SQRT2),
+            (3 + Math.sqrt(3)) / (4 * Math.SQRT2),
+            (3 - Math.sqrt(3)) / (4 * Math.SQRT2),
+            (1 - Math.sqrt(3)) / (4 * Math.SQRT2)
+          ],
+          high: [
+            (1 - Math.sqrt(3)) / (4 * Math.SQRT2),
+            -(3 - Math.sqrt(3)) / (4 * Math.SQRT2),
+            (3 + Math.sqrt(3)) / (4 * Math.SQRT2),
+            -(1 + Math.sqrt(3)) / (4 * Math.SQRT2)
+          ]
+        }
+      });
     });
   });
 });

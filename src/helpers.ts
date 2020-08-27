@@ -19,9 +19,9 @@ import {
 } from "./padding/padding";
 import {
   Filters,
+  ScalingNumbers,
   Wavelet,
   WaveletBasis,
-  Wavelets,
 } from "./wavelets/wavelets";
 
 /**
@@ -112,7 +112,9 @@ export function assertValidFilters(
  * @return         Wavelet basis.
  */
 export function basisFromWavelet(wavelet: Wavelet): WaveletBasis {
-  return (typeof wavelet !== 'string') ? wavelet : Wavelets[wavelet]; 
+  return (typeof wavelet !== 'string')
+    ? wavelet
+    : waveletFromScalingNumbers(ScalingNumbers[wavelet]); 
 }
 
 /**
@@ -238,3 +240,36 @@ export function padWidths(
   ];
 }
 
+/**
+ * Determines a wavelet basis from scaling numbers.
+ * @param  scalingNumbers Wavelet scaling numbers.
+ * @return                Wavelet basis.
+ */
+export function waveletFromScalingNumbers(
+  scalingNumbers: number[],
+): WaveletBasis {
+  /* Check if length is larger than or equal to two. */
+  if (scalingNumbers.length < 2) {
+    throw new Error(
+      'Scaling numbers length has to be larger than or equal to two.'
+    );
+  }
+
+  /* Determine wavelet numbers. */
+  const waveletNumbers: number[] =
+      scalingNumbers.slice() // Copy array
+      .reverse()
+      .map((value, index) => (index % 2 === 0) ? value : -value);
+  
+  /* Determine wavelet basis. */
+  return {
+    dec: {
+      low: scalingNumbers.slice(),
+      high: waveletNumbers
+    },
+    rec: {
+      low: scalingNumbers.slice(),
+      high: waveletNumbers.slice()
+    },
+  };
+}

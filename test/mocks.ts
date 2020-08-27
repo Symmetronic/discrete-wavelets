@@ -1,4 +1,7 @@
 import {
+  waveletFromScalingNumbers,
+} from "../src/helpers";
+import {
   PaddingMode,
 } from "../src/padding/padding";
 import {
@@ -195,16 +198,16 @@ export const waveletDatasets: {
   {
     aliases: ['db1', 'D2', 'haar'],
     datasets: haarDatasets,
-    wavelet: HaarWavelet,
+    wavelet: waveletFromScalingNumbers(HaarWavelet),
   },
   {
     aliases: ['db2', 'D4'],
     datasets: db2Datasets,
-    wavelet: Db2Wavelet,
+    wavelet: waveletFromScalingNumbers(Db2Wavelet),
   },
   {
     aliases: ['db3', 'D6'],
     datasets: db3Datasets,
-    wavelet: Db3Wavelet,
+    wavelet: waveletFromScalingNumbers(Db3Wavelet),
   },
 ];
