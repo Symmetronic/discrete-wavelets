@@ -17,7 +17,7 @@ import {
 } from '../src/helpers';
 import {
   PaddingMode,
-} from '../src/dwt';
+} from '../src/wt';
 
 describe('helpers', () => {
 
