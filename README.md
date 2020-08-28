@@ -52,6 +52,7 @@ Daubechies 5                                                      | `'db5'`, `'D
 Daubechies 6                                                      | `'db6'`, `'D12'`
 Daubechies 7                                                      | `'db7'`, `'D14'`
 Daubechies 8                                                      | `'db8'`, `'D16'`
+Daubechies 9                                                      | `'db9'`, `'D18'`
 
 ## API
 
