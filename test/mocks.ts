@@ -8,6 +8,7 @@ import {
   Db2Wavelet,
   Db3Wavelet,
   Db4Wavelet,
+  Db5Wavelet,
   HaarWavelet,
   WaveletBasis,
   WaveletType,
@@ -138,9 +139,39 @@ const db2Dataset2: Dataset = {
   ],
 };
 
+const db2Dataset3: Dataset = {
+  data: [0, 3, -5, -4, -6, 0, 1, -4, 5, 5, 3, 8, 9, 3, -1, 2, 0, 0],
+  dwt: [
+    [
+      -0.38822857,  1.90646766, -7.10574299, -2.15599552, -2.38943057,
+      6.23455151,  9.77008541,  6.37325222,  1.19006969, -0.38822857
+    ],
+    [
+      -1.44888874, -2.92316147, -3.47547474,  3.54482509,  2.5349329,
+      -3.12192135,  3.89837848, -3.63955944, -0.31887821, -1.44888874
+    ]
+  ],
+  energy: 321,
+  mode: 'periodic',
+  wavedec: [
+    [
+      -0.08373412,  0.09358891, -6.57772228,  5.42644284, 10.3669056,
+      -0.08373412
+    ],
+    [
+      -1.3125, -5.27988655, -3.60705081,  4.00656986, -1.50985479, -1.3125
+    ],
+    [
+      -1.44888874, -2.92316147, -3.47547474,  3.54482509,  2.5349329,
+      -3.12192135,  3.89837848, -3.63955944, -0.31887821, -1.44888874
+    ]
+  ]
+};
+
 export const db2Datasets: Dataset[] = [
   db2Dataset1,
   db2Dataset2,
+  db2Dataset3,
 ];
 
 /*
@@ -189,7 +220,7 @@ export const db3Datasets: Dataset[] = [
 ];
 
 /*
- * Datasets for Daubechies 3 transform.
+ * Datasets for Daubechies 4 transform.
  */
 const db4Dataset1: Dataset = {
   data: [0, 82,  -13, 7, 1, -1, -3, 0, -4, 6, 4, 17, 4, 34],
@@ -222,6 +253,43 @@ export const db4Datasets: Dataset[] = [
 ];
 
 /*
+ * Datasets for Daubechies 5 transform.
+ */
+const db5Dataset1: Dataset = {
+  data: [0, 3, -5, -4, -6, 0, 1, -4, 5, 5, 3, 8, 9, 3, -1, 2, 0, 0],
+  dwt: [
+    [
+      -0.485962  ,  7.97007151,  1.10248875,  0.78407854, -0.85368577,
+      -7.32940208, -2.08315426,  1.77229625,  4.73256602, 12.42280769,
+      2.83345438,  0.89389239,  0.36644268
+    ],
+    [
+      -0.27776349, -4.79226665, -0.59602644, -0.63700687,  5.82700152,
+      -3.4297104 ,  0.90925267, -0.47553405, -1.7100784 ,  0.33859994,
+      -1.44889865, -1.34990527,  2.05994998
+    ]
+  ],
+  energy: 321,
+  mode: 'antisymmetric',
+  wavedec: [
+    [
+      -0.485962  ,  7.97007151,  1.10248875,  0.78407854, -0.85368577,
+      -7.32940208, -2.08315426,  1.77229625,  4.73256602, 12.42280769,
+      2.83345438,  0.89389239,  0.36644268
+    ],
+    [
+      -0.27776349, -4.79226665, -0.59602644, -0.63700687,  5.82700152,
+      -3.4297104 ,  0.90925267, -0.47553405, -1.7100784 ,  0.33859994,
+      -1.44889865, -1.34990527,  2.05994998
+    ]
+  ],
+};
+
+export const db5Datasets: Dataset[] = [
+  db5Dataset1,
+];
+
+/*
  * Mapping of wavelet aliases, datasets and wavelets.
  */
 export const waveletDatasets: {
@@ -248,5 +316,10 @@ export const waveletDatasets: {
     aliases: ['db4', 'D8'],
     datasets: db4Datasets,
     wavelet: waveletFromScalingNumbers(Db4Wavelet),
+  },
+  {
+    aliases: ['db5', 'D10'],
+    datasets: db5Datasets,
+    wavelet: waveletFromScalingNumbers(Db5Wavelet),
   },
 ];
