@@ -167,7 +167,6 @@ export default class Dwt {
     }
 
     /* Remove padding. */
-    // TODO: Capsulate in separate function.
     return pad.slice(
       filterLength - 2,
       pad.length - (filterLength - 2)
