@@ -147,15 +147,6 @@ describe('dwt', () => {
       }).toThrowError();
     });
 
-    it('calculates the Haar DWT by default', () => {
-      for (const dataset of haarDatasets) {
-        expect(equalCoeffs(
-          dwt.dwt(dataset.data, undefined, dataset.mode),
-          dataset.dwt
-        )).toBe(true);
-      }
-    });
-
     it('calculates a single level DWT', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const alias of waveletDataset.aliases) {
@@ -209,23 +200,20 @@ describe('dwt', () => {
         dwt.idwt(
           [1, 2],
           [3],
+          'haar'
         );
       }).toThrowError();
     });
 
     it('throws an error if approximation and detail coefficients have zero length', () => {
       expect(() => {
-        dwt.idwt([], []);
+        dwt.idwt([], [], 'haar');
       }).toThrowError();
     });
 
     it('throws an error if approximation and detail coefficients are undefined', () => {
       expect(() => {
-        dwt.idwt();
-      }).toThrowError();
-
-      expect(() => {
-        dwt.idwt(undefined, undefined);
+        dwt.idwt(undefined, undefined, 'haar');
       }).toThrowError();
     });
 
@@ -275,16 +263,6 @@ describe('dwt', () => {
         dwt.idwt(createArray(coeffs.length, 0), coeffs, 'db2'),
         'zero'
       ));
-    });
-
-    it('calculates an inverse single level Haar DWT by default', () => {
-      for (const dataset of haarDatasets) {
-        expect(equalData(
-          dwt.idwt(dataset.dwt[0], dataset.dwt[1], undefined),
-          dataset.data,
-          dataset.mode
-        )).toBe(true);
-      }
     });
 
     it('calculates an inverse single level DWT', () => {
@@ -537,15 +515,6 @@ describe('dwt', () => {
       }).toThrowError();
     });
 
-    it('calculates the Haar DWT by default', () => {
-      for (const dataset of haarDatasets) {
-        expect(equalCoeffs(
-          dwt.wavedec(dataset.data, undefined, dataset.mode),
-          dataset.wavedec
-        )).toBe(true);
-      }
-    });
-
     it('calculates the DWT', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const alias of waveletDataset.aliases) {
@@ -561,7 +530,7 @@ describe('dwt', () => {
 
     it('calculates the DWT to the specified level', () => {
       expect(equalCoeffs(
-        dwt.wavedec([1, 2, 3, 4], undefined, undefined, 0),
+        dwt.wavedec([1, 2, 3, 4], 'haar', undefined, 0),
         [[1, 2, 3, 4]]
       )).toBe(true);
 
@@ -575,7 +544,7 @@ describe('dwt', () => {
   describe('waverec', () => {
     it('throws an error if the coefficients have zero length', () => {
       expect(() => {
-        dwt.waverec([]);
+        dwt.waverec([], 'haar');
       }).toThrowError();
     });
 
@@ -607,16 +576,6 @@ describe('dwt', () => {
           },
         );
       }).toThrowError();
-    });
-
-    it('calculates the inverse Haar DWT by default', () => {
-      for (const dataset of haarDatasets) {
-        expect(equalData(
-          dwt.waverec(dataset.wavedec, undefined),
-          dataset.data,
-          dataset.mode
-        )).toBe(true);
-      }
     });
 
     it('calculates the inverse DWT', () => {

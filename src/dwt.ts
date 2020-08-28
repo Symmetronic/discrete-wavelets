@@ -48,11 +48,6 @@ import {
 const DEFAULT_PADDING_MODE: PaddingMode = SYMMETRIC_PADDING;
 
 /**
- * Default wavelet to use.
- */
-const DEFAULT_WAVELET: Wavelet = 'haar';
-
-/**
  * Collection of methods for Discrete Wavelet Transform (DWT).
  */
 export default class Dwt {
@@ -66,7 +61,7 @@ export default class Dwt {
    */
   static dwt(
     data: number[],
-    wavelet: Wavelet = DEFAULT_WAVELET,
+    wavelet: Wavelet,
     mode: PaddingMode = DEFAULT_PADDING_MODE,
   ): number[][] {
     /* Determine wavelet basis and filters. */
@@ -129,9 +124,9 @@ export default class Dwt {
    * @return         Approximation coefficients of previous level of transform.
    */
   static idwt(
-    approx?: number[],
-    detail?: number[],
-    wavelet: Wavelet = DEFAULT_WAVELET,
+    approx: number[] | undefined,
+    detail: number[] | undefined,
+    wavelet: Wavelet,
   ): number[] {
     /* Fill empty array with zeros. */
     if (approx === undefined && detail !== undefined) {
@@ -252,7 +247,7 @@ export default class Dwt {
    */
   static wavedec(
     data: number[],
-    wavelet: Wavelet = DEFAULT_WAVELET,
+    wavelet: Wavelet,
     mode: PaddingMode = DEFAULT_PADDING_MODE,
     level?: number,
   ): number[][] {
@@ -293,7 +288,7 @@ export default class Dwt {
    */
   static waverec(
     coeffs: number[][],
-    wavelet: Wavelet = DEFAULT_WAVELET,
+    wavelet: Wavelet,
   ): number[] {
     /* Check if coefficients are valid. */
     assertValidCoeffs(coeffs);
