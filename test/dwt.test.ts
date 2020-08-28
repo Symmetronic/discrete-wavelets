@@ -303,7 +303,11 @@ describe('dwt', () => {
       expect(dwt.maxLevel(4, 'haar')).toBe(2);
       expect(dwt.maxLevel(1024, 'haar')).toBe(10);
 
-      // TODO: Check for other bases
+      expect(dwt.maxLevel(5, 'db2')).toBe(0);
+      expect(dwt.maxLevel(12, 'db2')).toBe(2);
+
+      expect(dwt.maxLevel(35, 'db5')).toBe(1);
+      expect(dwt.maxLevel(36, 'db5')).toBe(2);
     });
   });
 
