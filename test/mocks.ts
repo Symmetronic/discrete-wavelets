@@ -9,6 +9,7 @@ import {
   Db3Wavelet,
   Db4Wavelet,
   Db5Wavelet,
+  Db6Wavelet,
   HaarWavelet,
   WaveletBasis,
   WaveletType,
@@ -290,6 +291,30 @@ export const db5Datasets: Dataset[] = [
 ];
 
 /*
+ * Datasets for Daubechies 6 transform.
+ */
+const db6Dataset1: Dataset = {
+  data: [6, -4, 0],
+  dwt: [
+    [
+      8.49605439,  8.45754321,  8.37402216,  9.19677267,  6.88278984,
+      -1.3092511, 0.
+    ],
+    [
+      1.11540743,  5.2128402 , -1.94584448,  0.71283155, -0.15813246,
+      0.01264522,  0.
+    ]
+  ],
+  energy: 52,
+  mode: 'constant',
+  wavedec: [[6, -4, 0]]
+};
+
+export const db6Datasets: Dataset[] = [
+  db6Dataset1,
+];
+
+/*
  * Mapping of wavelet aliases, datasets and wavelets.
  */
 export const waveletDatasets: {
@@ -321,5 +346,10 @@ export const waveletDatasets: {
     aliases: ['db5', 'D10'],
     datasets: db5Datasets,
     wavelet: waveletFromScalingNumbers(Db5Wavelet),
+  },
+  {
+    aliases: ['db6', 'D12'],
+    datasets: db6Datasets,
+    wavelet: waveletFromScalingNumbers(Db6Wavelet),
   },
 ];
