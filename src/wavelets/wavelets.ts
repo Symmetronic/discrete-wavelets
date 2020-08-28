@@ -1,12 +1,11 @@
-export * from './db2/db2';
-export * from './db3/db3';
-export * from './db4/db4';
-export * from './haar/haar';
+export * from './daubechies/daubechies';
 
-import { Db2Wavelet } from './db2/db2';
-import { Db3Wavelet } from './db3/db3';
-import { Db4Wavelet } from './db4/db4';
-import { HaarWavelet } from "./haar/haar";
+import {
+  Db2Wavelet,
+  Db3Wavelet,
+  Db4Wavelet,
+  HaarWavelet,
+} from './daubechies/daubechies';
 
 /**
  * Filters for a transform.
