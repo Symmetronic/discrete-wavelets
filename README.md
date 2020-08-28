@@ -48,6 +48,10 @@ Daubechies 1 / [Haar](https://de.wikipedia.org/wiki/Haar-Wavelet) | `'db1'`, `'D
 Daubechies 2                                                      | `'db2'`, `'D4'`
 Daubechies 3                                                      | `'db3'`, `'D6'`
 Daubechies 4                                                      | `'db4'`, `'D8'`
+Daubechies 5                                                      | `'db5'`, `'D10'`
+Daubechies 6                                                      | `'db6'`, `'D12'`
+Daubechies 7                                                      | `'db7'`, `'D14'`
+Daubechies 8                                                      | `'db8'`, `'D16'`
 
 ## API
 
