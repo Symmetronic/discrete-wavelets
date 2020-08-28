@@ -117,6 +117,16 @@ describe('dwt', () => {
   });
 
   describe('dwt', () => {
+    it('throws an error for empty data', () => {
+      expect(() => {
+        dwt.dwt(undefined as unknown as number[], 'haar');
+      }).toThrowError();
+
+      expect(() => {
+        dwt.dwt([], 'haar');
+      }).toThrowError();
+    });
+
     it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
       expect(() => {
         dwt.dwt(
@@ -162,6 +172,12 @@ describe('dwt', () => {
   });
 
   describe('energy', () => {
+    it('throws an error for undefined values', () => {
+      expect(() => {
+        dwt.energy(undefined as unknown as number[] | number[][]);
+      }).toThrowError();
+    });
+
     it('calculates energy for empty values', () => {
       expect(dwt.energy([])).toBe(0);
       expect(dwt.energy([[], [], []])).toBe(0);
@@ -312,6 +328,12 @@ describe('dwt', () => {
   });
 
   describe('pad', () => {
+    it('throws an error for undefined data', () => {
+      expect(() => {
+        dwt.pad(undefined as unknown as number[], [3, 2], 'zero');
+      }).toThrowError();
+    });
+
     it('throws an error for negative padding widths', () => {
       expect(() => {
         dwt.pad(
@@ -478,6 +500,12 @@ describe('dwt', () => {
   });
 
   describe('wavedec', () => {
+    it('throws an error for undefined data', () => {
+      expect(() => {
+        dwt.wavedec(undefined as unknown as number[], 'haar');
+      }).toThrowError();
+    });
+
     it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
       expect(() => {
         dwt.wavedec(
@@ -519,6 +547,10 @@ describe('dwt', () => {
       }).toThrowError();
     });
 
+    it('returns an empty array for empty data', () => {
+      expect(dwt.wavedec([], 'haar')).toEqual([[]]);
+    });
+
     it('calculates the DWT', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const alias of waveletDataset.aliases) {
@@ -546,7 +578,11 @@ describe('dwt', () => {
   });
 
   describe('waverec', () => {
-    it('throws an error if the coefficients have zero length', () => {
+    it('throws an error for empty coefficients', () => {
+      expect(() => {
+        dwt.waverec(undefined as unknown as number[][], 'haar');
+      }).toThrowError();
+
       expect(() => {
         dwt.waverec([], 'haar');
       }).toThrowError();

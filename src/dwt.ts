@@ -221,6 +221,11 @@ export default class Dwt {
     padWidths: PaddingWidths,
     mode: PaddingMode,
   ): number[] {
+    /* Check for undefined data. */
+    if (!data) {
+      throw new Error('Cannot add padding to empty data.');
+    }
+
     /* Initialize. */
     const front: number = padWidths[0];
     const back: number = padWidths[1];
