@@ -11,7 +11,7 @@ This library is well tested. Still, it may contain some errors. Therefore it is 
 ### Node Modules
 
 - Run `npm install discrete-wavelets --save`
-- Add an import to the npm package `import dwt from 'discrete-wavelets';`
+- Add an import to the npm package `import wt from 'discrete-wavelets';`
 - Then you can use the library in your code.
 
 ### UNPKG
@@ -89,7 +89,7 @@ Single level Discrete Wavelet Transform.
 #### Example
 
 ```javascript
-var coeffs = dwt.dwt([1, 2, 3, 4], 'haar');
+var coeffs = wt.dwt([1, 2, 3, 4], 'haar');
 
 console.log(coeffs);
 // expected output: Array [[2.1213203435596425, 4.9497474683058326], [-0.7071067811865475, -0.7071067811865475]]
@@ -113,7 +113,7 @@ console.log(coeffs);
 #### Example
 
 ```javascript
-var coeffs = dwt.wavedec([1, 2, 3, 4], 'haar');
+var coeffs = wt.wavedec([1, 2, 3, 4], 'haar');
 
 console.log(coeffs);
 // expected output: Array [[4.999999999999999], [-1.9999999999999993], [-0.7071067811865475, -0.7071067811865475]]
@@ -138,7 +138,7 @@ Single level inverse Discrete Wavelet Transform.
 #### Example
 
 ```javascript
-var rec = dwt.idwt(
+var rec = wt.idwt(
   [(1 + 2) / Math.SQRT2, (3 + 4) / Math.SQRT2],
   [(1 - 2) / Math.SQRT2, (3 - 4) / Math.SQRT2],
   'haar'
@@ -166,7 +166,7 @@ console.log(rec);
 #### Example
 
 ```javascript
-var data = dwt.waverec(
+var data = wt.waverec(
   [[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]],
   'haar'
 );
@@ -193,12 +193,12 @@ Calculates the energy as sum of squares of an array of data or coefficients.
 
 ```javascript
 console.log(
-  dwt.energy([-1, 2, 6, 1])
+  wt.energy([-1, 2, 6, 1])
 );
 // expected output: 42
 
 console.log(
-  dwt.energy([[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]])
+  wt.energy([[5], [-2], [-1 / Math.SQRT2, -1 / Math.SQRT2]])
 );
 // expected output: 30
 ```
@@ -219,14 +219,14 @@ Determines the maximum level of useful decomposition.
 #### Examples
 
 ```javascript
-var maxLevel = dwt.maxLevel(4, 'haar');
+var maxLevel = wt.maxLevel(4, 'haar');
 
 console.log(maxLevel);
 // expected output: 2
 ```
 
 ```javascript
-var maxLevel = dwt.maxLevel(1024, 'haar');
+var maxLevel = wt.maxLevel(1024, 'haar');
 
 console.log(maxLevel);
 // expected output: 10
@@ -249,7 +249,7 @@ Extends a signal with a given padding mode.
 #### Example
 
 ```javascript
-var pad = dwt.pad([42, 51], [2, 1], 'zero');
+var pad = wt.pad([42, 51], [2, 1], 'zero');
 
 console.log(pad);
 // expected output: Array [0, 0, 42, 51, 0]

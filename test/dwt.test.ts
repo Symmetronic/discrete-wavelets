@@ -4,7 +4,7 @@ import {
   waveletDatasets,
 } from './mocks';
 
-import dwt from "../src/dwt"
+import wt from "../src/dwt"
 import {
   createArray,
   waveletFromScalingNumbers,
@@ -88,8 +88,8 @@ function equalData(
   mode: PaddingMode,
 ): boolean {
   /* Minimally pad data. */
-  if (data1.length % 2 !== 0) data1 = dwt.pad(data1, [0, 1], mode);
-  if (data2.length % 2 !== 0) data2 = dwt.pad(data2, [0, 1], mode);
+  if (data1.length % 2 !== 0) data1 = wt.pad(data1, [0, 1], mode);
+  if (data2.length % 2 !== 0) data2 = wt.pad(data2, [0, 1], mode);
 
   /* Unequal lengths of data. */
   if (data1.length !== data2.length) {
@@ -113,23 +113,23 @@ function equalData(
 
 describe('dwt', () => {
   it('dwt exists', () => {
-    expect(new dwt()).toBeInstanceOf(dwt);
+    expect(new wt()).toBeInstanceOf(wt);
   });
 
   describe('dwt', () => {
     it('throws an error for empty data', () => {
       expect(() => {
-        dwt.dwt(undefined as unknown as number[], 'haar');
+        wt.dwt(undefined as unknown as number[], 'haar');
       }).toThrowError();
 
       expect(() => {
-        dwt.dwt([], 'haar');
+        wt.dwt([], 'haar');
       }).toThrowError();
     });
 
     it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
       expect(() => {
-        dwt.dwt(
+        wt.dwt(
           haarDatasets[0].data,
           {
             ...HAAR_WAVELET,
@@ -144,7 +144,7 @@ describe('dwt', () => {
 
     it('throws an error if low-pass and high-pass decomposition filters have a length less than two', () => {
       expect(() => {
-        dwt.dwt(
+        wt.dwt(
           haarDatasets[0].data,
           {
             ...HAAR_WAVELET,
@@ -162,7 +162,7 @@ describe('dwt', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(equalCoeffs(
-              dwt.dwt(dataset.data, alias, dataset.mode),
+              wt.dwt(dataset.data, alias, dataset.mode),
               dataset.dwt
             )).toBe(true);
           }
@@ -174,20 +174,20 @@ describe('dwt', () => {
   describe('energy', () => {
     it('throws an error for undefined values', () => {
       expect(() => {
-        dwt.energy(undefined as unknown as number[] | number[][]);
+        wt.energy(undefined as unknown as number[] | number[][]);
       }).toThrowError();
     });
 
     it('calculates energy for empty values', () => {
-      expect(dwt.energy([])).toBe(0);
-      expect(dwt.energy([[], [], []])).toBe(0);
+      expect(wt.energy([])).toBe(0);
+      expect(wt.energy([[], [], []])).toBe(0);
     });
 
     it('calculates the energy of input data', () => {
       for (const waveletDataset of waveletDatasets) {
         for (const dataset of waveletDataset.datasets) {
           expect(
-            dwt.energy(dataset.data)
+            wt.energy(dataset.data)
           ).toBeCloseTo(dataset.energy, PRECISION);
         }
       }
@@ -200,10 +200,10 @@ describe('dwt', () => {
             .filter(d => d.mode === 'zero');
         for (const dataset of zeroPaddingDatasets) {
           expect(
-            dwt.energy(dataset.dwt)
+            wt.energy(dataset.dwt)
           ).toBeCloseTo(dataset.energy, PRECISION);
           expect(
-            dwt.energy(dataset.wavedec)
+            wt.energy(dataset.wavedec)
           ).toBeCloseTo(dataset.energy, PRECISION);
         }
       }
@@ -213,7 +213,7 @@ describe('dwt', () => {
   describe('idwt', () => {
     it('throws an error if approximation and detail coefficients do not have equal length', () => {
       expect(() => {
-        dwt.idwt(
+        wt.idwt(
           [1, 2],
           [3],
           'haar'
@@ -223,19 +223,19 @@ describe('dwt', () => {
 
     it('throws an error if approximation and detail coefficients have zero length', () => {
       expect(() => {
-        dwt.idwt([], [], 'haar');
+        wt.idwt([], [], 'haar');
       }).toThrowError();
     });
 
     it('throws an error if approximation and detail coefficients are undefined', () => {
       expect(() => {
-        dwt.idwt(undefined, undefined, 'haar');
+        wt.idwt(undefined, undefined, 'haar');
       }).toThrowError();
     });
 
     it('throws an error if low-pass and high-pass reconstruction filters have unequal length', () => {
       expect(() => {
-        dwt.idwt(
+        wt.idwt(
           haarDatasets[0].dwt[0],
           haarDatasets[0].dwt[1],
           {
@@ -251,7 +251,7 @@ describe('dwt', () => {
 
     it('throws an error if low-pass and high-pass reconstruction filters have a length less than two', () => {
       expect(() => {
-        dwt.idwt(
+        wt.idwt(
           haarDatasets[0].dwt[0],
           haarDatasets[0].dwt[1],
           {
@@ -269,14 +269,14 @@ describe('dwt', () => {
       const coeffs: number[] = [1, -2, 7, 1];
 
       expect(equalData(
-        dwt.idwt(coeffs, undefined, 'haar'),
-        dwt.idwt(coeffs, createArray(coeffs.length, 0), 'haar'),
+        wt.idwt(coeffs, undefined, 'haar'),
+        wt.idwt(coeffs, createArray(coeffs.length, 0), 'haar'),
         'zero'
       ));
 
       expect(equalData(
-        dwt.idwt(undefined, coeffs, 'db2'),
-        dwt.idwt(createArray(coeffs.length, 0), coeffs, 'db2'),
+        wt.idwt(undefined, coeffs, 'db2'),
+        wt.idwt(createArray(coeffs.length, 0), coeffs, 'db2'),
         'zero'
       ));
     });
@@ -286,7 +286,7 @@ describe('dwt', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(equalData(
-              dwt.idwt(dataset.dwt[0], dataset.dwt[1], alias),
+              wt.idwt(dataset.dwt[0], dataset.dwt[1], alias),
               dataset.data,
               dataset.mode
             )).toBe(true);
@@ -299,44 +299,44 @@ describe('dwt', () => {
   describe('maxLevel', () => {
     it('throws an error for non-integer length', () => {
       expect(() => {
-        dwt.maxLevel(3.14, 'haar');
+        wt.maxLevel(3.14, 'haar');
       }).toThrowError();
     })
 
     it('throws an error for data with length less than zero', () => {
       expect(() => {
-        dwt.maxLevel(-1, 'haar');
+        wt.maxLevel(-1, 'haar');
       }).toThrowError();
     })
 
     it('returns zero for data with length less than two', () => {
-      expect(dwt.maxLevel(0, 'haar')).toBe(0);
-      expect(dwt.maxLevel(1, 'haar')).toBe(0);
+      expect(wt.maxLevel(0, 'haar')).toBe(0);
+      expect(wt.maxLevel(1, 'haar')).toBe(0);
     });
 
     it('determines the maximum level correctly', () => {
-      expect(dwt.maxLevel(2, 'haar')).toBe(1);
-      expect(dwt.maxLevel(4, 'haar')).toBe(2);
-      expect(dwt.maxLevel(1024, 'haar')).toBe(10);
+      expect(wt.maxLevel(2, 'haar')).toBe(1);
+      expect(wt.maxLevel(4, 'haar')).toBe(2);
+      expect(wt.maxLevel(1024, 'haar')).toBe(10);
 
-      expect(dwt.maxLevel(5, 'db2')).toBe(0);
-      expect(dwt.maxLevel(12, 'db2')).toBe(2);
+      expect(wt.maxLevel(5, 'db2')).toBe(0);
+      expect(wt.maxLevel(12, 'db2')).toBe(2);
 
-      expect(dwt.maxLevel(35, 'db5')).toBe(1);
-      expect(dwt.maxLevel(36, 'db5')).toBe(2);
+      expect(wt.maxLevel(35, 'db5')).toBe(1);
+      expect(wt.maxLevel(36, 'db5')).toBe(2);
     });
   });
 
   describe('pad', () => {
     it('throws an error for undefined data', () => {
       expect(() => {
-        dwt.pad(undefined as unknown as number[], [3, 2], 'zero');
+        wt.pad(undefined as unknown as number[], [3, 2], 'zero');
       }).toThrowError();
     });
 
     it('throws an error for negative padding widths', () => {
       expect(() => {
-        dwt.pad(
+        wt.pad(
           [1, 2, 3],
           [-1, 0],
           'zero'
@@ -344,7 +344,7 @@ describe('dwt', () => {
       }).toThrowError();
 
       expect(() => {
-        dwt.pad(
+        wt.pad(
           [1, 2, 3],
           [0, -1],
           'zero'
@@ -354,25 +354,25 @@ describe('dwt', () => {
 
     it('throws an error for unknown padding modes', () => {
       expect(() => {
-        dwt.pad([1, 2, 3], [1, 1], 'foobar' as PaddingMode);
+        wt.pad([1, 2, 3], [1, 1], 'foobar' as PaddingMode);
       }).toThrowError();
     });
 
     it('throws an error when trying to add antisymmetric padding for data of zero length', () => {
       expect(() => {
-        dwt.pad([], [3, 3], 'antisymmetric');
+        wt.pad([], [3, 3], 'antisymmetric');
       }).toThrowError();
     });
 
     it('adds antisymmetric padding', () => {
-      expect(dwt.pad([4, -6, 0], [7, 3], 'antisymmetric'))
+      expect(wt.pad([4, -6, 0], [7, 3], 'antisymmetric'))
           .toEqual([
             -4, 4, -6, 0, -0, 6, -4,
             4, -6, 0,
             -0, 6, -4
           ]);
       
-      expect(dwt.pad([4], [3, 2], 'antisymmetric'))
+      expect(wt.pad([4], [3, 2], 'antisymmetric'))
           .toEqual([
             -4, 4, -4,
             4,
@@ -382,19 +382,19 @@ describe('dwt', () => {
 
     it('throws an error when trying to add constant padding for data of zero length', () => {
       expect(() => {
-        dwt.pad([], [1, 2], 'constant');
+        wt.pad([], [1, 2], 'constant');
       }).toThrowError();
     });
 
     it('adds constant padding', () => {
-      expect(dwt.pad([1, 2, 3], [2, 3], 'constant'))
+      expect(wt.pad([1, 2, 3], [2, 3], 'constant'))
           .toEqual([
             1, 1,
             1, 2, 3,
             3, 3, 3
           ]);
       
-      expect(dwt.pad([7], [4, 1], 'constant'))
+      expect(wt.pad([7], [4, 1], 'constant'))
           .toEqual([
             7, 7, 7, 7,
             7,
@@ -404,12 +404,12 @@ describe('dwt', () => {
 
     it('throws an error when trying to add periodic padding for data of zero length', () => {
       expect(() => {
-        dwt.pad([], [2, 2], 'periodic');
+        wt.pad([], [2, 2], 'periodic');
       }).toThrowError();
     });
 
     it('adds periodic padding', () => {
-      expect(dwt.pad([1, 2, 5], [4, 5], 'periodic'))
+      expect(wt.pad([1, 2, 5], [4, 5], 'periodic'))
           .toEqual([
             5, 1, 2, 5,
             1, 2, 5,
@@ -419,19 +419,19 @@ describe('dwt', () => {
 
     it('throws an error when trying to add reflect padding for data of zero length', () => {
       expect(() => {
-        dwt.pad([], [3, 1], 'reflect')
+        wt.pad([], [3, 1], 'reflect')
       }).toThrowError();
     });
 
     it('adds reflect padding', () => {
-      expect(dwt.pad([2, 7, 1], [6, 5], 'reflect'))
+      expect(wt.pad([2, 7, 1], [6, 5], 'reflect'))
           .toEqual([
             1, 7, 2, 7, 1, 7,
             2, 7, 1,
             7, 2, 7, 1, 7
           ]);
 
-      expect(dwt.pad([1], [2, 2], 'reflect'))
+      expect(wt.pad([1], [2, 2], 'reflect'))
           .toEqual([
             1, 1,
             1,
@@ -441,19 +441,19 @@ describe('dwt', () => {
 
     it('throws an error when trying to add smooth padding for data of zero length', () => {
       expect(() => {
-        dwt.pad([], [2, 1], 'smooth');
+        wt.pad([], [2, 1], 'smooth');
       }).toThrowError();
     });
 
     it('adds smooth padding', () => {
-      expect(dwt.pad([1, 2, 3], [3, 2], 'smooth'))
+      expect(wt.pad([1, 2, 3], [3, 2], 'smooth'))
           .toEqual([
             -2, -1, 0,
             1, 2, 3,
             4, 5
           ]);
 
-      expect(dwt.pad([1], [1, 3], 'smooth'))
+      expect(wt.pad([1], [1, 3], 'smooth'))
           .toEqual([
             2,
             1,
@@ -463,19 +463,19 @@ describe('dwt', () => {
 
     it('throws an error when trying to add symmetric padding for data of zero length', () => {
       expect(() => {
-        dwt.pad([], [1, 1], 'symmetric');
+        wt.pad([], [1, 1], 'symmetric');
       }).toThrowError();
     });
 
     it('adds symmetric padding', () => {
-      expect(dwt.pad([3, 1, 4], [4, 7], 'symmetric'))
+      expect(wt.pad([3, 1, 4], [4, 7], 'symmetric'))
           .toEqual([
             4, 4, 1, 3,
             3, 1, 4,
             4, 1, 3, 3, 1, 4, 4
           ]);
 
-      expect(dwt.pad([2], [3, 1], 'symmetric'))
+      expect(wt.pad([2], [3, 1], 'symmetric'))
           .toEqual([
             2, 2, 2,
             2,
@@ -484,14 +484,14 @@ describe('dwt', () => {
     });
 
     it('adds zero padding', () => {
-      expect(dwt.pad([42, 51], [2, 1], 'zero'))
+      expect(wt.pad([42, 51], [2, 1], 'zero'))
           .toEqual([
             0, 0,
             42, 51,
             0
           ]);
 
-      expect(dwt.pad([], [1, 2], 'zero'))
+      expect(wt.pad([], [1, 2], 'zero'))
           .toEqual([
             0,
             0, 0
@@ -502,13 +502,13 @@ describe('dwt', () => {
   describe('wavedec', () => {
     it('throws an error for undefined data', () => {
       expect(() => {
-        dwt.wavedec(undefined as unknown as number[], 'haar');
+        wt.wavedec(undefined as unknown as number[], 'haar');
       }).toThrowError();
     });
 
     it('throws an error if low-pass and high-pass decomposition filters have unequal length', () => {
       expect(() => {
-        dwt.wavedec(
+        wt.wavedec(
           haarDatasets[1].data,
           {
             ...HAAR_WAVELET,
@@ -523,7 +523,7 @@ describe('dwt', () => {
 
     it('throws an error if low-pass and high-pass decomposition filters have a length less than two', () => {
       expect(() => {
-        dwt.wavedec(
+        wt.wavedec(
           haarDatasets[1].data,
           {
             ...HAAR_WAVELET,
@@ -538,7 +538,7 @@ describe('dwt', () => {
 
     it('throws an error if the decomposition level is less than zero', () => {
       expect(() => {
-        dwt.wavedec(
+        wt.wavedec(
           haarDatasets[0].data,
           'haar',
           haarDatasets[0].mode,
@@ -548,7 +548,7 @@ describe('dwt', () => {
     });
 
     it('returns an empty array for empty data', () => {
-      expect(dwt.wavedec([], 'haar')).toEqual([[]]);
+      expect(wt.wavedec([], 'haar')).toEqual([[]]);
     });
 
     it('calculates the DWT', () => {
@@ -556,7 +556,7 @@ describe('dwt', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(equalCoeffs(
-              dwt.wavedec(dataset.data, alias, dataset.mode),
+              wt.wavedec(dataset.data, alias, dataset.mode),
               dataset.wavedec
             )).toBe(true);
           }
@@ -566,12 +566,12 @@ describe('dwt', () => {
 
     it('calculates the DWT to the specified level', () => {
       expect(equalCoeffs(
-        dwt.wavedec([1, 2, 3, 4], 'haar', undefined, 0),
+        wt.wavedec([1, 2, 3, 4], 'haar', undefined, 0),
         [[1, 2, 3, 4]]
       )).toBe(true);
 
       expect(equalCoeffs(
-        dwt.wavedec([Math.SQRT2], 'haar', 'zero', 2),
+        wt.wavedec([Math.SQRT2], 'haar', 'zero', 2),
         [[1 / Math.SQRT2], [1 / Math.SQRT2], [1]]
       )).toBe(true);
     });
@@ -580,17 +580,17 @@ describe('dwt', () => {
   describe('waverec', () => {
     it('throws an error for empty coefficients', () => {
       expect(() => {
-        dwt.waverec(undefined as unknown as number[][], 'haar');
+        wt.waverec(undefined as unknown as number[][], 'haar');
       }).toThrowError();
 
       expect(() => {
-        dwt.waverec([], 'haar');
+        wt.waverec([], 'haar');
       }).toThrowError();
     });
 
     it('throws an error if low-pass and high-pass reconstruction filters have unequal length', () => {
       expect(() => {
-        dwt.waverec(
+        wt.waverec(
           haarDatasets[1].wavedec,
           {
             ...HAAR_WAVELET,
@@ -605,7 +605,7 @@ describe('dwt', () => {
 
     it('throws an error if low-pass and high-pass reconstruction filters have a length less than two', () => {
       expect(() => {
-        dwt.waverec(
+        wt.waverec(
           haarDatasets[1].wavedec,
           {
             ...HAAR_WAVELET,
@@ -623,7 +623,7 @@ describe('dwt', () => {
         for (const alias of waveletDataset.aliases) {
           for (const dataset of waveletDataset.datasets) {
             expect(equalData(
-              dwt.waverec(dataset.wavedec, alias),
+              wt.waverec(dataset.wavedec, alias),
               dataset.data,
               dataset.mode
             )).toBe(true);
