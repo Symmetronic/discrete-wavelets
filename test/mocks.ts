@@ -13,6 +13,7 @@ import {
   Db7Wavelet,
   Db8Wavelet,
   Db9Wavelet,
+  Db10Wavelet,
   HaarWavelet,
   WaveletBasis,
   WaveletType,
@@ -365,7 +366,7 @@ export const db8Datasets: Dataset[] = [
 ];
 
 /*
- * Datasets for Daubechies 8 transform.
+ * Datasets for Daubechies 9 transform.
  */
 const db9Dataset1: Dataset = {
   data: [8, -5],
@@ -388,6 +389,32 @@ const db9Dataset1: Dataset = {
 
 export const db9Datasets: Dataset[] = [
   db9Dataset1,
+];
+
+/*
+ * Datasets for Daubechies 10 transform.
+ */
+const db10Dataset1: Dataset = {
+  data: [2, -7, 1, -8, 2, 8, -1, -8],
+  dwt: [
+    [
+      -0.77432369, -7.61649254, 4.52606799, -0.55501967, 0.54269965,
+      -4.03172532, 5.09675042, 2.81204315, -0.77432369, -7.61649254,
+      4.52606799, -0.55501967, 0.54269965
+    ],
+    [
+      2.33302666, 6.18515154, 6.16024362, -1.90878435, 1.40591797, 8.33199404,
+      -7.96657082, 12.32907903, 2.33302666, 6.18515154, 6.16024362,
+      -1.90878435, 1.40591797
+    ]
+  ],
+  energy: 251,
+  mode: 'antisymmetric',
+  wavedec: [[2, -7, 1, -8, 2, 8, -1, -8]]
+};
+
+export const db10Datasets: Dataset[] = [
+  db10Dataset1,
 ];
 
 /*
@@ -442,5 +469,10 @@ export const waveletDatasets: {
     aliases: ['db9', 'D18'],
     datasets: db9Datasets,
     wavelet: waveletFromScalingNumbers(Db9Wavelet),
+  },
+  {
+    aliases: ['db10', 'D20'],
+    datasets: db10Datasets,
+    wavelet: waveletFromScalingNumbers(Db10Wavelet),
   },
 ];

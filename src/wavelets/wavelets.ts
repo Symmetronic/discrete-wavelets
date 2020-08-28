@@ -9,6 +9,7 @@ import {
   Db7Wavelet,
   Db8Wavelet,
   Db9Wavelet,
+  Db10Wavelet,
   HaarWavelet,
 } from './daubechies/daubechies';
 
@@ -63,6 +64,7 @@ export const ScalingNumbers: { [key: string]: number[] } = {
   'db7': Db7Wavelet,
   'db8': Db8Wavelet,
   'db9': Db9Wavelet,
+  'db10': Db10Wavelet,
   'D2': HaarWavelet,
   'D4': Db2Wavelet,
   'D6': Db3Wavelet,
@@ -72,6 +74,7 @@ export const ScalingNumbers: { [key: string]: number[] } = {
   'D14': Db7Wavelet,
   'D16': Db8Wavelet,
   'D18': Db9Wavelet,
+  'D20': Db10Wavelet,
   'haar': HaarWavelet,
 };
 
@@ -79,12 +82,13 @@ export const ScalingNumbers: { [key: string]: number[] } = {
  * Short forms for common wavelet bases.
  */
 export type WaveletType =
-    'db1' | 'D2' | 'haar'
-    | 'db2' | 'D4'
-    | 'db3' | 'D6'
-    | 'db4' | 'D8'
-    | 'db5' | 'D10'
-    | 'db6' | 'D12'
-    | 'db7' | 'D14'
-    | 'db8' | 'D16'
-    | 'db9' | 'D18';
+      'db1'  | 'D2'  | 'haar'
+    | 'db2'  | 'D4'
+    | 'db3'  | 'D6'
+    | 'db4'  | 'D8'
+    | 'db5'  | 'D10'
+    | 'db6'  | 'D12'
+    | 'db7'  | 'D14'
+    | 'db8'  | 'D16'
+    | 'db9'  | 'D18'
+    | 'db10' | 'D20';
