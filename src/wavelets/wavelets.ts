@@ -7,6 +7,7 @@ import {
   Db5Wavelet,
   Db6Wavelet,
   Db7Wavelet,
+  Db8Wavelet,
   HaarWavelet,
 } from './daubechies/daubechies';
 
@@ -60,6 +61,7 @@ export const ScalingNumbers: { [key: string]: number[] } = {
   'db5': Db5Wavelet,
   'db6': Db6Wavelet,
   'db7': Db7Wavelet,
+  'db8': Db8Wavelet,
   'D2': HaarWavelet,
   'D4': Db2Wavelet,
   'D6': Db3Wavelet,
@@ -67,6 +69,7 @@ export const ScalingNumbers: { [key: string]: number[] } = {
   'D10': Db5Wavelet,
   'D12': Db6Wavelet,
   'D14': Db7Wavelet,
+  'D16': Db8Wavelet,
   'haar': HaarWavelet,
 };
 
@@ -80,4 +83,5 @@ export type WaveletType =
     | 'db4' | 'D8'
     | 'db5' | 'D10'
     | 'db6' | 'D12'
-    | 'db7' | 'D14';
+    | 'db7' | 'D14'
+    | 'db8' | 'D16';
