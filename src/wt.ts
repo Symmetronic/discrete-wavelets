@@ -1,13 +1,6 @@
 export {
-  ANTISYMMETRIC_PADDING,
-  CONSTANT_PADDING,
   PaddingMode,
   PaddingWidths,
-  PERIODIC_PADDING,
-  REFLECT_PADDING,
-  SMOOTH_PADDING,
-  SYMMETRIC_PADDING,
-  ZERO_PADDING,
 } from './padding/padding';
 
 export {
@@ -31,6 +24,7 @@ import {
 } from './helpers';
 
 import {
+  PADDING_MODES,
   PaddingMode,
   PaddingWidths,
   SYMMETRIC_PADDING,
@@ -50,7 +44,16 @@ const DEFAULT_PADDING_MODE: PaddingMode = SYMMETRIC_PADDING;
 /**
  * Collection of methods for Discrete Wavelet Transform (DWT).
  */
-export default class Wt {
+export default class DiscreteWavelets {
+
+  /**
+   * Contains static information about the signal extension modes.
+   */
+  static readonly Modes: {
+    modes: PaddingMode[],
+  } = {
+    modes: PADDING_MODES,
+  };
 
   /**
    * Single level Discrete Wavelet Transform.

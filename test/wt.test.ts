@@ -111,9 +111,13 @@ function equalData(
   return true;
 }
 
-describe('dwt', () => {
-  it('dwt exists', () => {
+describe('DiscreteWavelets', () => {
+  it('wt exists', () => {
     expect(new wt()).toBeInstanceOf(wt);
+  });
+
+  it('provides a list of supported signal extension modes', () => {
+    expect(wt.Modes.modes.length).toBeGreaterThan(0);
   });
 
   describe('dwt', () => {

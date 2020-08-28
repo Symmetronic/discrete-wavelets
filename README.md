@@ -1,6 +1,6 @@
 [![GitHub license](https://img.shields.io/github/license/Symmetronic/discrete-wavelets)](https://github.com/Symmetronic/discrete-wavelets/blob/master/LICENSE) [![npm](https://img.shields.io/npm/v/discrete-wavelets)](https://www.npmjs.com/package/discrete-wavelets) [![Build Status](https://travis-ci.org/Symmetronic/discrete-wavelets.svg?branch=master)](https://travis-ci.org/Symmetronic/discrete-wavelets) [![Coverage Status](https://coveralls.io/repos/github/Symmetronic/discrete-wavelets/badge.svg?branch=master)](https://coveralls.io/github/Symmetronic/discrete-wavelets?branch=master)
 
-# Discrete Wavelets
+# DiscreteWavelets
 
 A [Discrete Wavelet Transform (DWT)](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) library for the web.
 
@@ -39,6 +39,13 @@ Reflect Padding       | `'reflect'`       | Reflecting of samples.
 Periodic Padding      | `'periodic'`      | Treating signal as a periodic one.
 Smooth Padding        | `'smooth'`        | Signal extended as a straight line.
 Antisymmetric Padding | `'antisymmetric'` | Mirroring and negation of samples.
+
+You can get a list of the supported signal extension modes:
+
+```javascript
+console.log(wt.Modes.modes);
+// expected output: Array ['zero', 'constant', 'symmetric', 'periodic', 'smooth', 'reflect', 'antisymmetric']
+```
 
 ### Wavelets
 
