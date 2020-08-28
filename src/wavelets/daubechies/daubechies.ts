@@ -43,7 +43,7 @@ export const Db4Wavelet: number[] = [
 ];
 
 /**
- * Daubechies 6 scaling numbers.
+ * Daubechies 5 scaling numbers.
  */
 export const Db5Wavelet: number[] = [
   1.601023979741929144807237480204207336505441246250578327725699e-01,
