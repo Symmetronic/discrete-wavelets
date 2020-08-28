@@ -4,7 +4,7 @@ import {
   waveletDatasets,
 } from './mocks';
 
-import wt from "../src/dwt"
+import wt from "../src/wt"
 import {
   createArray,
   waveletFromScalingNumbers,

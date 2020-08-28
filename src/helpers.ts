@@ -1,7 +1,7 @@
 import {
   PaddingMode,
   PaddingWidths,
-} from "./dwt";
+} from "./wt";
 import {
   ANTISYMMETRIC_PADDING,
   antisymmetricPadding,

@@ -50,7 +50,7 @@ const DEFAULT_PADDING_MODE: PaddingMode = SYMMETRIC_PADDING;
 /**
  * Collection of methods for Discrete Wavelet Transform (DWT).
  */
-export default class Dwt {
+export default class Wt {
 
   /**
    * Single level Discrete Wavelet Transform.
