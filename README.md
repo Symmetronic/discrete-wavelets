@@ -2,7 +2,9 @@
 
 # Discrete Wavelets
 
-[Discrete wavelet transform (DWT)](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) library inspired by [PyWavelets](https://github.com/PyWavelets/pywt).
+A [Discrete Wavelet Transform (DWT)](https://en.wikipedia.org/wiki/Discrete_wavelet_transform) library for the web.
+
+This library is well tested. Still, it may contain some errors. Therefore it is recommended to double check the results with another library such as [PyWavelets](https://github.com/PyWavelets/pywt). If you find any errors, please let me know by opening an issue or a pull request.
 
 ## Importing this library
 

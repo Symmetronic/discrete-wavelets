@@ -1,7 +1,7 @@
 {
   "name": "discrete-wavelets",
   "version": "4.0.0",
-  "description": "Discrete wavelet transform (DWT) library.",
+  "description": "A Discrete Wavelet Transform (DWT) library for the web.",
   "keywords": [
     "analysis",
     "data",
