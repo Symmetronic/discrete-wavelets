@@ -78,7 +78,7 @@ Single level Discrete Wavelet Transform.
 
 - `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingMode`): Signal extension mode.
+- `mode` (`PaddingMode`): Signal extension mode. Defaults to `'symmetric'`.
 
 #### Return
 
@@ -101,7 +101,7 @@ console.log(coeffs);
 
 - `data` (`number[]`): Input data.
 - `wavelet` (`Wavelet`): Wavelet to use.
-- `mode` (`PaddingMode`): Signal extension mode.
+- `mode` (`PaddingMode`): Signal extension mode. Defaults to `'symmetric'`.
 - `level` (`number`): Decomposition level. Defaults to level calculated by [maxLevel](#maxLevel) function.
 
 #### Return
