@@ -6,13 +6,13 @@ import {
   add,
   assertValidApproxDetail,
   assertValidCoeffs,
+  assertValidFilters,
   basisFromWavelet,
   createArray,
   dot,
   mulScalar,
   padElement,
   padWidths,
-  assertValidFilters,
   waveletFromScalingNumbers,
 } from '../src/helpers';
 import {
