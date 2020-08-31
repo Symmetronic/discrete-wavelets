@@ -1,10 +1,10 @@
-export * from './antisymmetric/antisymmetric';
-export * from './constant/constant';
-export * from './periodic/periodic';
-export * from './reflect/reflect';
-export * from './smooth/smooth';
-export * from './symmetric/symmetric';
-export * from './zero/zero';
+export { antisymmetricPadding } from './antisymmetric/antisymmetric';
+export { constantPadding } from './constant/constant';
+export { periodicPadding } from './periodic/periodic';
+export { reflectPadding } from './reflect/reflect';
+export { smoothPadding } from './smooth/smooth';
+export { symmetricPadding } from './symmetric/symmetric';
+export { zeroPadding } from './zero/zero';
 
 import { ANTISYMMETRIC_PADDING } from './antisymmetric/antisymmetric';
 import { CONSTANT_PADDING } from './constant/constant';
@@ -27,17 +27,40 @@ export type PaddingMode =
     | 'zero';
 
 /**
- * List of supported signal extension modes.
+ * Interface of supported padding mode.
  */
-export const PADDING_MODES: PaddingMode[] = [
-  ZERO_PADDING,
-  CONSTANT_PADDING,
-  SYMMETRIC_PADDING,
-  PERIODIC_PADDING,
-  SMOOTH_PADDING,
-  REFLECT_PADDING,
-  ANTISYMMETRIC_PADDING,
-];
+export interface PaddingModes {
+  antisymmetric: PaddingMode;
+  constant: PaddingMode;
+  modes: PaddingMode[];
+  periodic: PaddingMode;
+  reflect: PaddingMode;
+  smooth: PaddingMode;
+  symmetric: PaddingMode;
+  zero: PaddingMode;
+}
+
+/**
+ * Supported signal extension modes.
+ */
+export const PADDING_MODES: PaddingModes = {
+  antisymmetric: ANTISYMMETRIC_PADDING,
+  constant: CONSTANT_PADDING,
+  periodic: PERIODIC_PADDING,
+  reflect: REFLECT_PADDING,
+  smooth: SMOOTH_PADDING,
+  symmetric: SYMMETRIC_PADDING,
+  zero: ZERO_PADDING,
+  modes: [
+    ZERO_PADDING,
+    CONSTANT_PADDING,
+    SYMMETRIC_PADDING,
+    PERIODIC_PADDING,
+    SMOOTH_PADDING,
+    REFLECT_PADDING,
+    ANTISYMMETRIC_PADDING,
+  ],
+};
 
 /**
  * Number of padded values at front and back.

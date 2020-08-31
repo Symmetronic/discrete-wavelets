@@ -3,19 +3,14 @@ import {
   PaddingWidths,
 } from "./wt";
 import {
-  ANTISYMMETRIC_PADDING,
   antisymmetricPadding,
-  CONSTANT_PADDING,
   constantPadding,
-  PERIODIC_PADDING,
+  PADDING_MODES,
   periodicPadding,
-  REFLECT_PADDING,
   reflectPadding,
-  SMOOTH_PADDING,
   smoothPadding,
-  SYMMETRIC_PADDING,
   symmetricPadding,
-  ZERO_PADDING,
+  zeroPadding,
 } from "./padding/padding";
 import {
   Filters,
@@ -192,20 +187,20 @@ export function padElement(
   mode: PaddingMode,
 ): number {
   switch (mode) {
-    case ANTISYMMETRIC_PADDING:
+    case PADDING_MODES.antisymmetric:
       return antisymmetricPadding(data, index, inverse);
-    case CONSTANT_PADDING:
+    case PADDING_MODES.constant:
       return constantPadding(data, inverse);
-    case PERIODIC_PADDING:
+    case PADDING_MODES.periodic:
       return periodicPadding(data, index, inverse);
-    case REFLECT_PADDING:
+    case PADDING_MODES.reflect:
       return reflectPadding(data, index, inverse);
-    case SMOOTH_PADDING:
+    case PADDING_MODES.smooth:
       return smoothPadding(data, index, inverse);
-    case SYMMETRIC_PADDING:
+    case PADDING_MODES.symmetric:
       return symmetricPadding(data, index, inverse);
-    case ZERO_PADDING:
-      return 0;
+    case PADDING_MODES.zero:
+      return zeroPadding();
     default:
       throw new Error('Unknown signal extension mode: "' + mode + '"');
   }

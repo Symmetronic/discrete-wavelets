@@ -26,8 +26,8 @@ import {
 import {
   PADDING_MODES,
   PaddingMode,
+  PaddingModes,
   PaddingWidths,
-  SYMMETRIC_PADDING,
 } from './padding/padding';
 
 import {
@@ -39,7 +39,7 @@ import {
 /**
  * Default padding mode to use.
  */
-const DEFAULT_PADDING_MODE: PaddingMode = SYMMETRIC_PADDING;
+const DEFAULT_PADDING_MODE: PaddingMode = PADDING_MODES.symmetric;
 
 /**
  * Collection of methods for Discrete Wavelet Transform (DWT).
@@ -49,11 +49,7 @@ export default class DiscreteWavelets {
   /**
    * Contains static information about the signal extension modes.
    */
-  static readonly Modes: {
-    modes: PaddingMode[],
-  } = {
-    modes: PADDING_MODES,
-  };
+  static readonly Modes: PaddingModes = PADDING_MODES;
 
   /**
    * Single level Discrete Wavelet Transform.
