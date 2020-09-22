@@ -13,7 +13,7 @@
   ],
   "main": "dist/discrete-wavelets.umd.js",
   "module": "dist/discrete-wavelets.es5.js",
-  "typings": "dist/types/discrete-wavelets.d.ts",
+  "typings": "dist/types/wt.d.ts",
   "files": [
     "dist"
   ],
