@@ -1,7 +1,5 @@
-import {
-  PaddingMode,
-  symmetricPadding,
-} from '../padding';
+import { PaddingMode } from '../padding';
+import { symmetricPadding } from '../symmetric/symmetric';
 
 /**
  * Antisymmetric padding.
