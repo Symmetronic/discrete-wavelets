@@ -16,7 +16,7 @@ This library is well tested. Still, it may contain some errors. Therefore it is 
 
 ### UNPKG
 
-- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@5.0.2/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
+- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@5.0.4/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
 - Then you can use the library in your code.
 
 ## Types
