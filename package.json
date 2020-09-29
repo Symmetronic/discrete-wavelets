@@ -40,17 +40,6 @@
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "test:watch": "jest --coverage --watch"
   },
-  "lint-staged": {
-    "{src,test}/**/*.ts": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    }
-  },
   "jest": {
     "transform": {
       ".(ts|tsx)": "ts-jest"
@@ -85,17 +74,11 @@
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
-    "colors": "^1.3.2",
-    "commitizen": "^3.0.0",
     "coveralls": "^3.1.0",
-    "cross-env": "^5.2.0",
     "jest": "^25.1.0",
     "jest-config": "^25.1.0",
-    "lint-staged": "^8.0.0",
     "lodash.camelcase": "^4.3.0",
     "prettier": "^1.14.3",
-    "prompt": "^1.0.0",
-    "replace-in-file": "^3.4.2",
     "rimraf": "^2.6.2",
     "rollup": "^0.67.0",
     "rollup-plugin-commonjs": "^9.1.8",
@@ -103,8 +86,6 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.26.0",
-    "shelljs": "^0.8.3",
-    "travis-deploy-once": "^5.0.9",
     "ts-jest": "^26.4.0",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
