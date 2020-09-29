@@ -14,9 +14,9 @@ This library is well tested. Still, it may contain some errors. Therefore it is 
 - Add an import to the npm package `import wt from 'discrete-wavelets';`
 - Then you can use the library in your code.
 
-### UNPKG
+### CDN
 
-- Put the following script tag `<script src='https://unpkg.com/discrete-wavelets@5.0.4/dist/discrete-wavelets.umd.js'></script>` in the head of your index.html
+- Put the following script tag `<script src="https://cdn.jsdelivr.net/npm/discrete-wavelets@5/dist/discrete-wavelets.umd.min.js"></script>` in the head of your HTML file.
 - Then you can use the library in your code.
 
 ## Types
