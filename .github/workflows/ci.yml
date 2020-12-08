@@ -9,10 +9,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Use Node.js
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
+
     - name: Cache Node.js modules
       uses: actions/cache@v2
       with:
@@ -22,9 +24,14 @@ jobs:
         restore-keys: |
           ${{ runner.OS }}-node-
           ${{ runner.OS }}-
+
     - name: Install dependencies
       run: npm ci
-    - name: Lint code
-      run: npm run lint
-    - name: Run tests and coverage
-      run: npm run test:coveralls
+
+    - name: Lint code, run tests and create coverage report
+      run: npm run test:prod
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}

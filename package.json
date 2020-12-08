@@ -36,7 +36,6 @@
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
-    "test:coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "test:prod": "npm run lint && npm run test -- --no-cache",
     "test:watch": "jest --coverage --watch"
   },
@@ -74,7 +73,6 @@
   "devDependencies": {
     "@types/jest": "^26.0.15",
     "@types/node": "^10.17.47",
-    "coveralls": "^3.1.0",
     "jest": "^26.6.3",
     "jest-config": "^25.5.4",
     "lodash.camelcase": "^4.3.0",
