@@ -10,7 +10,7 @@ This library is well tested. Still, it may contain some errors. Therefore it is 
 
 ### Node Modules
 
-- Run `npm install discrete-wavelets --save`
+- Run `npm install discrete-wavelets`
 - Add an import to the npm package `import wt from 'discrete-wavelets';`
 - Then you can use the library in your code.
 
