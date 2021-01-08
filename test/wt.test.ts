@@ -4,17 +4,19 @@ import {
   waveletDatasets,
 } from './mocks';
 
-import wt from "../src/wt"
+import wt, {
+  PaddingMode,
+  PaddingModes,
+  WaveletBasis,
+} from "../src/wt"
+
 import {
   createArray,
   waveletFromScalingNumbers,
 } from '../src/helpers';
-import {
-  PaddingMode,
-} from '../src/padding/padding';
+
 import {
   HaarWavelet,
-  WaveletBasis,
 } from "../src/wavelets/wavelets";
 
 /**
@@ -117,7 +119,8 @@ describe('DiscreteWavelets', () => {
   });
 
   it('provides a list of supported signal extension modes', () => {
-    expect(wt.Modes.modes.length).toBeGreaterThan(0);
+    const modes: PaddingModes = wt.Modes;
+    expect(modes.modes.length).toBeGreaterThan(0);
   });
 
   describe('dwt', () => {
