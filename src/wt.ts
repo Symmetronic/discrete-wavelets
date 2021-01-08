@@ -1,5 +1,6 @@
 export {
   PaddingMode,
+  PaddingModes,
   PaddingWidths,
 } from './padding/padding';
 
