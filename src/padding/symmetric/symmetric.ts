@@ -13,7 +13,7 @@ export const SYMMETRIC_PADDING: PaddingMode = 'symmetric';
  * @return         Single padding value.
  */
 export function symmetricPadding(
-  data: number[],
+  data: ReadonlyArray<number>,
   index: number,
   inverse: boolean = false,
 ): number {

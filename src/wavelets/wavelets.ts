@@ -54,7 +54,7 @@ export interface WaveletBasis {
 /**
  * Mapping of wavelet type keys to scaling numbers.
  */
-export const ScalingNumbers: { [key: string]: number[] } = {
+export const ScalingNumbers: { [key: string]: ReadonlyArray<number> } = {
   'db1': HaarWavelet,
   'db2': Db2Wavelet,
   'db3': Db3Wavelet,

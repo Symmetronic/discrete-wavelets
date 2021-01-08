@@ -13,7 +13,7 @@ export const PERIODIC_PADDING: PaddingMode = 'periodic';
  * @return         Single padding value.
  */
 export function periodicPadding(
-  data: number[],
+  data: ReadonlyArray<number>,
   index: number,
   inverse: boolean = false,
 ): number {

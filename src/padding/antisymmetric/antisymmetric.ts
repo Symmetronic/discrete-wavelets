@@ -14,7 +14,7 @@ export const ANTISYMMETRIC_PADDING: PaddingMode = 'antisymmetric';
  * @return         Single padding value.
  */
 export function antisymmetricPadding(
-  data: number[],
+  data: ReadonlyArray<number>,
   index: number,
   inverse: boolean = false,
 ): number {

@@ -12,7 +12,7 @@ export const CONSTANT_PADDING: PaddingMode = 'constant';
  * @return         Single padding value.
  */
 export function constantPadding(
-  data: number[],
+  data: ReadonlyArray<number>,
   inverse: boolean = false,
 ): number {
   /* Check if data has length larger than zero. */

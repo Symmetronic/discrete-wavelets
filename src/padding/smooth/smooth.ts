@@ -13,7 +13,7 @@ export const SMOOTH_PADDING: PaddingMode = 'smooth';
  * @return         Single padding value.
  */
 export function smoothPadding(
-  data: number[],
+  data: ReadonlyArray<number>,
   index: number,
   inverse: boolean = false,
 ): number {

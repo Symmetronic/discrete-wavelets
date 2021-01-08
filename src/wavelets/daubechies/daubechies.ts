@@ -3,7 +3,7 @@
 /**
  * Haar wavelet scaling numbers.
  */
-export const HaarWavelet: number[] = [
+export const HaarWavelet: ReadonlyArray<number> = [
   1 / Math.SQRT2,
   1 / Math.SQRT2
 ];
@@ -11,7 +11,7 @@ export const HaarWavelet: number[] = [
 /**
  * Daubechies 2 scaling numbers.
  */
-export const Db2Wavelet: number[] = [
+export const Db2Wavelet: ReadonlyArray<number> = [
   (1 + Math.sqrt(3)) / (4 * Math.SQRT2),
   (3 + Math.sqrt(3)) / (4 * Math.SQRT2),
   (3 - Math.sqrt(3)) / (4 * Math.SQRT2),
@@ -21,7 +21,7 @@ export const Db2Wavelet: number[] = [
 /**
  * Daubechies 3 scaling numbers.
  */
-export const Db3Wavelet: number[] = [
+export const Db3Wavelet: ReadonlyArray<number> = [
   3.326705529500826159985115891390056300129233992450683597084705e-01,
   8.068915093110925764944936040887134905192973949948236181650920e-01,
   4.598775021184915700951519421476167208081101774314923066433867e-01,
@@ -33,7 +33,7 @@ export const Db3Wavelet: number[] = [
 /**
  * Daubechies 4 scaling numbers.
  */
-export const Db4Wavelet: number[] = [
+export const Db4Wavelet: ReadonlyArray<number> = [
   2.303778133088965008632911830440708500016152482483092977910968e-01,
   7.148465705529156470899219552739926037076084010993081758450110e-01,
   6.308807679298589078817163383006152202032229226771951174057473e-01,
@@ -47,7 +47,7 @@ export const Db4Wavelet: number[] = [
 /**
  * Daubechies 5 scaling numbers.
  */
-export const Db5Wavelet: number[] = [
+export const Db5Wavelet: ReadonlyArray<number> = [
   1.601023979741929144807237480204207336505441246250578327725699e-01,
   6.038292697971896705401193065250621075074221631016986987969283e-01,
   7.243085284377729277280712441022186407687562182320073725767335e-01,
@@ -63,7 +63,7 @@ export const Db5Wavelet: number[] = [
 /**
  * Daubechies 6 scaling numbers.
  */
-export const Db6Wavelet: number[] = [
+export const Db6Wavelet: ReadonlyArray<number> = [
   1.115407433501094636213239172409234390425395919844216759082360e-01,
   4.946238903984530856772041768778555886377863828962743623531834e-01,
   7.511339080210953506789344984397316855802547833382612009730420e-01,
@@ -81,7 +81,7 @@ export const Db6Wavelet: number[] = [
 /**
  * Daubechies 7 scaling numbers.
  */
-export const Db7Wavelet: number[] = [
+export const Db7Wavelet: ReadonlyArray<number> = [
   7.785205408500917901996352195789374837918305292795568438702937e-02,
   3.965393194819173065390003909368428563587151149333287401110499e-01,
   7.291320908462351199169430703392820517179660611901363782697715e-01,
@@ -101,7 +101,7 @@ export const Db7Wavelet: number[] = [
 /**
  * Daubechies 8 scaling numbers.
  */
-export const Db8Wavelet: number[] = [
+export const Db8Wavelet: ReadonlyArray<number> = [
   5.441584224310400995500940520299935503599554294733050397729280e-02,
   3.128715909142999706591623755057177219497319740370229185698712e-01,
   6.756307362972898068078007670471831499869115906336364227766759e-01,
@@ -123,7 +123,7 @@ export const Db8Wavelet: number[] = [
 /**
  * Daubechies 9 scaling numbers.
  */
-export const Db9Wavelet: number[] = [
+export const Db9Wavelet: ReadonlyArray<number> = [
   3.807794736387834658869765887955118448771714496278417476647192e-02,
   2.438346746125903537320415816492844155263611085609231361429088e-01,
   6.048231236901111119030768674342361708959562711896117565333713e-01,
@@ -147,7 +147,7 @@ export const Db9Wavelet: number[] = [
 /**
  * Daubechies 10 scaling numbers.
  */
-export const Db10Wavelet: number[] = [
+export const Db10Wavelet: ReadonlyArray<number> = [
   2.667005790055555358661744877130858277192498290851289932779975e-02,
   1.881768000776914890208929736790939942702546758640393484348595e-01,
   5.272011889317255864817448279595081924981402680840223445318549e-01,

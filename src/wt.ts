@@ -49,7 +49,7 @@ export default class DiscreteWavelets {
   /**
    * Contains static information about the signal extension modes.
    */
-  static readonly Modes: PaddingModes = PADDING_MODES;
+  static readonly Modes: Readonly<PaddingModes> = PADDING_MODES;
 
   /**
    * Single level Discrete Wavelet Transform.
@@ -59,13 +59,13 @@ export default class DiscreteWavelets {
    * @return         Approximation and detail coefficients as result of the transform.
    */
   static dwt(
-    data: number[],
-    wavelet: Wavelet,
+    data: ReadonlyArray<number>,
+    wavelet: Readonly<Wavelet>,
     mode: PaddingMode = DEFAULT_PADDING_MODE,
   ): number[][] {
     /* Determine wavelet basis and filters. */
-    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
-    const filters: Filters = waveletBasis.dec;
+    const waveletBasis: Readonly<WaveletBasis> = basisFromWavelet(wavelet);
+    const filters: Readonly<Filters> = waveletBasis.dec;
     assertValidFilters(filters);
     const filterLength: number = filters.low.length;
 
@@ -83,7 +83,7 @@ export default class DiscreteWavelets {
       offset += 2
     ) {
       /* Determine slice of values. */
-      const values: number[] = data.slice(offset, offset + filterLength);
+      const values: ReadonlyArray<number> = data.slice(offset, offset + filterLength);
 
       /* Calculate approximation coefficients. */
       approx.push(
@@ -106,10 +106,12 @@ export default class DiscreteWavelets {
    * @param  values Array of data or coefficients.
    * @return        Energy of values as the sum of squares.
    */
-  static energy(values: number[] | number[][]): number {
+  static energy(
+    values: ReadonlyArray<number> | ReadonlyArray<ReadonlyArray<number>>,
+  ): number {
     let energy: number = 0;
     for (const value of values) {
-      if (!Array.isArray(value)) energy += Math.pow(value, 2);
+      if (typeof value === 'number') energy += Math.pow(value, 2);
       else energy += this.energy(value);
     }
     return energy;
@@ -123,8 +125,8 @@ export default class DiscreteWavelets {
    * @return         Approximation coefficients of previous level of transform.
    */
   static idwt(
-    approx: number[] | undefined,
-    detail: number[] | undefined,
+    approx: ReadonlyArray<number> | undefined,
+    detail: ReadonlyArray<number> | undefined,
     wavelet: Wavelet,
   ): number[] {
     /* Fill empty array with zeros. */
@@ -143,26 +145,28 @@ export default class DiscreteWavelets {
     assertValidApproxDetail(approx, detail);
 
     /* Determine wavelet basis and filters. */
-    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
-    const filters: Filters = waveletBasis.rec;
+    const waveletBasis: Readonly<WaveletBasis> = basisFromWavelet(wavelet);
+    const filters: Readonly<Filters> = waveletBasis.rec;
     assertValidFilters(filters);
     const filterLength: number = filters.low.length;
     
     /* Initialize transform. */
     const coeffLength: number = approx.length;
-    const pad: number[] = createArray(filterLength + (coeffLength - 1) * 2, 0);
+    let pad: ReadonlyArray<number> = createArray(filterLength + (coeffLength - 1) * 2, 0);
 
     /* Perform inverse Discrete Wavelet Transform. */
     for (let i = 0; i < coeffLength; i++) {
       const offset: number = 2 * i;
 
       /* Calculate values. */
-      let values: number[] = pad.slice(offset, offset + filterLength);
+      let values: ReadonlyArray<number> = pad.slice(offset, offset + filterLength);
       values = add(values, mulScalar(approx[i], filters.low));
       values = add(values, mulScalar(detail[i], filters.high));
 
       /* Update values. */
-      pad.splice(offset, filterLength, ...values);
+      pad = pad.slice(0, offset)
+          .concat(values)
+          .concat(pad.slice(offset + values.length));
     }
 
     /* Remove padding. */
@@ -180,7 +184,7 @@ export default class DiscreteWavelets {
    */
   static maxLevel(
     dataLength: number,
-    wavelet: Wavelet,
+    wavelet: Readonly<Wavelet>,
   ): number {
     /* Check for non-integer length. */
     if (!Number.isInteger(dataLength)) {
@@ -196,7 +200,7 @@ export default class DiscreteWavelets {
     if (dataLength === 0) return 0;
 
     /* Determine wavelet basis. */
-    const waveletBasis: WaveletBasis = basisFromWavelet(wavelet);
+    const waveletBasis: Readonly<WaveletBasis> = basisFromWavelet(wavelet);
     
     /* Determine length of filter. */
     const filterLength: number = waveletBasis.dec.low.length;
@@ -216,8 +220,8 @@ export default class DiscreteWavelets {
    * @return           Data with padding.
    */
   static pad(
-    data: number[],
-    padWidths: PaddingWidths,
+    data: ReadonlyArray<number>,
+    padWidths: Readonly<PaddingWidths>,
     mode: PaddingMode,
   ): number[] {
     /* Check for undefined data. */
@@ -249,8 +253,8 @@ export default class DiscreteWavelets {
    * @return         Coefficients as result of the transform.
    */
   static wavedec(
-    data: number[],
-    wavelet: Wavelet,
+    data: ReadonlyArray<number>,
+    wavelet: Readonly<Wavelet>,
     mode: PaddingMode = DEFAULT_PADDING_MODE,
     level?: number,
   ): number[][] {
@@ -262,21 +266,22 @@ export default class DiscreteWavelets {
 
     /*  Initialize transform. */
     let coeffs: number[][] = [];
-    let approx: number[] = data;
+    let approx: ReadonlyArray<number> = data.slice();
 
     /* Transform. */
     for (let l: number = 1; l <= level; l++) {
       /* Perform single level transform. */
-      const approxDetail: number[][] = this.dwt(approx, wavelet, mode);
+      const approxDetail: ReadonlyArray<ReadonlyArray<number>> =
+          this.dwt(approx, wavelet, mode);
       approx = approxDetail[0];
-      const detail: number[] = approxDetail[1];
+      const detail: ReadonlyArray<number> = approxDetail[1];
 
       /* Prepend detail coefficients. */
-      coeffs.unshift(detail);
+      coeffs.unshift(detail.slice());
     }
 
     /* Prepend last approximation. */
-    coeffs.unshift(approx);
+    coeffs.unshift(approx.slice());
 
     /* Return coefficients. */
     return coeffs;
@@ -290,7 +295,7 @@ export default class DiscreteWavelets {
    * @return         Input data as result of the inverse transform.
    */
   static waverec(
-    coeffs: number[][],
+    coeffs: ReadonlyArray<ReadonlyArray<number>>,
     wavelet: Wavelet,
   ): number[] {
     /* Check if coefficients are valid. */
@@ -300,12 +305,12 @@ export default class DiscreteWavelets {
     wavelet = basisFromWavelet(wavelet);
 
     /* Initialize transform. */
-    let approx: number[] = coeffs[0];
+    let approx: ReadonlyArray<number> = coeffs[0];
 
     /* Transform. */
     for (let i: number = 1; i < coeffs.length; i++) {
       /* Initialize detail coefficients. */
-      const detail = coeffs[i];
+      const detail: ReadonlyArray<number> = coeffs[i];
 
       // TODO: Check if problem of different coefficient lengths because of padding can be solved in a more elegant way.
       if (approx.length === detail.length + 1) {
@@ -317,6 +322,6 @@ export default class DiscreteWavelets {
     }
 
     /* Return data. */
-    return approx;
+    return approx.slice();
   }
 }

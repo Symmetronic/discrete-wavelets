@@ -43,7 +43,7 @@ export interface PaddingModes {
 /**
  * Supported signal extension modes.
  */
-export const PADDING_MODES: PaddingModes = {
+export const PADDING_MODES: Readonly<PaddingModes> = {
   antisymmetric: ANTISYMMETRIC_PADDING,
   constant: CONSTANT_PADDING,
   periodic: PERIODIC_PADDING,

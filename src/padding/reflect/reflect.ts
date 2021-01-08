@@ -13,7 +13,7 @@ export const REFLECT_PADDING: PaddingMode = 'reflect';
  * @return         Single padding value.
  */
 export function reflectPadding(
-  data: number[],
+  data: ReadonlyArray<number>,
   index: number,
   inverse: boolean = false,
 ): number {

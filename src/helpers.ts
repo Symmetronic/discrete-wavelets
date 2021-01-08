@@ -26,8 +26,8 @@ import {
  * @return   Element-wise sum.
  */
 export function add(
-  a: number[],
-  b: number[],
+  a: ReadonlyArray<number>,
+  b: ReadonlyArray<number>,
 ): number[] {
   /* Check for same length of arrays. */
   if (a.length !== b.length) {
@@ -46,8 +46,8 @@ export function add(
  * @return        True if the coefficients are valid, otherwise throws an error.
  */
 export function assertValidApproxDetail(
-  approx: number[],
-  detail: number[],
+  approx: ReadonlyArray<number>,
+  detail: ReadonlyArray<number>,
 ): boolean {
   /* Check if coefficients have equal length. */
   if (approx.length !== detail.length) {
@@ -68,7 +68,7 @@ export function assertValidApproxDetail(
  * @return        True if the coefficients are valid, otherwise throws an error.
  */
 export function assertValidCoeffs(
-  coeffs: number[][],
+  coeffs: ReadonlyArray<ReadonlyArray<number>>,
 ): boolean {
   /* Check if at least an array of approximation coefficients is given. */
   if (coeffs.length < 1) {
@@ -86,7 +86,7 @@ export function assertValidCoeffs(
  * @return         True if the wavelet filters are valid, otherwise throws an error.
  */
 export function assertValidFilters(
-  filters: Filters,
+  filters: Readonly<Filters>,
 ): boolean {
   /* Check if high-pass and low-pass filters have equal length. */
   if (filters.high.length !== filters.low.length) {
@@ -106,7 +106,7 @@ export function assertValidFilters(
  * @param  wavelet Wavelet type or basis.
  * @return         Wavelet basis.
  */
-export function basisFromWavelet(wavelet: Wavelet): WaveletBasis {
+export function basisFromWavelet(wavelet: Readonly<Wavelet>): WaveletBasis {
   return (typeof wavelet !== 'string')
     ? wavelet
     : waveletFromScalingNumbers(ScalingNumbers[wavelet]); 
@@ -147,8 +147,8 @@ export function createArray(
  * @return   Dot product.
  */
 export function dot(
-  a: number[],
-  b: number[],
+  a: ReadonlyArray<number>,
+  b: ReadonlyArray<number>,
 ): number {
   /* Check for same length of arrays. */
   if (a.length !== b.length) {
@@ -167,7 +167,7 @@ export function dot(
  */
 export function mulScalar(
   scalar: number,
-  array: number[],
+  array: ReadonlyArray<number>,
 ): number[] {
   return array.map(value => scalar * value);
 }
@@ -181,7 +181,7 @@ export function mulScalar(
  * @return         Single padding element.
  */
 export function padElement(
-  data: number[],
+  data: ReadonlyArray<number>,
   index: number,
   inverse: boolean,
   mode: PaddingMode,
@@ -241,7 +241,7 @@ export function padWidths(
  * @return                Wavelet basis.
  */
 export function waveletFromScalingNumbers(
-  scalingNumbers: number[],
+  scalingNumbers: ReadonlyArray<number>,
 ): WaveletBasis {
   /* Check if length is larger than or equal to two. */
   if (scalingNumbers.length < 2) {
@@ -251,7 +251,7 @@ export function waveletFromScalingNumbers(
   }
 
   /* Determine wavelet numbers. */
-  const waveletNumbers: number[] =
+  const waveletNumbers: ReadonlyArray<number> =
       scalingNumbers.slice() // Copy array
       .reverse()
       .map((value, index) => (index % 2 === 0) ? value : -value);
@@ -260,7 +260,7 @@ export function waveletFromScalingNumbers(
   return {
     dec: {
       low: scalingNumbers.slice(),
-      high: waveletNumbers
+      high: waveletNumbers.slice(),
     },
     rec: {
       low: scalingNumbers.slice(),
