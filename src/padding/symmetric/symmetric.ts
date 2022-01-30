@@ -7,6 +7,7 @@ export const SYMMETRIC_PADDING: PaddingMode = 'symmetric';
 
 /**
  * Returns a single value of symmetric padding.
+ * 
  * @param  data    Input values.
  * @param  index   Index of padding.
  * @param  inverse True if the direction should be inversed.

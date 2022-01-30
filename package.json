@@ -31,9 +31,9 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "eslint src/**",
     "prebuild": "rimraf dist",
-    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs src/wt.ts",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:prod": "npm run lint && npm run test -- --no-cache",
@@ -70,8 +70,16 @@
     "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
+    "@rollup/pluginutils": "^4.1.2",
     "@types/jest": "^27.0.2",
     "@types/node": "^10.17.47",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/eslint-plugin-tslint": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
+    "eslint": "^8.8.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsdoc": "^37.7.0",
+    "eslint-plugin-react": "^7.28.0",
     "jest": "^27.2.5",
     "jest-config": "^27.2.5",
     "lodash.camelcase": "^4.3.0",
@@ -81,10 +89,7 @@
     "rollup-plugin-typescript2": "^0.26.0",
     "ts-jest": "^27.0.5",
     "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
-    "tslint-config-standard": "^8.0.1",
-    "typedoc": "^0.17.8",
-    "typescript": "^3.9.7"
+    "typedoc": "^0.22.11",
+    "typescript": "^4.5.0"
   }
 }

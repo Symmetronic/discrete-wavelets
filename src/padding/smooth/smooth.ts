@@ -7,6 +7,7 @@ export const SMOOTH_PADDING: PaddingMode = 'smooth';
 
 /**
  * Returns a single value of smooth padding.
+ * 
  * @param  data    Input values.
  * @param  index   Index of padding.
  * @param  inverse True if the direction should be inversed.

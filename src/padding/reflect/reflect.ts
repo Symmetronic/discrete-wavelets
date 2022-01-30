@@ -7,6 +7,7 @@ export const REFLECT_PADDING: PaddingMode = 'reflect';
 
 /**
  * Returns a single value of reflect padding.
+ * 
  * @param  data    Input values.
  * @param  index   Index of padding.
  * @param  inverse True if the direction should be inversed.

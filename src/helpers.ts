@@ -21,6 +21,7 @@ import {
 
 /**
  * Calculates the element-wise sum of two arrays.
+ * 
  * @param  a First array.
  * @param  b Second array.
  * @return   Element-wise sum.
@@ -41,6 +42,7 @@ export function add(
 /**
  * Asserts if approximation and detail coefficients are valid or throws an
  * error if they are invalid. 
+ * 
  * @param  approx Approximation coefficients.
  * @param  detail Detail coefficients.
  * @return        True if the coefficients are valid, otherwise throws an error.
@@ -64,6 +66,7 @@ export function assertValidApproxDetail(
 
 /**
  * Asserts if coefficients are valid or throws an error if they are invalid.
+ * 
  * @param  coeffs Coefficients to test.
  * @return        True if the coefficients are valid, otherwise throws an error.
  */
@@ -82,6 +85,7 @@ export function assertValidCoeffs(
 
 /**
  * Asserts if wavelet filters are valid or throws an error if they are invalid.
+ * 
  * @param  filters Wavelet filters to test.
  * @return         True if the wavelet filters are valid, otherwise throws an error.
  */
@@ -103,6 +107,7 @@ export function assertValidFilters(
 
 /**
  * Determines a wavelet basis from a wavelet type or basis.
+ * 
  * @param  wavelet Wavelet type or basis.
  * @return         Wavelet basis.
  */
@@ -114,6 +119,7 @@ export function basisFromWavelet(wavelet: Readonly<Wavelet>): WaveletBasis {
 
 /**
  * Creates an array and populates it.
+ * 
  * @param  length   Length of the array.
  * @param  populate Function to populate the array.
  * @return          Populated array with specified length.
@@ -142,6 +148,7 @@ export function createArray(
 
 /**
  * Calculates the dot product of two arrays.
+ * 
  * @param  a First array.
  * @param  b Second array.
  * @return   Dot product.
@@ -161,6 +168,7 @@ export function dot(
 
 /**
  * Multiplies an array with a scalar value.
+ * 
  * @param  scalar Scalar value.
  * @param  array  Array of numbers.
  * @return        Array multiplied with scalar value.
@@ -174,6 +182,7 @@ export function mulScalar(
 
 /**
  * Returns a single padding element.
+ * 
  * @param  data    Input data.
  * @param  index   Index of padding element.
  * @param  inverse True if the padding direction is inversed.
@@ -208,6 +217,7 @@ export function padElement(
 
 /**
  * Determines the padding widths.
+ * 
  * @param  dataLength   Length of signal.
  * @param  filterLength Length of filter.
  * @return              Padding widths.
@@ -237,6 +247,7 @@ export function padWidths(
 
 /**
  * Determines a wavelet basis from scaling numbers.
+ * 
  * @param  scalingNumbers Wavelet scaling numbers.
  * @return                Wavelet basis.
  */

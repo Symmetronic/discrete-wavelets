@@ -8,6 +8,7 @@ export const ANTISYMMETRIC_PADDING: PaddingMode = 'antisymmetric';
 
 /**
  * Returns a single value of antisymmetric padding.
+ * 
  * @param  data    Input values.
  * @param  index   Index of padding.
  * @param  inverse True if the direction should be inversed.
